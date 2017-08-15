@@ -36,7 +36,7 @@ bool node<T>::insert(const T& data, node<T> * root, T& middle_data, node<T> *& n
     //If the recursive call had a push up event, we need to either take that
     //data or split ourselves.
     if( new_left || new_right )
-        root -> absorb( data, middle_data, new_left, new_right );
+        return root -> absorb(middle_data, new_left, new_right );
 
     //If we're a leaf and we're NOT full we can insert.
     if( root -> is_leaf() && !root -> is_full() )
@@ -54,13 +54,14 @@ bool node<T>::insert(const T& data, node<T> * root, T& middle_data, node<T> *& n
 
 //Node absorb function.
 template<class T>
-bool node<T>::absorb(const T& data, T& middle_data, node<T> *& new_left, node<T> *& new_right)
+bool node<T>::absorb(T& middle_data, node<T> *& new_left, node<T> *& new_right)
 {
     int child_index = -1;
     if( !is_full() )
     {
+        child_index = which_child(middle_data);
         insert_here(middle_data);
-        child_index = which_child(data);
+
 
         std::cout << "ABSORB: Not full: " << *this << std::endl;
         std::cout << "ABSORB: child_index: " << child_index << std::endl
@@ -69,35 +70,27 @@ bool node<T>::absorb(const T& data, T& middle_data, node<T> *& new_left, node<T>
             << std::endl;
 
         if( child_index == 2 )
-        {
             connect(new_left, 1);
-            //connect(new_right, 2);
-        }
-
-        if( child_index == 1 )
-        {
-            connect(new_left,1);
-            //connect(new_right,2);
-        }
 
         if( child_index == 0 )
         {
-            connect(new_left,0);
-            //connect(new_right,1);
+            connect(new_left, 0);
+            connect(new_right, 1);
         }
 
         new_left = new_right = NULL;
+        return true;
     }
 
     else //this node is full.
     {
         node<T> * temp_right = new_right;
         node<T> * temp_left = new_left;
+        child_index = which_child(middle_data);
         T temp_middle = middle_data;
         new_right = new_left = NULL;
 
         std::cout << "ABSORB: Full: " << *this << '\n';
-        child_index = which_child(data);
         split(temp_middle, middle_data, new_left, new_right);
 
         std::cout << "Child_index: " << child_index << std::endl
@@ -112,9 +105,6 @@ bool node<T>::absorb(const T& data, T& middle_data, node<T> *& new_left, node<T>
         }
         std::cout << std::endl;
 
-
-        //New left
-        //New right
         if( child_index == 2 )
         {
             new_left -> connect(child[0],0);
@@ -140,14 +130,13 @@ bool node<T>::absorb(const T& data, T& middle_data, node<T> *& new_left, node<T>
         if( child_index == 0 )
         {
             new_left -> connect(temp_left, 0);
-            new_left -> connect(child[0], 1);
+            new_left -> connect(temp_right, 2);
             new_left -> connect(NULL, 1);
 
             new_right -> connect(child[1],0);
-            new_right -> connect(temp_right,2);
+            new_right -> connect(child[2],2);
             new_right -> connect(NULL,1);
         }
-//bool node<T>::absorb(const T& data, T& middle_data, node<T> *& new_left, node<T> *& new_right)
     }
     return true;
 }

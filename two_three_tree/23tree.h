@@ -44,7 +44,7 @@ class node
         bool connect(node<T> * new_child, int child_num);
 
         bool split(const T& new_data, T& middle_data, node<T> *& new_left, node<T> *& new_right);
-        bool absorb(const T& data, T& middle_data, node<T> *& new_left, node<T> *& new_right);
+        bool absorb(T& middle_data, node<T> *& new_left, node<T> *& new_right);
         bool insert_here(const T& data);
         bool insert(const T& data, node<T> * root, T& middle_data, node<T> *& new_left, node<T> *& new_right);
 

@@ -25,17 +25,9 @@ void test_tree(void)
     tree<int> * test_tree2 = NULL;
     int temp = 0;
 
-    /*
-    ifstream fin;
-    fin.open("two_three_tree/numbers.txt");
-    //if(!fin) return;
-    */
-
     srand(time(NULL));
     for(int i = 0; i < 10; ++i)
     {
-        //fin >> temp;
-        //fin.ignore(100,'\n');
         temp = rand() % 100;
         cout << endl
              << i+1 << ": " << "Inserting " << temp << endl << endl;
@@ -45,9 +37,6 @@ void test_tree(void)
         cout << test_tree << endl;
         test_tree.display_ordered(cout) << endl;
     }
-
-    //cout << endl << "Displaying all data in order: " << endl;
-    //test_tree.display_ordered(cout);
 
     /*
     cout << "TREE TWO: " << endl;
