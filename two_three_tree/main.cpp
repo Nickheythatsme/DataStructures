@@ -26,7 +26,7 @@ void test_tree(void)
     int temp = 0;
 
     srand(time(NULL));
-    for(int i = 0; i < 10; ++i)
+    for(int i = 0; i < 50; ++i)
     {
         temp = rand() % 100;
         cout << endl
