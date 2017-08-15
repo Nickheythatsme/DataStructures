@@ -9,7 +9,7 @@ void test_node(void);
 
 int main()
 {
-    for(int i = 0; i < 10; ++i)
+    while(true)
     {
         test_tree();
         cin.ignore(100,'\n');
