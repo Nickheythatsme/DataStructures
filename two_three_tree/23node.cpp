@@ -61,11 +61,20 @@ bool node<T>::absorb(const T& data, T& middle_data, node<T> *& new_left, node<T>
         insert_here(middle_data);
 
         child_index = which_child(data);
+        std::cout << "ABSORB: child_index: " << child_index 
+                  << "\t" << *new_left << '\t' << *new_right << std::endl;
         if( child_index == 2 )
         {
             connect(new_left, 1);
             connect(new_right, 2);
         }
+
+        if( child_index == 1 )
+        {
+            connect(new_left,1);
+            connect(new_right,2);
+        }
+
         if( child_index == 0 )
         {
             connect(new_left,0);
@@ -84,6 +93,13 @@ bool node<T>::absorb(const T& data, T& middle_data, node<T> *& new_left, node<T>
 
         split(temp_middle, middle_data, new_left, new_right);
 
+        std::cout << "ABSORB: not full\t" 
+            << "temp_right: " << *temp_right << '\n'
+            << "temp_left: " << *temp_left << '\n'
+            << "new_right: " << *new_right << '\n'
+            << "new_left: " << *new_left << '\n';
+        for(int i = 0; i < 3; ++i)
+            std::cout << "Child " << i << ": " << *child[i] << std::endl;
         new_left -> connect(child[0], 0);
         new_left -> connect(child[1], 2);
         new_left -> connect(NULL,1);
