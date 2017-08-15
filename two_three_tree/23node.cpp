@@ -79,7 +79,7 @@ bool node<T>::absorb(const T& data, T& middle_data, node<T> *& new_left, node<T>
     {
         node<T> * temp_right = new_right;
         node<T> * temp_left = new_left;
-        int temp_middle = middle_data;
+        T temp_middle = middle_data;
         new_right = new_left = NULL;
 
         split(temp_middle, middle_data, new_left, new_right);
@@ -116,7 +116,7 @@ bool node<T>::split(const T& new_data, T& middle_data, node<T> *& new_left, node
     data[0] = temp_array[2];
     data_count = 1;
 
-    delete temp_array;
+    delete [] temp_array;
     temp_array = NULL;
 
     return true;
