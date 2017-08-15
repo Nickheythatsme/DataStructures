@@ -17,6 +17,7 @@ bool node<T>::insert(node *& root, const T& data)
         temp_root = new node<T>(temp_data);
         temp_root -> connect(left, 0);
         temp_root -> connect(right, 2);
+        temp_root -> connect(NULL, 1);
         root = temp_root;
     }
 
@@ -59,26 +60,30 @@ bool node<T>::absorb(const T& data, T& middle_data, node<T> *& new_left, node<T>
     if( !is_full() )
     {
         insert_here(middle_data);
-
         child_index = which_child(data);
-        std::cout << "ABSORB: child_index: " << child_index 
-                  << "\t" << *new_left << '\t' << *new_right << std::endl;
+
+        std::cout << "ABSORB: Not full: " << *this << std::endl;
+        std::cout << "ABSORB: child_index: " << child_index << std::endl
+            << "new_left:  " << *new_left << '\n' 
+            << "new_right: " << *new_right << '\n'
+            << std::endl;
+
         if( child_index == 2 )
         {
             connect(new_left, 1);
-            connect(new_right, 2);
+            //connect(new_right, 2);
         }
 
         if( child_index == 1 )
         {
             connect(new_left,1);
-            connect(new_right,2);
+            //connect(new_right,2);
         }
 
         if( child_index == 0 )
         {
             connect(new_left,0);
-            connect(new_right,1);
+            //connect(new_right,1);
         }
 
         new_left = new_right = NULL;
@@ -91,22 +96,55 @@ bool node<T>::absorb(const T& data, T& middle_data, node<T> *& new_left, node<T>
         T temp_middle = middle_data;
         new_right = new_left = NULL;
 
+        std::cout << "ABSORB: Full: " << *this << '\n';
+        child_index = which_child(data);
         split(temp_middle, middle_data, new_left, new_right);
 
-        std::cout << "ABSORB: not full\t" 
+        std::cout << "Child_index: " << child_index << std::endl
             << "temp_right: " << *temp_right << '\n'
             << "temp_left: " << *temp_left << '\n'
             << "new_right: " << *new_right << '\n'
             << "new_left: " << *new_left << '\n';
         for(int i = 0; i < 3; ++i)
             std::cout << "Child " << i << ": " << *child[i] << std::endl;
-        new_left -> connect(child[0], 0);
-        new_left -> connect(child[1], 2);
-        new_left -> connect(NULL,1);
+        std::cout << std::endl;
 
-        new_right -> connect(temp_left, 0);
-        new_right -> connect(temp_right, 2);
-        new_right -> connect(NULL,1);
+
+        //New left
+        //New right
+        if( child_index == 2 )
+        {
+            new_left -> connect(child[0],0);
+            new_left -> connect(child[1],2);
+            new_left -> connect(NULL, 1);
+
+            new_right -> connect(temp_left,0);
+            new_right -> connect(temp_right,2);
+            new_right -> connect(NULL,1);
+        }
+
+        if( child_index == 1 )
+        {
+            new_left -> connect(child[0],0);
+            new_left -> connect(temp_left,2);
+            new_left -> connect(NULL, 1);
+
+            new_right -> connect(temp_right,0);
+            new_right -> connect(child[2],2);
+            new_right -> connect(NULL,1);
+        }
+
+        if( child_index == 0 )
+        {
+            new_left -> connect(temp_left, 0);
+            new_left -> connect(child[0], 1);
+            new_left -> connect(NULL, 1);
+
+            new_right -> connect(child[1],0);
+            new_right -> connect(temp_right,2);
+            new_right -> connect(NULL,1);
+        }
+//bool node<T>::absorb(const T& data, T& middle_data, node<T> *& new_left, node<T> *& new_right)
     }
     return true;
 }
@@ -186,9 +224,11 @@ std::ostream& node<T>::display_ordered(std::ostream & out, const node<T> * root)
 
     display_ordered(out, root -> next_man(0));
     out << root -> data[0] << ", ";
-    display_ordered(out, root -> next_man(1));
     if( root -> data_count >= 2)
+    {
+        display_ordered(out, root -> next_man(1));
         out << root -> data[1] << ", ";
+    }
     display_ordered(out, root -> next_man(2));
 
     return out;

@@ -14,11 +14,11 @@ all: $(OBJS)
 
 
 #MAKING OBJECTS
-stack.o: $(STACK)/main.cpp
+stack.o: $(STACK)/main.cpp $(STACK)/*
 	@echo "compiling: " $@
 	@$(CC) $(CFLAGS) $< -o $@
 
-23tree.o: $(23tree)/main.cpp
+23tree.o: $(23tree)/main.cpp $(23tree)/*
 	@echo "compiling: " $@
 	@$(CC) $(CFLAGS) $< -o $@
 

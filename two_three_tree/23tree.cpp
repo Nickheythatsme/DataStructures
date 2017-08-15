@@ -7,8 +7,7 @@ bool tree<T>::insert(const T& data)
     node<T> * temp = root;
     if( !root -> insert(temp, data) )
         return false;
-    if( root != temp )
-        root = temp;
+    root = temp;
     return true;
 }
 

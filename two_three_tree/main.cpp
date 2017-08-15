@@ -1,6 +1,7 @@
 #include "23tree.h"
 #include <stdlib.h>
 #include <fstream>
+#include <time.h>
 using namespace std;
 
 void test_tree(void);
@@ -8,7 +9,11 @@ void test_node(void);
 
 int main()
 {
-    test_tree();
+    for(int i = 0; i < 10; ++i)
+    {
+        test_tree();
+        cin.ignore(100,'\n');
+    }
 
     return 0;
 }
@@ -20,34 +25,38 @@ void test_tree(void)
     tree<int> * test_tree2 = NULL;
     int temp = 0;
 
+    /*
     ifstream fin;
     fin.open("two_three_tree/numbers.txt");
     //if(!fin) return;
+    */
 
-
+    srand(time(NULL));
     for(int i = 0; i < 10; ++i)
     {
-        fin >> temp;
-        fin.ignore(100,'\n');
-        //temp = rand() % 100;
+        //fin >> temp;
+        //fin.ignore(100,'\n');
+        temp = rand() % 100;
         cout << endl
              << i+1 << ": " << "Inserting " << temp << endl << endl;
         if( !test_tree.insert(temp) )
             cout << "MAIN: insert not successful" << endl;
 
         cout << test_tree << endl;
+        test_tree.display_ordered(cout) << endl;
     }
 
-    cout << endl << "Displaying all data in order: " << endl;
-    test_tree.display_ordered(cout);
-    cout << endl;
+    //cout << endl << "Displaying all data in order: " << endl;
+    //test_tree.display_ordered(cout);
 
+    /*
     cout << "TREE TWO: " << endl;
     test_tree2 = new tree<int>(test_tree);
     cout << *test_tree2 << endl;
 
     delete test_tree2;
     test_tree2 = NULL;
+    */
 
     return;
 }
