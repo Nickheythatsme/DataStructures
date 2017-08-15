@@ -20,6 +20,7 @@ void test_tree(void)
     tree<int> * test_tree2 = NULL;
     int temp = 0;
 
+    srand(1);
     for(int i = 0; i < 10; ++i)
     {
         temp = rand() % 100;
