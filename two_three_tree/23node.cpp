@@ -430,6 +430,10 @@ bool sort_data(T* data, int len)
     //Place holders
     int i = 1;
     cout << sizeof(int) << endl;
+    i = data[9];
+    data[9] = i;
+    cout << data[9] << endl;
+    i = 1;
 
     //Temp holder
     T prev = 0;
