@@ -56,10 +56,12 @@ bool test_performance(void)
     tree<int> test_tree;
     int temp = 0;
     clock_t start = clock();
+    ofstream fout;
+    fout.open("results.txt");
 
-    for(int i = 0; i < 1000; ++i)
+    for(int i = 0; i < 10000; ++i)
     {
-        temp = rand() % 100;
+        temp = rand() % 10000;
         if( !test_tree.insert(temp) )
         {
             cout << "MAIN: insert not successful" << endl;
@@ -67,5 +69,6 @@ bool test_performance(void)
         }
     }
     cout << "Inserted 10,000 items in: " << clock() - start << " cycles" << endl;
+    test_tree.display_ordered(fout);
     return true;
 }
