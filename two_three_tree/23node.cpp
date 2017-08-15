@@ -151,7 +151,13 @@ bool node<T>::split(const T& new_data, T& middle_data, node<T> *& new_left, node
     for(;i < 2; ++i)
         temp_array[i] = data[i];
     temp_array[i] = new_data;
+    for(int i = 0; i < 3; ++i)
+        cout << temp_array[i] << ", ";
+    cout << endl;
     sort_data(temp_array, 3);
+    for(int i = 0; i < 3; ++i)
+        cout << temp_array[i] << ", ";
+    cout << endl;
 
     middle_data = temp_array[1];
     new_left = new node<T>(temp_array[0]);
@@ -164,6 +170,7 @@ bool node<T>::split(const T& new_data, T& middle_data, node<T> *& new_left, node
 
     delete [] temp_array;
     temp_array = NULL;
+
 
     return true;
 }
@@ -422,9 +429,10 @@ bool sort_data(T* data, int len)
 {
     //Place holders
     int i = 1;
+    cout << sizeof(int) << endl;
 
     //Temp holder
-    T prev;
+    T prev = 0;
 
     while( !sorted(data, len) )
     {
@@ -434,6 +442,7 @@ bool sort_data(T* data, int len)
             data[i] = data[i-1];
             data[i-1] = prev;
         }
+        cout << i << ": " << data[i] << endl;
         ++i %= len;
     }
 

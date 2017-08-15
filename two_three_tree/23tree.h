@@ -1,6 +1,7 @@
 #include <cstring>
 #include <cctype>
 #include <iostream>
+using namespace std;
 
 #ifndef TREE_
 #define TREE_

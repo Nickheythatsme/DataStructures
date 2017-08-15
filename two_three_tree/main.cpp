@@ -2,16 +2,17 @@
 #include <stdlib.h>
 #include <fstream>
 #include <time.h>
-using namespace std;
 
 void test_tree(void);
 void test_node(void);
+void test_sort(void);
 
 int main()
 {
     while(true)
     {
-        test_tree();
+        test_sort();
+        //test_tree();
         cin.ignore(100,'\n');
     }
 
@@ -26,7 +27,7 @@ void test_tree(void)
     int temp = 0;
 
     srand(time(NULL));
-    for(int i = 0; i < 50; ++i)
+    for(int i = 0; i < 15; ++i)
     {
         temp = rand() % 100;
         cout << endl
@@ -55,3 +56,24 @@ void test_node(void)
 {
 }
 
+void test_sort(void)
+{
+    srand(time(NULL));
+    int * array = new int[10];
+    for(int i = 0; i < 10; ++i)
+    {
+        array[i] = rand() % 100;
+        cout << array[i] << ", ";
+    }
+
+    cout << endl << endl;
+    sort_data(array, 10);
+
+    for(int i = 0; i < 10; ++i)
+        cout << array[i] << ", ";
+
+    cout << endl << endl;
+    return;
+
+
+}
