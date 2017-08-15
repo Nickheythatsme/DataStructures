@@ -356,20 +356,20 @@ node<T>::node()
 template <class T>
 node<T>::node(const node<T> & obj)
 {
-    node<T>* temp = NULL;
     data_count = obj.data_count;
 
     data = new T[2];
-    for(int i = 0; i < 2; ++i)
+    for(int i = 0; i < data_count; ++i)
         data[i] = obj.data[i];
 
     child = new node<T>*[3];
     for(int i = 0; i < 3; ++i)
+    {
         if( obj.child[i] )
-        {
-            temp = new node( *obj.child[i] );
-            child[i] = temp;
-        }
+            child[i] = new node<T>( *obj.child[i] );
+        else
+            child[i] = NULL;
+    }
 }
 
 //CONSTRUCTOR. This constructor takes one datum and copies it to the node.

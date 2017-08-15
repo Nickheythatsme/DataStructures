@@ -1,5 +1,5 @@
 #Compiler flags
-CC = :=
+CC :=
 ifeq ($(shell uname -s),Darwin)
 	CC = clang++
 else
@@ -23,11 +23,11 @@ all: $(OBJS)
 #MAKING OBJECTS
 stack.o: $(STACK)/main.cpp $(STACK)/*
 	@echo "compiling: " $@
-	$(CC) $(CFLAGS) $< -o $@
+	@$(CC) $(CFLAGS) $< -o $@
 
 23tree.o: $(23tree)/main.cpp $(23tree)/*
 	@echo "compiling: " $@
-	$(CC) $(CFLAGS) $< -o $@
+	@$(CC) $(CFLAGS) $< -o $@
 
 clean:
 	@rm -f *.swp

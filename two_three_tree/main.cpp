@@ -11,8 +11,8 @@ int main()
 {
     for(int i = 0; i < 10; ++i)
     {
-        //test_tree();
-        test_sort();
+        test_tree();
+        //test_sort();
         //cin.ignore(100,'\n');
     }
 
@@ -23,11 +23,10 @@ int main()
 void test_tree(void)
 {
     tree<int> test_tree;
-    tree<int> * test_tree2 = NULL;
     int temp = 0;
 
     srand(time(NULL));
-    for(int i = 0; i < 100; ++i)
+    for(int i = 0; i < 30; ++i)
     {
         temp = rand() % 100;
         cout << endl
@@ -39,6 +38,7 @@ void test_tree(void)
         test_tree.display_ordered(cout) << endl;
     }
 
+    tree<int> * test_tree2 = NULL;
     cout << "TREE TWO: " << endl;
     test_tree2 = new tree<int>(test_tree);
     cout << *test_tree2 << endl;
