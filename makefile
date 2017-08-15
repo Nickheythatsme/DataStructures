@@ -1,13 +1,13 @@
 #Compiler flags
 CC :=
-ifeq ($(shell uname -s),Darwin)
-	CC = clang++
-else
-	CC = g++
-endif
-
 CFLAGS = -Wall -g -std=c++11
 OUT = -c -o
+
+
+ifeq ($(shell uname -s),Darwin)
+	CC = clang++
+	CFLAGS += -O0
+endif
 
 #PATHS
 STACK = stack

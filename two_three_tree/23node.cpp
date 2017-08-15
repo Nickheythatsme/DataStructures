@@ -151,26 +151,22 @@ bool node<T>::split(const T& new_data, T& middle_data, node<T> *& new_left, node
     for(;i < 2; ++i)
         temp_array[i] = data[i];
     temp_array[i] = new_data;
-    for(int i = 0; i < 3; ++i)
-        cout << temp_array[i] << ", ";
-    cout << endl;
+    cout << "split(): " << data[0] << endl;
     sort_data(temp_array, 3);
-    for(int i = 0; i < 3; ++i)
-        cout << temp_array[i] << ", ";
-    cout << endl;
-
-    middle_data = temp_array[1];
-    new_left = new node<T>(temp_array[0]);
-    new_right = this;
 
     delete data;
     data = new T[2];
     data[0] = temp_array[2];
     data_count = 1;
 
+    middle_data = temp_array[1];
+    new_left = new node<T>(temp_array[0]);
+    new_right = this;
+    cout << *new_right << endl;
+    cout << *this << endl;
+
     delete [] temp_array;
     temp_array = NULL;
-
 
     return true;
 }
@@ -246,7 +242,8 @@ bool node<T>::insert_here(const T& new_data)
         case 1: //If data_count == 1 then we need to insert into the other spot
             data[1] = new_data;
             ++data_count;
-            sort_data( data, 2 );//Sort the data because now we have two datum
+            cout << "insert_here(const T&): " << data_count << '\t' << data[0] << endl;
+            sort_data(data, 2);//Sort the data because now we have two datum
             break;
         default: //If data_count == 2 then this is a full node.
             return false;
@@ -346,6 +343,7 @@ node<T>::node()
 {
     data_count = 0;
     data = new T[2];
+    cout << data[0] << '\t' << data[1] << endl;
 
     child = new node<T>*[3];
     for(int i = 0; i < 3; ++i)
@@ -400,7 +398,16 @@ node<T>::~node()
 
     if( child )
     {
-        delete child;
+        for(int i = 0; i < 3; ++i)
+        {
+            if( child[i] )
+            {
+                delete child[i];
+                child[i] = NULL;
+            }
+        }
+
+        delete [] child;
         child = NULL;
     }
 }
@@ -429,11 +436,6 @@ bool sort_data(T* data, int len)
 {
     //Place holders
     int i = 1;
-    cout << sizeof(int) << endl;
-    i = data[9];
-    data[9] = i;
-    cout << data[9] << endl;
-    i = 1;
 
     //Temp holder
     T prev = 0;
@@ -446,7 +448,6 @@ bool sort_data(T* data, int len)
             data[i] = data[i-1];
             data[i-1] = prev;
         }
-        cout << i << ": " << data[i] << endl;
         ++i %= len;
     }
 
