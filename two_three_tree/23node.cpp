@@ -62,13 +62,6 @@ bool node<T>::absorb(T& middle_data, node<T> *& new_left, node<T> *& new_right)
         child_index = which_child(middle_data);
         insert_here(middle_data);
 
-
-        std::cout << "ABSORB: Not full: " << *this << std::endl;
-        std::cout << "ABSORB: child_index: " << child_index << std::endl
-            << "new_left:  " << *new_left << '\n' 
-            << "new_right: " << *new_right << '\n'
-            << std::endl;
-
         if( child_index == 2 )
             connect(new_left, 1);
 
@@ -89,21 +82,7 @@ bool node<T>::absorb(T& middle_data, node<T> *& new_left, node<T> *& new_right)
         child_index = which_child(middle_data);
         T temp_middle = middle_data;
         new_right = new_left = NULL;
-
-        std::cout << "ABSORB: Full: " << *this << '\n';
         split(temp_middle, middle_data, new_left, new_right);
-
-        std::cout << "Child_index: " << child_index << std::endl
-            << "temp_right: " << *temp_right << '\n'
-            << "temp_left: " << *temp_left << '\n'
-            << "new_right: " << *new_right << '\n'
-            << "new_left: " << *new_left << '\n';
-        for(int i = 0; i < 3; ++i)
-        {
-            if( child[i] )
-                std::cout << "Child " << i << ": " << *child[i] << std::endl;
-        }
-        std::cout << std::endl;
 
         if( child_index == 2 )
         {
@@ -151,7 +130,6 @@ bool node<T>::split(const T& new_data, T& middle_data, node<T> *& new_left, node
     for(;i < 2; ++i)
         temp_array[i] = data[i];
     temp_array[i] = new_data;
-    cout << "split(): " << data[0] << endl;
     sort_data(temp_array, 3);
 
     delete data;
@@ -162,8 +140,6 @@ bool node<T>::split(const T& new_data, T& middle_data, node<T> *& new_left, node
     middle_data = temp_array[1];
     new_left = new node<T>(temp_array[0]);
     new_right = this;
-    cout << *new_right << endl;
-    cout << *this << endl;
 
     delete [] temp_array;
     temp_array = NULL;
@@ -242,7 +218,6 @@ bool node<T>::insert_here(const T& new_data)
         case 1: //If data_count == 1 then we need to insert into the other spot
             data[1] = new_data;
             ++data_count;
-            cout << "insert_here(const T&): " << data_count << '\t' << data[0] << endl;
             sort_data(data, 2);//Sort the data because now we have two datum
             break;
         default: //If data_count == 2 then this is a full node.
@@ -343,7 +318,6 @@ node<T>::node()
 {
     data_count = 0;
     data = new T[2];
-    cout << data[0] << '\t' << data[1] << endl;
 
     child = new node<T>*[3];
     for(int i = 0; i < 3; ++i)
@@ -438,7 +412,7 @@ bool sort_data(T* data, int len)
     int i = 1;
 
     //Temp holder
-    T prev = 0;
+    T prev;
 
     while( !sorted(data, len) )
     {
