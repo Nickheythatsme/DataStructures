@@ -24,7 +24,7 @@ bool test_tree(void)
     tree<int> test_tree;
     int temp = 0;
 
-    for(int i = 0; i < 50; ++i)
+    for(int i = 0; i < 20; ++i)
     {
         temp = rand() % 100;
         cout << endl
