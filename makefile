@@ -1,5 +1,5 @@
 #Compiler flags
-CC :=
+CC = g++
 CFLAGS = -Wall -g -std=c++11 -pthread
 OUT = -c -o
 
