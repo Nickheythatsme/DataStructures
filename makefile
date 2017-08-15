@@ -1,6 +1,6 @@
 #Compiler flags
 CC = g++
-CFLAGS = -Wall -g -std=c++11 -pthread
+CFLAGS = -Wall -g -std=c++11
 OUT = -c -o
 
 

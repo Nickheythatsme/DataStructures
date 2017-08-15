@@ -2,29 +2,23 @@
 #include <stdlib.h>
 #include <fstream>
 #include <time.h>
-#include <thread>
 using namespace std;
 
+//Example to show how the tree works!
 bool test_tree(void);
+//Test entering 100,000 int objs into the tree. We report how long it took.
 bool test_performance(void);
+//Bubble sort. Test this if you dare. It takes a ridiculously long time.
+//It's just for comparison.
+bool test_bubble_sort(void);
 
 int main()
 {
     if( !test_tree() )
         cout << "Error testing tree" << endl;
 
-    /*
-    thread ** t_array = new thread*[100];
-    for(int i = 0; i < 100; ++i)
-        t_array[i] = new thread(test_performance);
-    for(int i = 0; i < 100; ++i)
-        if( t_array[i] -> joinable() )
-            t_array[i] -> join();
-    */
-
-    for(int i = 0; i < 100; ++i)
-        if( !test_performance() )
-            cout << "Error testing tree's performance" << endl;
+    if( !test_performance() )
+        cout << "Error testing tree's performance" << endl;
 
     return 0;
 }
@@ -62,25 +56,52 @@ bool test_tree(void)
     return true;
 }
 
+#define MAX 100000
 bool test_performance(void)
 {
     srand(clock());
     tree<int> test_tree;
     int temp = 0;
+    ofstream fout;
+    fout.open("results.txt");
+    clock_t total = 0;
     clock_t start = clock();
-    //ofstream fout;
-    //fout.open("results.txt");
 
-    for(int i = 0; i < 10000; ++i)
+    for(int i = 0; i < MAX; ++i)
     {
-        temp = rand() % 10000;
+        temp = rand() % 100000;
         if( !test_tree.insert(temp) )
         {
             cout << "MAIN: insert not successful" << endl;
             return false;
         }
     }
-    cout << "Inserted 10,000 items in: " << clock() - start << " cycles" << endl;
-    //test_tree.display_ordered(fout);
+    
+    total = clock() - start;
+    cout << "Inserted " << MAX << " items in: " << total << " cycles" 
+         << " (" << (float)total/CLOCKS_PER_SEC << " seconds)" << endl;
+    test_tree.display_ordered(fout);
     return true;
 }
+
+//Bubble sort. Test this if you dare. It takes a ridiculously long time.
+//It's just for comparison.
+bool test_bubble_sort(void)
+{
+    int * array = new int[MAX];
+    int temp = 0;
+    clock_t total = 0;
+    clock_t start = clock();
+
+    for(int i = 0; i < MAX; ++i)
+    {
+        temp = rand() % 100000;
+        array[i] = temp;
+    }
+    sort_data(array,MAX);
+    total = clock() - start;
+    cout << "Bubble sorted " << MAX << " items in: " << total << " cycles" 
+         << " (" << (float)total/CLOCKS_PER_SEC << " seconds)" << endl;
+    return true;
+}
+#undef MAX
