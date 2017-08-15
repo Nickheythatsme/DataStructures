@@ -39,6 +39,9 @@ void test_tree(void)
     test_tree2 = new tree<int>(test_tree);
     cout << *test_tree2 << endl;
 
+    delete test_tree2;
+    test_tree2 = NULL;
+
     return;
 }
 
