@@ -4,17 +4,10 @@
 #include <time.h>
 
 void test_tree(void);
-void test_node(void);
-void test_sort(void);
 
 int main()
 {
-    for(int i = 0; i < 10; ++i)
-    {
-        test_tree();
-        //test_sort();
-        //cin.ignore(100,'\n');
-    }
+    test_tree();
 
     return 0;
 }
@@ -22,11 +15,11 @@ int main()
 //Test the tree
 void test_tree(void)
 {
+    srand(time(NULL));
     tree<int> test_tree;
     int temp = 0;
 
-    srand(time(NULL));
-    for(int i = 0; i < 30; ++i)
+    for(int i = 0; i < 50; ++i)
     {
         temp = rand() % 100;
         cout << endl
@@ -39,7 +32,7 @@ void test_tree(void)
     }
 
     tree<int> * test_tree2 = NULL;
-    cout << "TREE TWO: " << endl;
+    cout << "Copying to tree two: " << endl;
     test_tree2 = new tree<int>(test_tree);
     cout << *test_tree2 << endl;
 
@@ -47,31 +40,4 @@ void test_tree(void)
     test_tree2 = NULL;
 
     return;
-}
-
-//Here we just test the node functions.
-void test_node(void)
-{
-}
-
-void test_sort(void)
-{
-    srand(time(NULL));
-    int * array = new int[10];
-    for(int i = 0; i < 10; ++i)
-    {
-        array[i] = rand() % 100;
-        cout << array[i] << ", ";
-    }
-
-    cout << endl << endl;
-    sort_data(array, 10);
-
-    for(int i = 0; i < 10; ++i)
-        cout << array[i] << ", ";
-
-    cout << endl << endl;
-    return;
-
-
 }
