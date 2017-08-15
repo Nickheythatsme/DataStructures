@@ -20,10 +20,16 @@ void test_tree(void)
     tree<int> * test_tree2 = NULL;
     int temp = 0;
 
-    srand(1);
+    ifstream fin;
+    fin.open("two_three_tree/numbers.txt");
+    //if(!fin) return;
+
+
     for(int i = 0; i < 10; ++i)
     {
-        temp = rand() % 100;
+        fin >> temp;
+        fin.ignore(100,'\n');
+        //temp = rand() % 100;
         cout << endl
              << i+1 << ": " << "Inserting " << temp << endl << endl;
         if( !test_tree.insert(temp) )
