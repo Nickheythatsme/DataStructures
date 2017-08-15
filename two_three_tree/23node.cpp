@@ -106,7 +106,10 @@ bool node<T>::absorb(const T& data, T& middle_data, node<T> *& new_left, node<T>
             << "new_right: " << *new_right << '\n'
             << "new_left: " << *new_left << '\n';
         for(int i = 0; i < 3; ++i)
-            std::cout << "Child " << i << ": " << *child[i] << std::endl;
+        {
+            if( child[i] )
+                std::cout << "Child " << i << ": " << *child[i] << std::endl;
+        }
         std::cout << std::endl;
 
 
