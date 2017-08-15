@@ -2,18 +2,23 @@
 #include <stdlib.h>
 #include <fstream>
 #include <time.h>
+using namespace std;
 
-void test_tree(void);
+bool test_tree(void);
+bool test_performance(void);
 
 int main()
 {
-    test_tree();
+    if( !test_tree() )
+        cout << "Error testing tree" << endl;
+    if( !test_performance() )
+        cout << "Error testing tree's performance" << endl;
 
     return 0;
 }
 
 //Test the tree
-void test_tree(void)
+bool test_tree(void)
 {
     srand(time(NULL));
     tree<int> test_tree;
@@ -23,9 +28,12 @@ void test_tree(void)
     {
         temp = rand() % 100;
         cout << endl
-             << i+1 << ": " << "Inserting " << temp << endl << endl;
+             << i+1 << ": " << "Inserting " << temp << endl;
         if( !test_tree.insert(temp) )
+        {
             cout << "MAIN: insert not successful" << endl;
+            return false;
+        }
 
         cout << test_tree << endl;
         test_tree.display_ordered(cout) << endl;
@@ -39,5 +47,25 @@ void test_tree(void)
     delete test_tree2;
     test_tree2 = NULL;
 
-    return;
+    return true;
+}
+
+bool test_performance(void)
+{
+    srand(time(NULL));
+    tree<int> test_tree;
+    int temp = 0;
+    clock_t start = clock();
+
+    for(int i = 0; i < 1000; ++i)
+    {
+        temp = rand() % 100;
+        if( !test_tree.insert(temp) )
+        {
+            cout << "MAIN: insert not successful" << endl;
+            return false;
+        }
+    }
+    cout << "Inserted 10,000 items in: " << clock() - start << " cycles" << endl;
+    return true;
 }

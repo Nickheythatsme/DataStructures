@@ -1,7 +1,6 @@
 #include <cstring>
 #include <cctype>
 #include <iostream>
-using namespace std;
 
 #ifndef TREE_
 #define TREE_
@@ -34,8 +33,8 @@ class node
         std::ostream& display_ordered(std::ostream & out, const node<T> * root) const;
         friend std::ostream& operator<< <T>(std::ostream & out, const node<T> & data);
         //Public functions
-        bool insert(node<T> *& root, const T & data);
         void remove_all(node *& root);
+        bool insert(node<T> *& root, const T & data);
     private:
         bool is_full(void) const;
         bool is_leaf(void) const;

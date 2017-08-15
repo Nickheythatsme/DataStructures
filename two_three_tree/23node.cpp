@@ -44,10 +44,7 @@ bool node<T>::insert(const T& data, node<T> * root, T& middle_data, node<T> *& n
 
     //If we're a leaf and we're full we need to split.
     if( root -> is_leaf() && root -> is_full() )
-    {
-        root -> split(data, middle_data, new_left, new_right);
-        return true;
-    }
+        return root -> split(data, middle_data, new_left, new_right);
 
     return true;
 }
@@ -169,7 +166,7 @@ std::ostream& node<T>::display_all(std::ostream & out, const node<T> * root, int
     if( !root ) return out;
 
     for(int i = 0; i < invoc; ++i)
-        out << "  ";
+        out << " -";
     out << *root << std::endl;
     ++invoc;
 
