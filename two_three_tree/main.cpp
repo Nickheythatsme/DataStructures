@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <time.h>
+#include <thread>
 using namespace std;
 
 bool test_tree(void);
@@ -11,8 +12,19 @@ int main()
 {
     if( !test_tree() )
         cout << "Error testing tree" << endl;
-    if( !test_performance() )
-        cout << "Error testing tree's performance" << endl;
+
+    /*
+    thread ** t_array = new thread*[100];
+    for(int i = 0; i < 100; ++i)
+        t_array[i] = new thread(test_performance);
+    for(int i = 0; i < 100; ++i)
+        if( t_array[i] -> joinable() )
+            t_array[i] -> join();
+    */
+
+    for(int i = 0; i < 100; ++i)
+        if( !test_performance() )
+            cout << "Error testing tree's performance" << endl;
 
     return 0;
 }
@@ -52,12 +64,12 @@ bool test_tree(void)
 
 bool test_performance(void)
 {
-    srand(time(NULL));
+    srand(clock());
     tree<int> test_tree;
     int temp = 0;
     clock_t start = clock();
-    ofstream fout;
-    fout.open("results.txt");
+    //ofstream fout;
+    //fout.open("results.txt");
 
     for(int i = 0; i < 10000; ++i)
     {
@@ -69,6 +81,6 @@ bool test_performance(void)
         }
     }
     cout << "Inserted 10,000 items in: " << clock() - start << " cycles" << endl;
-    test_tree.display_ordered(fout);
+    //test_tree.display_ordered(fout);
     return true;
 }

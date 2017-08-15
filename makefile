@@ -1,6 +1,6 @@
 #Compiler flags
 CC :=
-CFLAGS = -Wall -g -std=c++11
+CFLAGS = -Wall -g -std=c++11 -pthread
 OUT = -c -o
 
 
@@ -33,3 +33,4 @@ clean:
 	@rm -f *.swp
 	@rm -f *.o
 	@rm -rf *.dSYM
+	@rm -f results.txt
