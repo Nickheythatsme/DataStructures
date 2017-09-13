@@ -26,7 +26,10 @@ bool node<T>::insert(node *& root, const T& data)
 
 //Recursively insert the data into the tree
 template<class T>
-bool node<T>::insert(const T& data, node<T> * root, T& middle_data, node<T> *& new_left, node<T> *& new_right)
+bool node<T>::insert(const T& data, node<T> * root, 
+        T& middle_data, 
+        node<T> *& new_left, 
+        node<T> *& new_right)
 {
     if( !root ) return false;
 

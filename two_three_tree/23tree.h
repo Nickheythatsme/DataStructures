@@ -1,3 +1,9 @@
+/* 8/15/17 23tree. This data structure is similar to a BST in sorting and 
+ * placement, but differs because it is always balanced. A BST only places nodes
+ * according to how the new data relates to data already in the tree. But a 
+ * 23tree places data in the same way, but splits nodes and pushes data up the 
+ * tree to ensure it is always balanced.
+ */
 #include <cstring>
 #include <cctype>
 #include <iostream>
@@ -5,11 +11,13 @@
 #ifndef TREE_
 #define TREE_
 
+//Sorting functions, we have Bubble sort and check if it's sorted functions 
 template <class T>
 bool sort_data(T* data, int len);
 template <class T>
 bool sorted(T* data, int len);
 
+//Friend functions. They needed to be declared before the classes
 template <class T>
 class node;
 template <class T>
@@ -20,6 +28,7 @@ class tree;
 template <class T>
 std::ostream& operator<<(std::ostream & out, const tree<T> & obj);
 
+//NODE class. This class handles almost all of the moving and insertion.
 template <class T>
 class node
 {
@@ -53,6 +62,7 @@ class node
         int data_count;
 };
 
+//template <class T, class N>
 template <class T>
 class tree
 {
