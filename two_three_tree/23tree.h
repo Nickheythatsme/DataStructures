@@ -62,8 +62,7 @@ class node
         int data_count;
 };
 
-//template <class T, class N>
-template <class T>
+template <class T, class N>
 class tree
 {
     public:
@@ -76,7 +75,7 @@ class tree
         friend std::ostream& operator<< <T>(std::ostream & out, const tree & obj);
         tree<T>& operator=(const tree<T> & obj);
     private:
-        node<T> * root;
+        N<T> * root;
 };
 
 #include "23node.cpp"
