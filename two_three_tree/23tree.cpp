@@ -1,7 +1,7 @@
 #include "23tree.h"
 
 //WRAPPER for the insert function.
-template <class T>
+template <class T, class N>
 bool tree<T>::insert(const T& data)
 {
     node<T> * temp = root;
