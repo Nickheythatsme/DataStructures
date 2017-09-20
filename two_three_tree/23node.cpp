@@ -129,7 +129,7 @@ bool node<T>::split(const T& new_data, T& middle_data, node<T> *& new_left, node
     temp_array[i] = new_data;
     sort_data(temp_array, 3);
 
-    delete data;
+    delete [] data;
     data = new T[2];
     data[0] = temp_array[2];
     data_count = 1;
