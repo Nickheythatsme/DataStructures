@@ -52,7 +52,7 @@ tree<T,N>::tree()
 }
 
 //COPY CONSTRUCTOR. This copies all the nodes from another tree into our tree.
-template <class T, class N>
+template <class T, class N<T>>
 tree<T,N>::tree(const tree<T,N> & obj)
 {
     if( obj.root )

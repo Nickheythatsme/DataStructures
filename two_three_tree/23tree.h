@@ -23,10 +23,12 @@ class node;
 template <class T>
 std::ostream& operator<<(std::ostream & out, const node<T> & obj);
 
-template <class T>
+//template <class T, class N<T>>
+template <class T, class N>
 class tree;
-template <class T>
-std::ostream& operator<<(std::ostream & out, const tree<T> & obj);
+
+template <class T,N>
+std::ostream& operator<<(std::ostream & out, const tree<T,N> & obj);
 
 //NODE class. This class handles almost all of the moving and insertion.
 template <class T>
@@ -67,13 +69,13 @@ class tree
 {
     public:
         tree();
-        tree(const tree<T> & obj);
+        tree(const tree<T,N> & obj);
         ~tree();
         bool insert(const T& data);
         std::ostream& display_all(std::ostream & out) const;
         std::ostream& display_ordered(std::ostream & out) const;
         friend std::ostream& operator<< <T>(std::ostream & out, const tree & obj);
-        tree<T>& operator=(const tree<T> & obj);
+        tree<T,N>& operator=(const tree<T,N> & obj);
     private:
         N<T> * root;
 };

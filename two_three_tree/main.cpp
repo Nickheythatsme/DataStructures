@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <fstream>
 #include <time.h>
-using namespace std;
 
 //Example to show how the tree works!
 bool test_tree(void);
@@ -12,6 +11,7 @@ bool test_performance(void);
 //It's just for comparison.
 bool test_bubble_sort(void);
 
+using namespace std;
 int main()
 {
     if( !test_tree() )
@@ -62,7 +62,7 @@ bool test_performance(void)
     srand(clock());
     tree<int,node<int>> test_tree;
     int temp = 0;
-    ofstream fout;
+    std::ofstream;
     fout.open("results.txt");
     clock_t total = 0;
     clock_t start = clock();
