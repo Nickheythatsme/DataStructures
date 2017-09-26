@@ -1,20 +1,20 @@
-#include "23tree.h"
+#include "two_three_tree.h"
 
 //Wrapper for the insert
-template<class T>
-bool node<T>::insert(node *& root, const T& data)
+template<class DATA>
+bool node<DATA>::insert(node *& root, const DATA& data)
 {
-    T temp_data;
-    node<T> * right = NULL;
-    node<T> * left = NULL;
-    node<T> * temp_root = NULL;
+    DATA temp_data;
+    node<DATA> * right = NULL;
+    node<DATA> * left = NULL;
+    node<DATA> * temp_root = NULL;
 
     if( !root -> insert( data, root, temp_data, left, right) )
         return false;
 
     if( left || right )
     {
-        temp_root = new node<T>(temp_data);
+        temp_root = new node<DATA>(temp_data);
         temp_root -> connect(left, 0);
         temp_root -> connect(right, 2);
         temp_root -> connect(NULL, 1);
@@ -25,11 +25,11 @@ bool node<T>::insert(node *& root, const T& data)
 }
 
 //Recursively insert the data into the tree
-template<class T>
-bool node<T>::insert(const T& data, node<T> * root, 
-        T& middle_data, 
-        node<T> *& new_left, 
-        node<T> *& new_right)
+template<class DATA>
+bool node<DATA>::insert(const DATA& data, node<DATA> * root, 
+        DATA& middle_data, 
+        node<DATA> *& new_left, 
+        node<DATA> *& new_right)
 {
     if( !root ) return false;
 
@@ -53,8 +53,8 @@ bool node<T>::insert(const T& data, node<T> * root,
 }
 
 //Node absorb function.
-template<class T>
-bool node<T>::absorb(T& middle_data, node<T> *& new_left, node<T> *& new_right)
+template<class DATA>
+bool node<DATA>::absorb(DATA& middle_data, node<DATA> *& new_left, node<DATA> *& new_right)
 {
     int child_index = -1;
     if( !is_full() )
@@ -77,10 +77,10 @@ bool node<T>::absorb(T& middle_data, node<T> *& new_left, node<T> *& new_right)
 
     else //this node is full.
     {
-        node<T> * temp_right = new_right;
-        node<T> * temp_left = new_left;
+        node<DATA> * temp_right = new_right;
+        node<DATA> * temp_left = new_left;
         child_index = which_child(middle_data);
-        T temp_middle = middle_data;
+        DATA temp_middle = middle_data;
         new_right = new_left = NULL;
         split(temp_middle, middle_data, new_left, new_right);
 
@@ -122,10 +122,10 @@ bool node<T>::absorb(T& middle_data, node<T> *& new_left, node<T> *& new_right)
 
 //This is the split function. It returns a new node, the middle data, and this
 //node all in order.
-template <class T>
-bool node<T>::split(const T& new_data, T& middle_data, node<T> *& new_left, node<T> *& new_right)
+template <class DATA>
+bool node<DATA>::split(const DATA& new_data, DATA& middle_data, node<DATA> *& new_left, node<DATA> *& new_right)
 {
-    T* temp_array = new T[3];
+    DATA* temp_array = new DATA[3];
     int i = 0;
     for(;i < 2; ++i)
         temp_array[i] = data[i];
@@ -133,12 +133,12 @@ bool node<T>::split(const T& new_data, T& middle_data, node<T> *& new_left, node
     sort_data(temp_array, 3);
 
     delete [] data;
-    data = new T[2];
+    data = new DATA[2];
     data[0] = temp_array[2];
     data_count = 1;
 
     middle_data = temp_array[1];
-    new_left = new node<T>(temp_array[0]);
+    new_left = new node<DATA>(temp_array[0]);
     new_right = this;
 
     delete [] temp_array;
@@ -148,8 +148,8 @@ bool node<T>::split(const T& new_data, T& middle_data, node<T> *& new_left, node
 }
 
 //ostream Extraction operator implemented here.
-template <class T>
-std::ostream& operator<<(std::ostream & out, const node<T> & obj)
+template <class DATA>
+std::ostream& operator<<(std::ostream & out, const node<DATA> & obj)
 {
     int i = 0;
     out << '(';
@@ -163,8 +163,8 @@ std::ostream& operator<<(std::ostream & out, const node<T> & obj)
     return out;
 }
 
-template <class T>
-std::ostream& node<T>::display_all(std::ostream & out, const node<T> * root, int & invoc) const
+template <class DATA>
+std::ostream& node<DATA>::display_all(std::ostream & out, const node<DATA> * root, int & invoc) const
 {
     if( !root ) return out;
 
@@ -181,8 +181,8 @@ std::ostream& node<T>::display_all(std::ostream & out, const node<T> * root, int
 }
 
 //Display all data in this subtree in sorted order.
-template <class T>
-std::ostream& node<T>::display_ordered(std::ostream & out, const node<T> * root) const
+template <class DATA>
+std::ostream& node<DATA>::display_ordered(std::ostream & out, const node<DATA> * root) const
 {
     if(!root) return out;
     if( root -> is_leaf() )
@@ -206,8 +206,8 @@ std::ostream& node<T>::display_ordered(std::ostream & out, const node<T> * root)
 }
 
 //This function inserts new data into the node. It returns false if it's full.
-template <class T>
-bool node<T>::insert_here(const T& new_data)
+template <class DATA>
+bool node<DATA>::insert_here(const DATA& new_data)
 {
     switch( data_count )
     {
@@ -228,16 +228,16 @@ bool node<T>::insert_here(const T& new_data)
 
 //Returns the number of data points with the max number of data. It returns true
 //if it is full, and false it is not full.
-template <class T>
-bool node<T>::is_full(void) const
+template <class DATA>
+bool node<DATA>::is_full(void) const
 {
     return (data_count >= 2);
 }
 
 //Does this node have children? It will return true if it does not have children
 //and false if it does have children.
-template <class T>
-bool node<T>::is_leaf(void) const
+template <class DATA>
+bool node<DATA>::is_leaf(void) const
 {
     for(int i = 0; i < 3; ++i)
         if( child[i] ) return false;
@@ -245,15 +245,15 @@ bool node<T>::is_leaf(void) const
 }
 
 //Traverse manually to the next child.
-template <class T>
-node<T>* node<T>::next_man(int child_index) const
+template <class DATA>
+node<DATA>* node<DATA>::next_man(int child_index) const
 {
     return child[child_index];
 }
 
 //Returns the index of the next child based on the data.
-template <class T>
-int node<T>::which_child(const T& obj) const
+template <class DATA>
+int node<DATA>::which_child(const DATA& obj) const
 {
     if( is_leaf() ) return -1;
 
@@ -276,8 +276,8 @@ int node<T>::which_child(const T& obj) const
 }
 
 //Traverse based on the data.
-template <class T>
-node<T>* node<T>::next(const T& obj) const
+template <class DATA>
+node<DATA>* node<DATA>::next(const DATA& obj) const
 {
     //IF there are no children we can return NULL. Since this is pass pointer
     //by value anyway it won't matter.
@@ -304,8 +304,8 @@ node<T>* node<T>::next(const T& obj) const
 //This function connects a node to the indicated child. It will do this whether
 //there is a node alreayd there, or even if new_child is NULL. It doesn't really
 //check for anything.
-template <class T>
-bool node<T>::connect(node<T> * new_child, int child_index)
+template <class DATA>
+bool node<DATA>::connect(node<DATA> * new_child, int child_index)
 {
     child[child_index] = new_child;
     return true;
@@ -313,32 +313,32 @@ bool node<T>::connect(node<T> * new_child, int child_index)
 
 
 //DEFAULT CONSTRUCTOR
-template <class T>
-node<T>::node()
+template <class DATA>
+node<DATA>::node()
 {
     data_count = 0;
-    data = new T[2];
+    data = new DATA[2];
 
-    child = new node<T>*[3];
+    child = new node<DATA>*[3];
     for(int i = 0; i < 3; ++i)
         child[i] = NULL;
 }
 
 //COPY CONSTRUCTOR. This copy constructor DOES copy children.
-template <class T>
-node<T>::node(const node<T> & obj)
+template <class DATA>
+node<DATA>::node(const node<DATA> & obj)
 {
     data_count = obj.data_count;
 
-    data = new T[2];
+    data = new DATA[2];
     for(int i = 0; i < data_count; ++i)
         data[i] = obj.data[i];
 
-    child = new node<T>*[3];
+    child = new node<DATA>*[3];
     for(int i = 0; i < 3; ++i)
     {
         if( obj.child[i] )
-            child[i] = new node<T>( *obj.child[i] );
+            child[i] = new node<DATA>( *obj.child[i] );
         else
             child[i] = NULL;
     }
@@ -346,23 +346,23 @@ node<T>::node(const node<T> & obj)
 
 //CONSTRUCTOR. This constructor takes one datum and copies it to the node.
 //This is useful for splitting nodes.
-template <class T>
-node<T>::node(const T& obj)
+template <class DATA>
+node<DATA>::node(const DATA& obj)
 {
     data_count = 1;
 
-    data = new T[2];
+    data = new DATA[2];
     data[0] = obj;
 
-    child = new node<T>*[3];
+    child = new node<DATA>*[3];
     for(int i = 0; i < 3; ++i)
         child[i] = NULL;
 }
 
 //DESTRUCTOR. This destructor only deletes one node, not the children of this
 //node.
-template <class T>
-node<T>::~node()
+template <class DATA>
+node<DATA>::~node()
 {
     if( data )
     {
@@ -387,8 +387,8 @@ node<T>::~node()
 }
 
 //Removes all nodes in this subtree.
-template <class T>
-void node<T>::remove_all(node<T> *& root)
+template <class DATA>
+void node<DATA>::remove_all(node<DATA> *& root)
 {
     if( !root ) return;
     for(int i = 0; i < 3; ++i)
@@ -405,14 +405,14 @@ void node<T>::remove_all(node<T> *& root)
 
 //SORTING functions
 //Lazy sort. It works though and the data sets are very small.
-template <class T>
-bool sort_data(T* data, int len)
+template <class DATA>
+bool sort_data(DATA* data, int len)
 {
     //Place holders
     int i = 1;
 
     //Temp holder
-    T prev;
+    DATA prev;
 
     while( !sorted(data, len) )
     {
@@ -429,8 +429,8 @@ bool sort_data(T* data, int len)
 }
 
 //Test if the array is sorted.
-template <class T>
-bool sorted(T* data, int len)
+template <class DATA>
+bool sorted(DATA* data, int len)
 {
     for( int i = 1; i < len; ++i)
     {

@@ -1,4 +1,4 @@
-#include "23tree.h"
+#include "two_three_tree.h"
 #include <stdlib.h>
 #include <fstream>
 #include <time.h>
@@ -27,7 +27,7 @@ int main()
 bool test_tree(void)
 {
     srand(time(NULL));
-    tree<int,node<int>> test_tree;
+    tree<int> test_tree;
     int temp = 0;
 
     for(int i = 0; i < 20; ++i)
@@ -45,9 +45,9 @@ bool test_tree(void)
         test_tree.display_ordered(cout) << endl;
     }
 
-    tree<int,node<int>> * test_tree2 = NULL;
+    tree<int> * test_tree2 = NULL;
     cout << "Copying to tree two: " << endl;
-    test_tree2 = new tree<int,node<int>>(test_tree);
+    test_tree2 = new tree<int>(test_tree);
     cout << *test_tree2 << endl;
 
     delete test_tree2;
@@ -60,9 +60,9 @@ bool test_tree(void)
 bool test_performance(void)
 {
     srand(clock());
-    tree<int,node<int>> test_tree;
+    tree<int> test_tree;
     int temp = 0;
-    std::ofstream;
+    std::ofstream fout;
     fout.open("results.txt");
     clock_t total = 0;
     clock_t start = clock();
