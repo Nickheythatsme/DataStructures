@@ -25,7 +25,9 @@ class node
         static bool dequeue(node*& root, string& to_return);
         /* Clears this node and its subtree */
         int clear(void);
+        std::ostream& display(std::ostream& out);
     private:
+        std::ostream& display(std::ostream& out, int tabspace);
         /* Recursively place the data into the tree. Returns the number the item
          * is in the tree.
          * Since we're not going to a specified position, just the nearest one

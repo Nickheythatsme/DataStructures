@@ -122,3 +122,21 @@ node* node::all_the_way_left(node* prev)
     }
     return left -> all_the_way_left(this);
 }
+
+std::ostream& node::display(std::ostream& out)
+{
+    int tabspace = 0;
+    return this -> display(out, tabspace);
+}
+
+std::ostream& node::display(std::ostream& out, int tabspace)
+{
+    for(int i = 0; i < tabspace; ++i)
+        cout << "--";
+    out << data << endl;
+    if(right)
+        right -> display(out, tabspace+1);
+    if(left)
+        left -> display(out, tabspace+1);
+    return out;
+}

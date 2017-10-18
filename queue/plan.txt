@@ -1,0 +1,5 @@
+The BST approach isn't working very well. It's difficult and ugly to make
+a balanced BST when we don't know how much data we're going to get. I think
+I need to look into a balanced tree, like a two three three or AVL or 
+something else. Making the tree won't be easy, but the removal of nodes is
+what I'm really dreadding.
