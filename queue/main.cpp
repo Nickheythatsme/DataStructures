@@ -14,6 +14,7 @@ int main(int argc, char* argv[])
     for(int i = 0; i < 10 && root; ++i)
     {
         node::dequeue(root,return_data);
+        *root;
         cout << return_data << endl;
     }
     return 0;
