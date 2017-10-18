@@ -92,6 +92,8 @@ string node::dequeue(node*& root)
         IOS -> right = root -> right;
         IOS -> left = root -> left;
     }
+    cout << "Root -> right" << root -> right << endl;
+    cout << "Root -> left" << root -> left << endl;
     delete root;
     root = IOS;
     return to_return;
