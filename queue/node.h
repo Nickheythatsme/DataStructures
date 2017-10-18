@@ -22,7 +22,7 @@ class node
         int enqueue(const string& new_data);
         /* Remove the current node, returns a ptr by ref to the node that takes
          * it's place (or NULL if it doesn't exist) */
-        static string dequeue(node*& root);
+        static bool dequeue(node*& root, string& to_return);
         /* Clears this node and its subtree */
         int clear(void);
     private:
@@ -32,9 +32,9 @@ class node
          * that is open, we need a marker to indicate when we're done */
         int add(const string& new_data, int& placed);
         int place_here(const string& new_data, int& placed);
+        node* in_order_successor(void);
+        node* all_the_way_left(node* prev);
 
-        static node* in_order_successor(node*& obj);
-        static node* all_the_way_left(node*& prev, node*& obj);
 
         node* right;
         node* left;

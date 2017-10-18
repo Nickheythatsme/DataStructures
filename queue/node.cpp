@@ -82,44 +82,35 @@ int node::enqueue(const string& new_data)
     return this -> add(new_data, temp);
 }
 
-/* Remove the current node, returns a ptr by ref to the node that takes
- * it's place (or NULL if it doesn't exist) */
-string node::dequeue(node*& root)
+bool node::dequeue(node*& root, string& to_return)
 {
-    /* Get and finish root's replacement */
-    string to_return(root -> data);
-    node* IOS = node::in_order_successor(root);
-    if( IOS )
+    node* IOS = root -> in_order_successor();
+    to_return = root -> data;
+
+    if(IOS)
     {
         IOS -> right = root -> right;
         IOS -> left = root -> left;
     }
     delete root;
     root = IOS;
-    return to_return;
+    return true;
 }
 
-node* node::in_order_successor(node*& obj)
+node* node::in_order_successor(void)
 {
-    if(!obj -> right)
-        return obj -> left;
-    return node::all_the_way_left(obj -> right, obj -> right);
+    if(!right)
+        return left;
+    return right -> all_the_way_left(this);
 }
 
-node* node::all_the_way_left(node*& prev, node*& obj)
+node* node::all_the_way_left(node* prev)
 {
-    node* to_return;
-
-    cout << "obj -> right" << obj -> right << endl;
-    cout << "obj -> left" << obj -> left << endl;
-
-    if(!obj -> left)
+    if(!left)
     {
-        to_return = obj;
-        prev -> left = obj -> right;
-        to_return -> right = NULL;
-        return to_return;
+        prev -> left = right;
+        right = NULL;
+        return this;
     }
-    return node::all_the_way_left(obj, obj -> left);
+    return left -> all_the_way_left(this);
 }
-
