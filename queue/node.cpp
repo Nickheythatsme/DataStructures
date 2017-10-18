@@ -3,13 +3,9 @@
 node::node()
 {
     right = left = NULL;
-    data = NULL;
 }
 
-/* Recursively copies the node's subtree.
- * NOTE BUG: the data of the target node is *copied* meaning the data needs
- * to have a copy constructor. If we're dealing with char*s, this will not
- * work */
+/* Recursively copies the node's subtree.*/
 node::node(const node& new_node)
 {
     if( new_node.right )
@@ -18,22 +14,19 @@ node::node(const node& new_node)
     if( new_node.left )
         left = new node(*new_node.left);
 
-    if( new_node.data )
-        data = new string(*new_node.data);
+    data = new_node.data;
 }
 
 node::node(const string& new_data)
 {
     right = left = NULL;
-    data = new string(new_data);
+    data = new_data;
 }
 
 /* DESTRUCTOR */
 node::~node()
 {
-    if( data )
-        delete data;
-    data = NULL;
+    left = right = NULL;
 }
 
 /* Recursively calls next add to add the node to the queue.
@@ -82,11 +75,6 @@ int node::place_here(const string& new_data, int& placed)
 int node::enqueue(const string& new_data)
 {
     int temp = 0;
-    if(!data)
-    {
-        data = new string(new_data);
-        return 0;
-    }
     return this -> add(new_data, temp);
 }
 
@@ -101,10 +89,9 @@ string node::dequeue(node*& root)
         IOS -> right = root -> right;
         IOS -> left = root -> left;
     }
-    string to_return(*root -> data);
+    string to_return(root -> data);
     delete root;
     root = IOS;
-    assert( root -> data != NULL );
     return to_return;
 }
 
@@ -125,7 +112,6 @@ node* node::all_the_way_left(node*& prev, node*& obj)
         to_return -> right = NULL;
         return to_return;
     }
-    assert( obj != obj -> left );
     return node::all_the_way_left(obj, obj -> left);
 }
 

@@ -36,7 +36,7 @@ class node
 
         node* right;
         node* left;
-        string* data;
+        string data;
 
 };
 
