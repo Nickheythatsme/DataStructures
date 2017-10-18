@@ -10,9 +10,13 @@ node::node(const node& new_node)
 {
     if( new_node.right )
         right = new node(*new_node.right);
+    else
+        right = NULL;
 
     if( new_node.left )
         left = new node(*new_node.left);
+    else
+        left = NULL;
 
     data = new_node.data;
 }
