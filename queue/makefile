@@ -7,7 +7,7 @@ OUT = -c -o
 BIN=bin
 
 #Objs/Targets
-OBJS = node.o main.o 
+OBJS = queue.o main.o 
 TARGET = queue
 
 all: $(TARGET)
@@ -24,7 +24,7 @@ $(BIN)/main.o: main.cpp
 	@echo "compiling: " $@
 	@$(CC) $(CFLAGS) $< $(OUT) $@
 
-$(BIN)/node.o: node.cpp node.h
+$(BIN)/queue.o: queue.cpp queue.h
 	@mkdir -p $(BIN)
 	@echo "compiling: " $@
 	@$(CC) $(CFLAGS) $< $(OUT) $@
