@@ -87,13 +87,21 @@ bool node::dequeue(node*& root, string& to_return)
     node* IOS = root -> in_order_successor();
     to_return = root -> data;
 
-    if(IOS)
+    cout << "Root: " << root << endl
+         << "IOS:  " << IOS << endl;
+
+    if(IOS && IOS != root)
     {
         IOS -> right = root -> right;
         IOS -> left = root -> left;
+        delete root;
+        root = IOS;
     }
-    delete root;
-    root = IOS;
+    else if(IOS == root)
+    {
+        delete root;
+        root = NULL;
+    }
     return true;
 }
 
