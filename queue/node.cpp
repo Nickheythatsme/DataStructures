@@ -83,13 +83,15 @@ int node::enqueue(const string& new_data)
 string node::dequeue(node*& root)
 {
     /* Get and finish root's replacement */
+    string to_return(root -> data);
     node* IOS = node::in_order_successor(root);
+    cout << "Root address: " << root << endl;
     if( IOS )
     {
+        cout << "IOS address: " << IOS << endl;
         IOS -> right = root -> right;
         IOS -> left = root -> left;
     }
-    string to_return(root -> data);
     delete root;
     root = IOS;
     return to_return;

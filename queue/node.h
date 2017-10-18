@@ -1,8 +1,10 @@
 #include <stdlib.h>
 #include <string>
 #include <cassert>
+#include <iostream>
 
-
+using std::cout;
+using std::endl;
 using std::string;
 /*
 #ifndef QUEUE_NODE_
