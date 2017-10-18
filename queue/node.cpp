@@ -89,15 +89,11 @@ string node::dequeue(node*& root)
     /* Get and finish root's replacement */
     string to_return(root -> data);
     node* IOS = node::in_order_successor(root);
-    cout << "Root address: " << root << endl;
     if( IOS )
     {
-        cout << "IOS address: " << IOS << endl;
         IOS -> right = root -> right;
         IOS -> left = root -> left;
     }
-    cout << "Root -> right" << root -> right << endl;
-    cout << "Root -> left" << root -> left << endl;
     delete root;
     root = IOS;
     return to_return;
@@ -113,6 +109,10 @@ node* node::in_order_successor(node*& obj)
 node* node::all_the_way_left(node*& prev, node*& obj)
 {
     node* to_return;
+
+    cout << "obj -> right" << obj -> right << endl;
+    cout << "obj -> left" << obj -> left << endl;
+
     if(!obj -> left)
     {
         to_return = obj;
