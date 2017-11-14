@@ -16,7 +16,7 @@ struct split_node : public split_holder<DATA>
     split_node();
     ~split_node();
     node<DATA>* new_right;//TODO use this for splitting and transferring children
-    int incoming_split; /*True if our child has split and we have data to absorb */
+    char incoming_split; /*True if our child has split and we have data to absorb */
 };
 
 
@@ -30,15 +30,17 @@ class node : public data_holder<DATA>
         explicit node(data_holder<DATA> const &obj);
         ~node();
         int insert(DATA const &new_data);
-        node<DATA> *next_child(DATA const &new_data);
+        int insert(DATA const &new_data, node<DATA>* new_root);
         std::ostream& display(std::ostream& out);
     //protected:
+        node<DATA> *next_child(DATA const &new_data);
         std::ostream& display(std::ostream& out, size_t tabspace);
         int insert(struct split_node<DATA> &new_struct);
-        int split(struct split_node<DATA> &new_struct);
-        int absorb(struct split_node<DATA> &incoming);
-        int connect(node<DATA> *new_child, int child_index);
-        int is_leaf() const;
+        int resolve_split(struct split_node<DATA> &in_split);
+        int split_leaf(struct split_node<DATA> &new_struct);
+        void connect(node<DATA> *new_child, int child_index);
+        void clear();
+        bool is_leaf() const;
     private:
         node<DATA> **children;
 };

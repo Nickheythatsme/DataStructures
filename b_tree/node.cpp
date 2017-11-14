@@ -21,9 +21,17 @@ std::ostream& node<DATA>::display(std::ostream& out, size_t tabspace)
     for(int i = 0; i < MAX_DEGREE; ++i)
     {
         if( children[i] )
+        {
+            out << i << ": ";
             children[i] -> display(out, tabspace);
+        }
     }
     return out;
+}
+
+int node<DATA>::insert(DATA const &new_data, node<DATA>* new_root)
+{
+    return 1;
 }
 
 //Wrapper for insert function. Returns the result of the non-wrapper insert()
@@ -45,86 +53,100 @@ int node<DATA>::insert(struct split_node<DATA> &new_struct)
     if(this -> is_leaf())
     {
         if(this -> is_full())
-            return this -> data_holder<DATA>::split(new_struct);
-        return data_holder<DATA>::insert(new_struct.new_data);
+            return this -> split_leaf(new_struct);
+        else return data_holder<DATA>::insert(new_struct.new_data);
     }
 
 
     /* Recursive call */
-    this -> next_child(new_struct.new_data)->insert(new_struct);
+    this -> next_child(new_struct.new_data) -> insert(new_struct);
 
     //TODO finish split
     if(new_struct.incoming_split)
-        this -> absorb(new_struct);
+        return this -> resolve_split(new_struct);
     return 1;
 }
 
-//Absorb a split struct into our node. If we're also full then we absorb and
-//split again, returning the same split struct and giving it to our parent node
+//OVERRIDE
+//Split our node for our parent's absorption
 template<class DATA>
-int node<DATA>::absorb(struct split_node<DATA> &incoming)
+int node<DATA>::split_leaf(struct split_node<DATA> &new_struct)
 {
+    new_struct.incoming_split = 1;
+    data_holder<DATA>::split(new_struct);
 
-    //Case 1: We get an incoming datum and data_holder and we're NOT full
-    if(!this -> is_full())
-    {
-        this -> children[ data_holder<DATA>::compare(incoming.push_up_data) ] =
-            new node<DATA>(incoming.new_holder);
-        this -> data_holder<DATA>::insert(incoming.push_up_data);
-        return 1;
-    }
-
-    //Case 2: We get an incoming datum and data_holder and we're full
-    return this -> split(incoming);
-}
-
-template<class DATA>
-int node<DATA>::split(struct split_node<DATA> &incoming)
-{
-    /* Split ourselves */
-    split_node<DATA> new_struct;
-    this -> data_holder<DATA>::split(new_struct);
-
-    /* Create our new right and give it our right data */
-    node<DATA> *new_right = new node<DATA>(new_struct.new_holder);
-
-    /* TODO we need to move our children to the new node */
-    /* Move some of our children to new node */
-    for(int i = (MAX_DEGREE / 2)+1; i < MAX_DEGREE; ++i)
-    {
-        new_right -> connect(this -> children[i], i);
-        this -> connect(nullptr, i);
-    }
+    new_struct.new_right = new node<DATA>(new_struct.new_holder);
 
     return 1;
 }
+
+/* Resolve an incoming split. in_split is the incoming struct, our_split
+ * is ourselves splitting (only if we need to!)
+ */
+template<class DATA>
+int node<DATA>::resolve_split(struct split_node<DATA> &in_split)
+{
+    split_node<DATA> our_split; // We may need to split again 
+    int child_index;
+    /* Case 1: We have an incoming data and we're NOT full */
+    if( !this -> is_full() )
+    {
+        /* Shift our children to make room for new child */
+
+        //Where will the new child go?
+        child_index = data_holder<DATA>::compare(in_split.push_up_data);
+
+        //Shifting 
+        for(int i = MAX_DEGREE - 2; i > child_index; --i)
+        {
+            std::cout << "child: " << i << std::endl;
+            children[i+1] = children[i];
+        }
+
+        //Connect new child
+        this -> connect(in_split.new_right, child_index+1);
+
+        //Set new_right to null again
+        in_split.new_right = nullptr;
+
+        return this -> data_holder<DATA>::insert(in_split.push_up_data);
+    }
+
+
+    return 1;
+}
+
+
+
+
+
 
 /* Returns the pointer to the next child, depending on the data */
 template<class DATA>
 node<DATA> *node<DATA>::next_child(DATA const &new_data)
 {
-    int child_index = data_holder<DATA>::compare(new_data);
-    if(child_index < 0)
-        return NULL;
-    return children[child_index];
+    return children[data_holder<DATA>::compare(new_data)];
 }
 
 /* Connect a pointer to a node to our children index */
 template<class DATA>
-int node<DATA>::connect(node<DATA> *new_child, int child_index)
+void node<DATA>::connect(node<DATA> *new_child, int child_index)
 {
-    if(children[child_index]) return 0;
-    children[child_index] = new_child;
-    return 1;
+    this -> children[child_index] = new_child;
 }
 
 template<class DATA>
-int node<DATA>::is_leaf() const
+bool node<DATA>::is_leaf() const
 {
-    for(int i = 0; i < MAX_DEGREE; ++i)
-        if(children[i])
-            return false;
-    return true;
+    /* I could use a for loop but this is pretty quick and avoids unnecessary jumps */
+    char accum = false;
+
+    accum += children[0] == NULL;
+    accum += children[1] == NULL;
+    accum += children[2] == NULL;
+    accum += children[3] == NULL;
+
+    return accum == MAX_DEGREE;
 }
 
 template<class DATA>
@@ -162,6 +184,18 @@ node<DATA>::~node()
 {
     delete[] children;
     children = NULL;
+}
+
+/* Clears all nodes in this subtree */
+template<class DATA>
+void node<DATA>::clear()
+{
+    for(int i = 0; i < MAX_DEGREE && children[i]; ++i)
+    {
+        children[i] -> clear();
+        delete children[i];
+        children[i] = NULL;
+    }
 }
 
 template<class DATA>

@@ -70,6 +70,9 @@ int data_holder<DATA>::split(split_holder<DATA> &temp_holder)
     for(i = 0; i < middle_item; ++i)
         this->insert(new_array[i]);
 
+    delete new_array;
+    new_array = nullptr;
+
 
     return 1;
 }
@@ -142,7 +145,7 @@ int data_holder<DATA>::compare(DATA const &to_compare)
 {
     int i = 0;
     for(; i < data_count; ++i)
-        if(data[i] >= to_compare)
+        if(to_compare < data[i])
             return i;
     //TODO we may want to return MAX_DATA
     /* Depends on if we want a node with one datum to have it's two children at index 0 and 4, or index 0 and 1.
