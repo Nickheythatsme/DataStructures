@@ -44,7 +44,7 @@ data_holder<DATA>::~data_holder()
 /* Split this node */
 //TODO finish split function. We need to finish making the new data_handler object */
 template<class DATA>
-int data_holder<DATA>::split(split_holder<DATA> &temp_holder)
+int data_holder<DATA>::split(split_info<DATA> &temp_holder)
 {
     int i = 0;
     int middle_item = 0;
@@ -63,7 +63,7 @@ int data_holder<DATA>::split(split_holder<DATA> &temp_holder)
 
     /* Get the right side of the array */
     for(i = middle_item + 1; i < last_item; ++i)
-        temp_holder.new_holder.insert(new_array[i]);
+        temp_holder.new_right -> insert(new_array[i]);
 
     /* Get the left side of the array */
     this->clear_data(false);
@@ -122,9 +122,18 @@ std::ostream &data_holder<DATA>::display(std::ostream &out)
     int i = 0;
 
     out << "(";
-    for(; i < data_count - 1; ++i)
+    for(; i < MAX_DATA - 1; ++i)
+    {
+        if( data[i] )
+            out << data[i] << ", ";
+        else
+            out << "-" << ", ";
+    }
+    if( data[i] )
         out << data[i] << ", ";
-    out << data[i] << ")";
+    else
+        out << "-" << ", ";
+    out << ")";
 
     out << endl;
     return out;
@@ -172,4 +181,19 @@ int sort(DATA *array, int len)
         }
     }
     return 1;
+}
+
+/* SPLIT INFO CONSTRUCTOR */
+template<class DATA>
+split_info<DATA>::split_info()
+{
+    new_right = nullptr;
+}
+
+/* SPLIT INFO DESTRUCTOR */
+template<class DATA>
+split_info<DATA>::~split_info()
+{
+    if( new_right ) delete new_right;
+    new_right = nullptr;
 }

@@ -29,8 +29,10 @@ std::ostream& node<DATA>::display(std::ostream& out, size_t tabspace)
     return out;
 }
 
-int node<DATA>::insert(DATA const &new_data, node<DATA>* new_root)
+template<class DATA>
+int node<DATA>::insert(DATA const &new_data, node<DATA>*& root)
 {
+//TODO implement for when we have a tree (wrapper) class
     return 1;
 }
 
@@ -39,7 +41,7 @@ int node<DATA>::insert(DATA const &new_data, node<DATA>* new_root)
 template<class DATA>
 int node<DATA>::insert(DATA const &new_data)
 {
-    split_node<DATA> new_struct;
+    split_info<DATA> new_struct;
     new_struct.new_data = new_data;
 
     return this -> insert(new_struct);
@@ -48,7 +50,7 @@ int node<DATA>::insert(DATA const &new_data)
 //Recursively find the spot we're suppossed to insert. Insert on the recursive calls,
 //then on the return from the calls we test to see if we have an incoming split.
 template<class DATA>
-int node<DATA>::insert(struct split_node<DATA> &new_struct)
+int node<DATA>::insert(struct split_info<DATA> &new_struct)
 {
     if(this -> is_leaf())
     {
@@ -62,7 +64,7 @@ int node<DATA>::insert(struct split_node<DATA> &new_struct)
     this -> next_child(new_struct.new_data) -> insert(new_struct);
 
     //TODO finish split
-    if(new_struct.incoming_split)
+    if(new_struct.new_right)
         return this -> resolve_split(new_struct);
     return 1;
 }
@@ -70,12 +72,29 @@ int node<DATA>::insert(struct split_node<DATA> &new_struct)
 //OVERRIDE
 //Split our node for our parent's absorption
 template<class DATA>
-int node<DATA>::split_leaf(struct split_node<DATA> &new_struct)
+int node<DATA>::split_leaf(struct split_info<DATA> &new_struct)
 {
-    new_struct.incoming_split = 1;
+    new_struct.new_right = new node<DATA>;
     data_holder<DATA>::split(new_struct);
 
-    new_struct.new_right = new node<DATA>(new_struct.new_holder);
+    return 1;
+}
+
+template<class DATA>
+int node<DATA>::split_internal(struct split_info<DATA> &new_struct)
+{
+    /* Save the child index */
+    int child_index = data_holder<DATA>::compare(new_struct.push_up_data);
+
+    /* First part is the same as split leaf */
+    this -> split_leaf(new_struct);
+
+    /* move our children to the new node */
+    cout << "Child index: " << child_index << endl;
+    for(int i = child_index; i < MAX_DEGREE; ++i)
+    {
+
+    }
 
     return 1;
 }
@@ -84,9 +103,9 @@ int node<DATA>::split_leaf(struct split_node<DATA> &new_struct)
  * is ourselves splitting (only if we need to!)
  */
 template<class DATA>
-int node<DATA>::resolve_split(struct split_node<DATA> &in_split)
+int node<DATA>::resolve_split(struct split_info<DATA> &in_split)
 {
-    split_node<DATA> our_split; // We may need to split again 
+    split_info<DATA> our_split; // We may need to split again 
     int child_index;
     /* Case 1: We have an incoming data and we're NOT full */
     if( !this -> is_full() )
@@ -110,6 +129,11 @@ int node<DATA>::resolve_split(struct split_node<DATA> &in_split)
         in_split.new_right = nullptr;
 
         return this -> data_holder<DATA>::insert(in_split.push_up_data);
+    }
+    /* Case 2: We have incoming data and we ARE full */
+    else
+    {
+        return this -> split_internal(in_split);
     }
 
 
@@ -171,6 +195,14 @@ node<DATA>::node(node<DATA> const &obj) : data_holder<DATA>(obj)
 
 /* Constructor */
 template<class DATA>
+node<DATA>::node() : data_holder<DATA>()
+{
+    children = new node<DATA> *[MAX_DEGREE];
+    for(int i = 0; i < MAX_DEGREE; ++i)
+        children[i] = NULL;
+}
+
+template<class DATA>
 node<DATA>::node(data_holder<DATA> const &obj) : data_holder<DATA>(obj)
 {
     children = new node<DATA> *[MAX_DEGREE];
@@ -198,15 +230,3 @@ void node<DATA>::clear()
     }
 }
 
-template<class DATA>
-split_node<DATA>::split_node()
-{
-    new_right = nullptr;
-}
-
-template<class DATA>
-split_node<DATA>::~split_node()
-{
-    if( new_right ) delete new_right;
-    new_right = nullptr;
-}

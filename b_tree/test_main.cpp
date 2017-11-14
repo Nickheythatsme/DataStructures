@@ -8,12 +8,6 @@
 using std::cout;
 using std::endl;
 
-/* Data holder functions */
-void test_data_handler_basic();
-void test_data_handler_split();
-void test_sort();
-void test_sort_extended();
-
 /* Node functions */
 void test_node_basic();
 void test_insert_basic();
@@ -84,6 +78,12 @@ void test_insert_basic()
     root -> insert(18);
     root -> display(cout);
 
+    root -> insert(18);
+    root -> display(cout);
+
+    root -> insert(18);
+    root -> display(cout);
+
     root -> clear();
     delete root;
 
@@ -109,90 +109,3 @@ void test_next_child()
 }
 
 
-/* DATA HOLDER TESTS  */
-void test_data_handler_split()
-{
-    data_holder<int> test_holder;
-    split_holder<int> test_split;
-    int temp = 0;
-    srand(clock());
-
-    test_split.new_data = 5;
-    cout << "Test" << endl;
-
-    for(int i = 0; i < 6; ++i) {
-        temp = rand() % 10;
-        cout << "Inserting: " << temp << endl;
-        cout << "Full? " << test_holder.is_full() << endl;
-        if(!test_holder.insert(temp))
-            cout << "holder is full" << endl;
-    }
-
-    cout << "Splitting: " << endl;
-    test_holder.split(test_split);
-}
-
-void test_data_handler_basic()
-{
-    data_holder<int> test_holder;
-    int temp = 0;
-    srand(clock());
-
-    for(int i = 0; i < 3; ++i) {
-        temp = rand() % 10;
-        cout << "Inserting: " << i << endl;
-        cout << "Full? " << test_holder.is_full() << endl;
-        if(!test_holder.insert(temp))
-            cout << "holder is full" << endl;
-    }
-    test_holder.display(cout);
-    cout << "Testing where 0 is: "
-         << test_holder.compare(0) << endl
-         << "Testing where 5 is: "
-         << test_holder.compare(5) << endl;
-}
-
-
-
-void test_sort()
-{
-    cout << "Test sort" << endl;
-    int array[] = {9, 6, 6, 3};
-    int len = 4;
-
-    for(int i = 0; i < len; ++i)
-        cout << array[i] << ',';
-    cout << endl;
-
-    sort(array, len);
-
-    for(int i = 0; i < len; ++i)
-        cout << array[i] << ',';
-    cout << endl;
-
-    sort(array, len);
-
-    for(int i = 0; i < len; ++i)
-        cout << array[i] << ',';
-    cout << endl;
-    cout << endl;
-
-    test_sort_extended();
-
-}
-
-void test_sort_extended()
-{
-    cout << "Test sort extended" << endl;
-    int array[] = {9, 6, 6, 3};
-    int len = 3;
-    data_holder<int> holder;
-
-    for(int i = 0; i < len; ++i) {
-        holder.insert(array[i]);
-        holder.display(cout);
-    }
-
-    for(int i = 0; i <= 10; ++i)
-        cout << "Comparing " << i << ": " << holder.compare(i) << endl;
-}

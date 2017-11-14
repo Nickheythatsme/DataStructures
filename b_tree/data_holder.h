@@ -6,6 +6,8 @@
 
 #include <cassert>
 #include <iostream>
+using std::cout;
+using std::endl;
 
 #define MAX_DEGREE 4 
 #define MAX_DATA (MAX_DEGREE - 1)
@@ -17,14 +19,16 @@ using std::cout;
 using std::endl;
 
 template<class DATA>
-class data_holder;
+class node;
 
 template<class DATA>
-struct split_holder
+struct split_info
 {
+    split_info();
+    ~split_info();
     DATA new_data;
     DATA push_up_data;
-    data_holder<DATA> new_holder;
+    node<DATA>* new_right; /* The new right node */
 };
 
 template<class DATA>
@@ -39,7 +43,7 @@ class data_holder
         explicit data_holder(DATA const &new_data);
         virtual ~data_holder();
         virtual int insert(DATA const &new_data);
-        virtual int split(split_holder<DATA> &temp_holder);
+        virtual int split(split_info<DATA> &temp_holder);
         int is_full() const;
         int return_data_count() const;
         /* Test if the to_compare variable is in this array.
