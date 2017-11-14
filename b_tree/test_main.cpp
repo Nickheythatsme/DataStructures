@@ -17,6 +17,7 @@ void test_sort_extended();
 /* Node functions */
 void test_node_basic();
 void test_split();
+void test_insert_basic();
 
 int main(int argc, char *argv[])
 {
@@ -25,7 +26,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    test_split();
+    test_insert_basic();
 
     return 0;
 }
@@ -47,6 +48,45 @@ void test_node_basic()
     }
     test_node.display(cout);
 }
+
+//Test insert without splitting but with multiple nodes
+void test_insert_basic()
+{
+    cout << "Testing insert basic" << endl;
+    /* Make root */
+    node<int> *root = new node<int>(50);
+    root -> insert(60);
+
+    /* Make a left */
+    node<int> *left = new node<int>(20);
+
+    /* Make a middle */
+    node<int> *middle = new node<int>(55);
+
+    /* Make a right */
+    node<int> *right = new node<int>(75);
+    right -> insert(85);
+
+    /* Connect nodes */
+    root -> connect(left,0);
+    root -> connect(middle,1);
+    root -> connect(right,2);
+
+    /* Display before insertion */
+    root -> display(cout);
+
+    root -> insert(10);
+    root -> display(cout);
+
+    root -> insert(56);
+    root -> display(cout);
+
+    root -> insert(100);
+    root -> display(cout);
+
+    return;
+}
+
 
 void test_next_child()
 {

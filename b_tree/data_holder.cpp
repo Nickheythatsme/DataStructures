@@ -71,17 +71,6 @@ int data_holder<DATA>::split(split_holder<DATA> &temp_holder)
         this->insert(new_array[i]);
 
 
-    //TODO remove when not testing
-    for(i = 0; i < last_item; ++i)
-        std::cout << new_array[i] << ", ";
-    std::cout << std::endl;
-    cout << "left: ";
-    this->display(std::cout);
-    std::cout << "Middle: " << new_array[middle_item] << std::endl;
-    cout << "right: ";
-    temp_holder.new_holder.display(std::cout);
-    //End removal
-
     return 1;
 }
 
@@ -127,8 +116,13 @@ int data_holder<DATA>::insert(DATA const &new_data)
 template<class DATA>
 std::ostream &data_holder<DATA>::display(std::ostream &out)
 {
-    for(int i = 0; i < data_count; ++i)
+    int i = 0;
+
+    out << "(";
+    for(; i < data_count - 1; ++i)
         out << data[i] << ", ";
+    out << data[i] << ")";
+
     out << endl;
     return out;
 }

@@ -6,6 +6,7 @@
 template<class DATA>
 std::ostream& node<DATA>::display(std::ostream& out)
 {
+    out << "Max degree: " << MAX_DEGREE << endl;
     return display(out,0);
 }
 
@@ -16,10 +17,11 @@ std::ostream& node<DATA>::display(std::ostream& out, size_t tabspace)
         out << "  ";
     data_holder<DATA>::display(out);
 
+    ++tabspace;
     for(int i = 0; i < MAX_DEGREE; ++i)
     {
         if( children[i] )
-            children[i] -> display(out, ++tabspace);
+            children[i] -> display(out, tabspace);
     }
     return out;
 }
@@ -42,14 +44,14 @@ int node<DATA>::insert(struct split_node<DATA> &new_struct)
 {
     if(this -> is_leaf())
     {
-        if(this->is_full())
-            return this->data_holder<DATA>::split(new_struct);
+        if(this -> is_full())
+            return this -> data_holder<DATA>::split(new_struct);
         return data_holder<DATA>::insert(new_struct.new_data);
     }
 
 
     /* Recursive call */
-    this->next_child(new_struct.new_data)->insert(new_struct);
+    this -> next_child(new_struct.new_data)->insert(new_struct);
 
     //TODO finish split
     if(new_struct.incoming_split)
@@ -63,7 +65,7 @@ template<class DATA>
 int node<DATA>::absorb(struct split_node<DATA> &incoming)
 {
 
-    //Case 2: We get an incoming datum and data_holder and we're NOT full
+    //Case 1: We get an incoming datum and data_holder and we're NOT full
     if(!this -> is_full())
     {
         this -> children[ data_holder<DATA>::compare(incoming.push_up_data) ] =
@@ -81,9 +83,9 @@ int node<DATA>::split(struct split_node<DATA> &incoming)
 {
     /* Split ourselves */
     split_node<DATA> new_struct;
-    data_holder<DATA>::split(new_struct);
+    this -> data_holder<DATA>::split(new_struct);
 
-    /* Create our new right */
+    /* Create our new right and give it our right data */
     node<DATA> *new_right = new node<DATA>(new_struct.new_holder);
 
     /* TODO we need to move our children to the new node */
@@ -94,7 +96,6 @@ int node<DATA>::split(struct split_node<DATA> &incoming)
         this -> connect(nullptr, i);
     }
 
-    
     return 1;
 }
 

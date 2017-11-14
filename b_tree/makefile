@@ -9,13 +9,13 @@ DEPS = node.cpp node.h data_holder.cpp data_holder.h
 TARGET = b_tree
 
 #MAKING OBJECTS
-$(TARGET): $(OBJS) $(DEPS)
+$(TARGET): $(OBJS)
 	@echo "compiling: " $@
-	$(CC) $(CFLAGS) $(OBJS) -o $@
+	@$(CC) $(CFLAGS) $(OBJS) -o $@
 
-test_main.o: test_main.cpp
+test_main.o: test_main.cpp $(DEPS)
 	@echo "compiling: " $@
-	$(CC) $(CFLAGS) $< $(OUT) $@
+	@$(CC) $(CFLAGS) $< $(OUT) $@
 
 clean:
 	@rm $(TARGET)
