@@ -1,7 +1,5 @@
 #include "two_three_tree.h"
-#include <stdlib.h>
 #include <fstream>
-#include <time.h>
 
 //Example to show how the tree works!
 bool test_tree(void);
@@ -51,7 +49,6 @@ bool test_tree(void)
     cout << *test_tree2 << endl;
 
     delete test_tree2;
-    test_tree2 = NULL;
 
     return true;
 }

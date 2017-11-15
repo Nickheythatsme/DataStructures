@@ -61,7 +61,7 @@ tree<DATA>::tree(const tree<DATA>& obj)
         root = NULL;
 }
 
-//DESCTRUCTOR
+//DESTRUCTOR
 template <class DATA>
 tree<DATA>::~tree()
 {

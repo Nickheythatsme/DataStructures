@@ -42,9 +42,8 @@ data_holder<DATA>::~data_holder()
 }
 
 /* Split this node */
-//TODO finish split function. We need to finish making the new data_handler object */
 template<class DATA>
-int data_holder<DATA>::split(split_info<DATA> &temp_holder)
+int data_holder<DATA>::split(split_info<DATA> *temp_holder)
 {
     int i = 0;
     int middle_item = 0;
@@ -54,48 +53,38 @@ int data_holder<DATA>::split(split_info<DATA> &temp_holder)
     DATA *new_array = new DATA[last_item];
     for(; i < MAX_DATA; ++i)
         new_array[i] = this->data[i];
-    new_array[MAX_DATA] = temp_holder.new_data; //Add the last datum
+    new_array[MAX_DATA] = temp_holder->new_data; //Add the last datum
     sort(new_array, last_item);
 
     /* Find the middle data item */
     middle_item = MAX_DATA / 2;
-    temp_holder.push_up_data = new_array[middle_item];
+    temp_holder->push_up_data = new_array[middle_item];
 
     /* Get the right side of the array */
     for(i = middle_item + 1; i < last_item; ++i)
-        temp_holder.new_right -> insert(new_array[i]);
+        temp_holder->new_right->insert(new_array[i]);
 
 
     /* Get the left side of the array */
     this->clear_data(true);
-	for (i = 0; i < middle_item; ++i)
-	{
-		cout << "Inserting: " << new_array[i] << '\t';
-		cout << this->insert(new_array[i]);
-		cout << "\tData count: " << data_count << endl;
-	}
+    for(i = 0; i < middle_item; ++i)
+        this->data_holder<int>::insert(new_array[i]);
 
-	//TODO remove when not debugging
-	cout << "Self: " << this->data_count << '\t'; this->display(cout);
-	cout << "New right: "; temp_holder.new_right->data_holder<DATA>::display(cout) << endl << endl;
-    delete [] new_array;
-    new_array = nullptr;
+    delete[] new_array;
 
     return 1;
 }
 
 /* Clear the array and remake an empty one */
-//TODO Check for cases where we need to delete the array, or if we can just set data_count == 0
 /* This function only needs to be called when the DATA type does not have an assignment operator (Which many classes don't)*/
 template<class DATA>
 void data_holder<DATA>::clear_data(bool do_delete)
 {
     data_count = 0;
-	if (do_delete)
-	{
-		delete[] data;
-		data = new DATA[MAX_DATA];
-	}
+    if(do_delete) {
+        delete[] data;
+        data = new DATA[MAX_DATA];
+    }
     return;
 }
 
@@ -119,7 +108,7 @@ int data_holder<DATA>::insert(DATA const &new_data)
 {
     if(data_count >= MAX_DATA) return 0;
     data[data_count] = new_data;
-	++data_count;
+    ++data_count;
     sort(data, data_count);
     return data_count;
 }
@@ -130,13 +119,13 @@ std::ostream &data_holder<DATA>::display(std::ostream &out)
 {
     int i = 0;
 
-	out << "Data count: " << data_count << "  ";
     out << "(";
-    for(; i < data_count; ++i)
-    {
-		out << data[i] << ", ";
+    for(; i < data_count; ++i) {
+        out << data[i];
+        if(i < data_count - 1)
+            out << ", ";
     }
-	out << ")" << endl;
+    out << ")" << endl;
 
     return out;
 }
@@ -151,6 +140,8 @@ int data_holder<DATA>::find(DATA const &to_compare)
     return 0;
 }
 
+/* COMPARES to another data point. Returns the index of the first data point in the array
+ * that is greater than the test data point */
 template<class DATA>
 int data_holder<DATA>::compare(DATA const &to_compare)
 {
@@ -158,9 +149,6 @@ int data_holder<DATA>::compare(DATA const &to_compare)
     for(; i < data_count; ++i)
         if(to_compare < data[i])
             return i;
-    //TODO we may want to return MAX_DATA
-    /* Depends on if we want a node with one datum to have it's two children at index 0 and 4, or index 0 and 1.
-     * Right now we're moving forward with index 0,1 */
     return i;
 }
 
@@ -185,7 +173,7 @@ int sort(DATA *array, int len)
     return 1;
 }
 
-/* SPLIT INFO CONSTRUCTOR */
+/* CONSTRUCTOR */
 template<class DATA>
 split_info<DATA>::split_info()
 {
@@ -196,6 +184,8 @@ split_info<DATA>::split_info()
 template<class DATA>
 split_info<DATA>::~split_info()
 {
+    /*
     if( new_right ) delete new_right;
     new_right = nullptr;
+     */
 }

@@ -151,7 +151,7 @@ stack<T>::~stack()
 template <class T>
 bool node_stack<T>::is_full(void)
 {
-    return !(index < array_size);
+    return (index >= array_size);
 }
 
 //This tell us if the node is empty or not

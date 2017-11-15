@@ -302,7 +302,7 @@ node<DATA>* node<DATA>::next(const DATA& obj) const
 }
 
 //This function connects a node to the indicated child. It will do this whether
-//there is a node alreayd there, or even if new_child is NULL. It doesn't really
+//there is a node already there, or even if new_child is NULL. It doesn't really
 //check for anything.
 template <class DATA>
 bool node<DATA>::connect(node<DATA> * new_child, int child_index)

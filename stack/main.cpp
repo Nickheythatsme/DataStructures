@@ -1,6 +1,5 @@
 #include "stack.h"
 #include <string.h>
-#include <time.h>
 #define TEMP 2000
 using namespace std;
 
@@ -44,7 +43,7 @@ bool lite_stack_test(void)
     cin.get(word, TEMP, '\n');
     cin.ignore(TEMP,'\n');
 
-    int len = strlen(word);
+    size_t len = strlen(word);
     for(int i = 0; i < len; ++i)
         test_stack.push( word[i] );
 
@@ -66,7 +65,7 @@ bool deep_stack_test(void)
     srand( clock() );
     stack<char> test_stack(STACK_SIZE);
     stack<char> test_copy(STACK_SIZE);
-    unsigned int iter = rand() % MAX_ITER;
+    unsigned int iter = (unsigned int) rand() % MAX_ITER;
     for(unsigned int i = 0; i < iter; ++i)
     {
         if( !test_push( test_stack ) )
@@ -75,7 +74,7 @@ bool deep_stack_test(void)
             return false;
         }
 
-        //TODO implement assignmet op
+        //TODO implement assignment op
         test_copy = test_stack;
         if( !test_pop( test_copy ) )
         {
@@ -86,7 +85,7 @@ bool deep_stack_test(void)
     return true;
 }
 
-//Test the push fucntion. This will push as many chars as the random word gen
+//Test the push function. This will push as many chars as the random word gen
 //made.
 bool test_push(stack<char> & test_stack)
 {
@@ -102,7 +101,6 @@ bool test_push(stack<char> & test_stack)
         ++current;
     }
     delete [] chars;
-    chars = NULL;
     return true;
 }
 
@@ -121,7 +119,7 @@ bool test_pop(stack<char> & test_stack)
 char * random_word(int max)
 {
     srand( clock() );
-    unsigned int len = rand() % max;
+    unsigned int len = (unsigned int) rand() % max;
     char * new_word = new char[len+1];
     char * current = new_word;
 
@@ -158,6 +156,5 @@ bool test_node(void)
     cout << endl;
 
     delete chars;
-    chars = NULL;
     return true;
 }
