@@ -7,7 +7,7 @@ OUT = -c -o
 BIN=bin
 
 #Objs/Targets
-OBJS = queue.o main.o 
+OBJS = main.o 
 TARGET = queue
 
 all: $(TARGET)
@@ -19,12 +19,7 @@ queue: $(addprefix $(BIN)/,$(OBJS))
 	@$(CC) $(CFLAGS) $^ -o $@
 
 #MAKING OBJECTS
-$(BIN)/main.o: main.cpp
-	@mkdir -p $(BIN)
-	@echo "compiling: " $@
-	@$(CC) $(CFLAGS) $< $(OUT) $@
-
-$(BIN)/queue.o: queue.cpp queue.h
+$(BIN)/main.o: main.cpp queue.cpp queue.h
 	@mkdir -p $(BIN)
 	@echo "compiling: " $@
 	@$(CC) $(CFLAGS) $< $(OUT) $@

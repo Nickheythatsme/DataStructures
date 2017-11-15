@@ -1,25 +1,11 @@
 #include <stdlib.h>
+#include "node.h"
 
 #ifndef QUEUE_
 #define QUEUE_
 
 //namespace queue{
 
-template<class DATA>
-class node
-{
-    public:
-        node() = delete;
-        node(const DATA& new_data);
-        node(const node<DATA>& obj);
-        ~node();
-        bool connect(node* next);
-        bool is_done(void);
-        bool set_done(bool finished);
-    private:
-        node<DATA>* next;
-        DATA data;
-};
 
 template<class DATA>
 class queue
@@ -27,13 +13,17 @@ class queue
     public:
         queue();
         queue(const queue<DATA>& to_copy);
+        ~queue();
         queue<DATA>& enqueue(const DATA& obj);
         queue<DATA>& dequeue(DATA& to_return);
         queue<DATA>& clear(void);
+        void find_tail(void);
+        bool is_empty(void) const;
     protected:
         node<DATA>* head;
         node<DATA>* tail;
 };
 
 //}
+#include "queue.cpp"
 #endif

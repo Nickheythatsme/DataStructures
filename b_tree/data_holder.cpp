@@ -123,9 +123,17 @@ std::ostream &data_holder<DATA>::display(std::ostream &out)
 
     out << "(";
     for(; i < data_count; ++i)
-        out << data[i] << ", ";
+    {
+        out << data[i];
+        if( i < MAX_DATA - 1 )
+            out << ", ";
+    }
     for(; i < MAX_DATA; ++i)
-        out << '-' << ", ";
+    {
+        out << '-';
+        if( i < MAX_DATA - 1 )
+            out << ", ";
+    }
     out << ")";
 
     out << endl;

@@ -12,6 +12,7 @@ using std::endl;
 void test_node_basic();
 void test_insert_basic();
 void test_next_child();
+void basic_split();
 
 int main(int argc, char *argv[])
 {
@@ -21,12 +22,27 @@ int main(int argc, char *argv[])
     }
 
     test_insert_basic();
+    //basic_split();
 
     return 0;
 }
 
 
 /* NODE TESTS */
+void basic_split()
+{
+    node<int> root;
+    struct split_info<int> new_info;
+    new_info.new_right = new node<int>;
+    new_info.new_data = 65;
+
+    root.insert(40);
+    root.insert(50);
+    root.insert(60);
+    root.data_holder<int>::split(new_info);
+    root.display(cout);
+}
+
 void test_node_basic()
 {
     cout << "Calling test_node_basic" << endl;
