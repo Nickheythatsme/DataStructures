@@ -26,6 +26,7 @@ std::ostream &node<DATA>::display(std::ostream &out, size_t tabspace)
     return out;
 }
 
+//Static
 template<class DATA>
 int node<DATA>::insert(DATA const &new_data, node<DATA> *&root)
 {
@@ -33,6 +34,7 @@ int node<DATA>::insert(DATA const &new_data, node<DATA> *&root)
     split_info<DATA> *new_struct = new split_info<DATA>;
     new_struct->new_data = new_data;
     root->insert(new_struct);
+    //Move our old root to the new one if it exists
     if(new_struct->new_right) {
         new_root = new node<DATA>(new_struct->push_up_data);
         new_root->connect(root, 0);

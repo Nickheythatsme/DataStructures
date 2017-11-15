@@ -23,21 +23,28 @@ int main(int argc, char *argv[])
 
 /* NODE TESTS */
 #define MAX 100
+#define LEN 20
 
 void test_insert()
 {
     auto *root = new node<int>;
-    int temp;
+    int data[] = {83,86,77,15,93,35,86,92,49,21,27,90,59,63,26,40,26,72,20,20};
     srand(1);
 
-    for(int i = 0; i < 20; ++i) {
-        temp = rand() % MAX;
-        cout << i << ") Inserting: " << temp << endl;
-        node<int>::insert(temp, root);
+    for(int i = 0; i < LEN; ++i) {
+        data[i] = rand() % MAX;
+        cout << data[i] << ", ";
+    }
+    cout << endl;
+
+    for(int i = 0; i < LEN; ++i) {
+        cout << i << ") Inserting: " << data[i] << endl;
+        node<int>::insert(data[i], root);
         root->display(cout);
         cout << endl << endl;
     }
 }
 
+#undef LEN
 #undef MAX
 
