@@ -4,6 +4,7 @@
 
 #include "node.h"
 //#include <iostream>
+#include <ctime>
 
 using std::cout;
 using std::endl;
@@ -16,14 +17,11 @@ void basic_split();
 
 int main(int argc, char *argv[])
 {
-    if(argc <= 1) {
-        cout << "Usage: b_tree [number] [number] ..." << endl;
-        return 1;
-    }
-
+	char buffer[256];
     test_insert_basic();
     //basic_split();
 
+	std::cin.get(buffer, 256, '\n');
     return 0;
 }
 

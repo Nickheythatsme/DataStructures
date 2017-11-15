@@ -69,7 +69,6 @@ int node<DATA>::insert(struct split_info<DATA> &new_struct)
     return 1;
 }
 
-//OVERRIDE
 //Split our node for our parent's absorption
 template<class DATA>
 int node<DATA>::split_leaf(struct split_info<DATA> &new_struct)
@@ -89,11 +88,7 @@ int node<DATA>::split_internal(struct split_info<DATA> &new_struct)
     our_struct -> new_data = new_struct.push_up_data;
 
     /* First part is the same as split leaf */
-    cout << "Self: " << endl;
-    this -> display(cout);
     this -> split_leaf(*our_struct);
-    cout << "Self: " << endl;
-    this -> display(cout);
 
     /*
     // move our children to the new node
@@ -101,12 +96,6 @@ int node<DATA>::split_internal(struct split_info<DATA> &new_struct)
     for(int i = child_index, j = 0; i < MAX_DEGREE; ++i, ++j)
         new_struct.new_right -> connect(this -> children[i],j);
     */
-
-    cout << "New right: " << endl;
-    new_struct.new_right -> display(cout);
-
-    cout << "Self: " << endl;
-    this -> display(cout);
 
     return 1;
 }

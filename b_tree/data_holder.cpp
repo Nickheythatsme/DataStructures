@@ -53,7 +53,7 @@ int data_holder<DATA>::split(split_info<DATA> &temp_holder)
     /* Create and sort a new array with ALL data */
     DATA *new_array = new DATA[last_item];
     for(; i < MAX_DATA; ++i)
-        new_array[i] = data[i];
+        new_array[i] = this->data[i];
     new_array[MAX_DATA] = temp_holder.new_data; //Add the last datum
     sort(new_array, last_item);
 
@@ -65,14 +65,21 @@ int data_holder<DATA>::split(split_info<DATA> &temp_holder)
     for(i = middle_item + 1; i < last_item; ++i)
         temp_holder.new_right -> insert(new_array[i]);
 
-    /* Get the left side of the array */
-    this->clear_data(false);
-    for(i = 0; i < middle_item; ++i)
-        this->insert(new_array[i]);
 
+    /* Get the left side of the array */
+    this->clear_data(true);
+	for (i = 0; i < middle_item; ++i)
+	{
+		cout << "Inserting: " << new_array[i] << '\t';
+		cout << this->insert(new_array[i]);
+		cout << "\tData count: " << data_count << endl;
+	}
+
+	//TODO remove when not debugging
+	cout << "Self: " << this->data_count << '\t'; this->display(cout);
+	cout << "New right: "; temp_holder.new_right->data_holder<DATA>::display(cout) << endl << endl;
     delete [] new_array;
     new_array = nullptr;
-
 
     return 1;
 }
@@ -84,10 +91,11 @@ template<class DATA>
 void data_holder<DATA>::clear_data(bool do_delete)
 {
     data_count = 0;
-    if(!do_delete)
-        return;
-    delete[] data;
-    data = new DATA[MAX_DATA];
+	if (do_delete)
+	{
+		delete[] data;
+		data = new DATA[MAX_DATA];
+	}
     return;
 }
 
@@ -111,8 +119,9 @@ int data_holder<DATA>::insert(DATA const &new_data)
 {
     if(data_count >= MAX_DATA) return 0;
     data[data_count] = new_data;
-    sort(data, ++data_count);
-    return 1;
+	++data_count;
+    sort(data, data_count);
+    return data_count;
 }
 
 /* Used for debugging only */
@@ -121,22 +130,14 @@ std::ostream &data_holder<DATA>::display(std::ostream &out)
 {
     int i = 0;
 
+	out << "Data count: " << data_count << "  ";
     out << "(";
     for(; i < data_count; ++i)
     {
-        out << data[i];
-        if( i < MAX_DATA - 1 )
-            out << ", ";
+		out << data[i] << ", ";
     }
-    for(; i < MAX_DATA; ++i)
-    {
-        out << '-';
-        if( i < MAX_DATA - 1 )
-            out << ", ";
-    }
-    out << ")";
+	out << ")" << endl;
 
-    out << endl;
     return out;
 }
 
