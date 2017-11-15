@@ -32,7 +32,7 @@ std::ostream& node<DATA>::display(std::ostream& out, size_t tabspace)
 template<class DATA>
 int node<DATA>::insert(DATA const &new_data, node<DATA>*& root)
 {
-//TODO implement for when we have a tree (wrapper) class
+    //TODO implement for when we have a tree (wrapper) class
     return 1;
 }
 
@@ -91,10 +91,8 @@ int node<DATA>::split_internal(struct split_info<DATA> &new_struct)
 
     /* move our children to the new node */
     cout << "Child index: " << child_index << endl;
-    for(int i = child_index; i < MAX_DEGREE; ++i)
-    {
-
-    }
+    for(int i = child_index, j = 0; i < MAX_DEGREE; ++i, ++j)
+        new_struct.new_right -> connect(this -> children[i],j);
 
     return 1;
 }

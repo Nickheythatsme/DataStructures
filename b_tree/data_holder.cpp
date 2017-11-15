@@ -70,7 +70,7 @@ int data_holder<DATA>::split(split_info<DATA> &temp_holder)
     for(i = 0; i < middle_item; ++i)
         this->insert(new_array[i]);
 
-    delete new_array;
+    delete [] new_array;
     new_array = nullptr;
 
 
@@ -122,17 +122,10 @@ std::ostream &data_holder<DATA>::display(std::ostream &out)
     int i = 0;
 
     out << "(";
-    for(; i < MAX_DATA - 1; ++i)
-    {
-        if( data[i] )
-            out << data[i] << ", ";
-        else
-            out << "-" << ", ";
-    }
-    if( data[i] )
+    for(; i < data_count; ++i)
         out << data[i] << ", ";
-    else
-        out << "-" << ", ";
+    for(; i < MAX_DATA; ++i)
+        out << '-' << ", ";
     out << ")";
 
     out << endl;
