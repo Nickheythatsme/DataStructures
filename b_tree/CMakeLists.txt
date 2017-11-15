@@ -1,4 +1,4 @@
-set(CMAKE_LEGACY_CYGWIN_WIN32 0) # Remove when CMake >= 2.8.4 is required
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -gdwarf-3 -Wall -pthread -g")
 project(b_tree)
 set(SOURCES main.cpp)
 add_executable(${PROJECT_NAME} ${SOURCES})
