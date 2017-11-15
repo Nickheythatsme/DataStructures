@@ -32,7 +32,6 @@ void test_insert()
     srand(1);
 
     for(int i = 0; i < LEN; ++i) {
-        data[i] = rand() % MAX;
         cout << data[i] << ", ";
     }
     cout << endl;
