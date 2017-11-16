@@ -28,17 +28,13 @@ int main(int argc, char *argv[])
 void test_insert()
 {
     auto *root = new node<int>;
-    int data[] = {83,86,77,15,93,35,86,92,49,21,27,90,59,63,26,40,26,72,20,20};
+    int temp;
     srand(1);
 
     for(int i = 0; i < LEN; ++i) {
-        cout << data[i] << ", ";
-    }
-    cout << endl;
-
-    for(int i = 0; i < LEN; ++i) {
-        cout << i << ") Inserting: " << data[i] << endl;
-        node<int>::insert(data[i], root);
+        temp = rand() % MAX;
+        cout << i << ") Inserting: " << temp << endl;
+        node<int>::insert(temp, root);
         root->display(cout);
         cout << endl << endl;
     }

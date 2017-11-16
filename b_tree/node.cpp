@@ -66,8 +66,8 @@ int node<DATA>::insert(struct split_info<DATA> *&new_struct)
         else return data_holder<DATA>::insert(new_struct->new_data);
     }
 
-
     /* Recursive call */
+    cout << "Calling child: " << this -> compare(new_struct -> new_data) << endl;
     this->next_child(new_struct->new_data)->insert(new_struct);
 
     if(new_struct->new_right)
