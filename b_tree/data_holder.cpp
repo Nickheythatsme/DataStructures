@@ -66,7 +66,7 @@ int data_holder<DATA>::split(split_info<DATA> *temp_holder)
 
 
     /* Get the left side of the array */
-    this->clear_data(true);
+    this->clear_data();
     for(i = 0; i < middle_item; ++i)
         this->add(new_array[i]);
 
@@ -75,16 +75,12 @@ int data_holder<DATA>::split(split_info<DATA> *temp_holder)
     return 1;
 }
 
-/* Clear the array and remake an empty one */
-/* This function only needs to be called when the DATA type does not have an assignment operator (Which many classes don't)*/
+/* Sets data_count to 0. It's the same as delete the array IF DATA has an 
+ * assignment operator! */
 template<class DATA>
-void data_holder<DATA>::clear_data(bool do_delete)
+void data_holder<DATA>::clear_data()
 {
     data_count = 0;
-    if(do_delete) {
-        delete[] data;
-        data = new DATA[MAX_DATA];
-    }
     return;
 }
 
@@ -125,7 +121,7 @@ std::ostream &data_holder<DATA>::display(std::ostream &out)
         if(i < data_count - 1)
             out << ", ";
     }
-    out << ")" << endl;
+    out << ")" << std::endl;
 
     return out;
 }

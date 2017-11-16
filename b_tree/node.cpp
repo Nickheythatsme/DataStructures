@@ -143,7 +143,7 @@ node<DATA> *node<DATA>::next_child(DATA const &new_data)
 
 /* Connect a pointer to a node to our children index */
 template<class DATA>
-void node<DATA>::connect(node<DATA> *new_child, int child_index)
+void node<DATA>::connect(node<DATA> *new_child, size_t child_index)
 {
     this->children[child_index] = new_child;
 }
@@ -192,6 +192,7 @@ node<DATA>::node() : data_holder<DATA>()
         children[i] = NULL;
 }
 
+/* COPY CONSTRUCTOR */
 template<class DATA>
 node<DATA>::node(data_holder<DATA> const &obj) : data_holder<DATA>(obj)
 {
@@ -208,7 +209,7 @@ node<DATA>::~node()
     children = NULL;
 }
 
-/* Clears all nodes in this subtree */
+/* Clears all nodes in this subtree. DOES NOT clear self  */
 template<class DATA>
 void node<DATA>::clear()
 {

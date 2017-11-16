@@ -4,11 +4,7 @@
 // This holds and handles the data in the node. It handles sorting, splitting,
 // insertion, and compares to incoming data points 
 
-#include <cassert>
 #include <iostream>
-
-using std::cout;
-using std::endl;
 
 #define MAX_DEGREE 4
 #define MAX_DATA (MAX_DEGREE - 1)
@@ -37,12 +33,13 @@ int sort(DATA *array, short len);//Bubble sort the array.
 template<class DATA>
 class data_holder
 {
-    public:
+    protected:
         data_holder();
         data_holder(data_holder<DATA> const &obj);
         explicit data_holder(DATA const &new_data);
         virtual ~data_holder();
         virtual int add(DATA const &new_data);
+        /* Split ourselves and sort out left, middle, and right data */
         virtual int split(split_info<DATA> *temp_holder);
         int is_full() const;
         int return_data_count() const;
@@ -53,8 +50,7 @@ class data_holder
          * Returns the index of the first array value which is lower than the test value */
         int compare(DATA const &to_compare);
         virtual std::ostream &display(std::ostream &out);
-    protected:
-        void clear_data(bool do_delete = false);
+        void clear_data();//Sets data_count to 0
     private:
         DATA *data;
         short data_count;

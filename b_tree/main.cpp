@@ -3,16 +3,12 @@
 //
 
 #include "node.h"
-#include <ctime>
 #include <random>
 #include <cstring>
-//#include <iostream>
+#include <sys/time.h>
 
 using std::cout;
 using std::endl;
-
-//TODO remove
-void temp_test();
 
 /* Node functions */
 void test_insert_planned();
@@ -20,37 +16,52 @@ void test_insert_rand();
 
 int main(int argc, char *argv[])
 {
-    cout << "sizeof node: " << sizeof(node<int>) << endl;
     if( argc > 1 && !strncmp(argv[1],"--rand",6) )
         test_insert_rand();
     else
         test_insert_planned();
+    cout << "sizeof a node: " << sizeof(node<int>) << endl;
 
     return 0;
 }
 
 
 /* NODE TESTS */
-
-#define MAX 100
-#define LEN 1000
+#define SIZE 10000
+#define ITERATIONS 1000
 
 void test_insert_rand()
 {
     auto *root = new node<int>;
     std::default_random_engine generator;
-    std::uniform_int_distribution<int> distribution(0,MAX);
+    std::uniform_int_distribution<int> distribution(0,1000);
 
-    for(int i = 0; i < LEN; ++i)
-        node<int>::insert(distribution(generator), root);
-    root->display(cout);
+    /* Record the time of execution */
+    struct timeval tf, ti;
+    unsigned long timems=0;
+    gettimeofday(&ti,NULL);
 
-    root -> clear();
+    /* Start test */
+    for(int i = 0; i < ITERATIONS; ++i)
+    {
+        for(int i = 0; i < SIZE; ++i)
+            node<int>::insert(distribution(generator), root);
+        root -> clear();
+    }
+
+    /* Output results */
+    gettimeofday(&tf,NULL);
+    timems=(tf.tv_sec*1000+tf.tv_usec/1000) - (ti.tv_sec*1000+ti.tv_usec/1000);
+    cout << "Amount of data: " << SIZE << endl
+         << "Iterations: " << ITERATIONS << endl
+         << "TotalTime: " << timems << " ms" << endl
+         << "Time per iteration: " << (timems / (float) ITERATIONS) << " ms" << endl;
+
     delete root;
 }
 
-#undef LEN
-#undef MAX
+#undef SIZE
+#undef ITERATIONS
 
 #define MAX 100
 #define LEN 11
