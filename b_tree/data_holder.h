@@ -16,24 +16,23 @@ using std::endl;
 #ifndef SENTIMENTANALYSIS_B_TREE_H
 #define SENTIMENTANALYSIS_B_TREE_H
 
-using std::cout;
-using std::endl;
-
+/* Forward declaration */
 template<class DATA>
 class node;
 
+/* Struct used for splitting and inserting data. */
 template<class DATA>
 struct split_info
 {
     split_info();
-    ~split_info();
-    DATA new_data;
-    DATA push_up_data;
+    ~split_info(); /* We do NOT delete new_right if it exists. Other nodes will have taken it and will delete it on their own */
+    DATA new_data; /* Data incoming from the insert. Exists whether there is a split or not */
+    DATA push_up_data; /* Data that is pushed up after a split */
     node<DATA> *new_right; /* The new right node */
 };
 
 template<class DATA>
-int sort(DATA *array, int len);
+int sort(DATA *array, short len);//Bubble sort the array. 
 
 template<class DATA>
 class data_holder
@@ -43,7 +42,7 @@ class data_holder
         data_holder(data_holder<DATA> const &obj);
         explicit data_holder(DATA const &new_data);
         virtual ~data_holder();
-        virtual int insert(DATA const &new_data);
+        virtual int add(DATA const &new_data);
         virtual int split(split_info<DATA> *temp_holder);
         int is_full() const;
         int return_data_count() const;
@@ -57,9 +56,8 @@ class data_holder
     protected:
         void clear_data(bool do_delete = false);
     private:
-        //static int sort(DATA* array, int len);
         DATA *data;
-        int data_count;
+        short data_count;
 };
 
 

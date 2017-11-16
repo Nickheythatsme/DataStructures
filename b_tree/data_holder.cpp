@@ -29,7 +29,7 @@ data_holder<DATA>::data_holder(data_holder<DATA> const &obj)
 {
     data_count = obj.data_count;
     data = new DATA[MAX_DATA];
-    for(int i = 0; i < data_count; ++i)
+    for(short i = 0; i < data_count; ++i)
         data[i] = obj.data[i];
 }
 
@@ -45,9 +45,9 @@ data_holder<DATA>::~data_holder()
 template<class DATA>
 int data_holder<DATA>::split(split_info<DATA> *temp_holder)
 {
-    int i = 0;
-    int middle_item = 0;
-    int last_item = MAX_DATA + 1; //index of the last item in the new array
+    size_t i = 0;
+    size_t middle_item = 0;
+    size_t last_item = MAX_DATA + 1; //index of the last item in the new array
 
     /* Create and sort a new array with ALL data */
     DATA *new_array = new DATA[last_item];
@@ -62,13 +62,13 @@ int data_holder<DATA>::split(split_info<DATA> *temp_holder)
 
     /* Get the right side of the array */
     for(i = middle_item + 1; i < last_item; ++i)
-        temp_holder->new_right->insert(new_array[i]);
+        temp_holder->new_right->add(new_array[i]);
 
 
     /* Get the left side of the array */
     this->clear_data(true);
     for(i = 0; i < middle_item; ++i)
-        this->data_holder<int>::insert(new_array[i]);
+        this->add(new_array[i]);
 
     delete[] new_array;
 
@@ -102,9 +102,9 @@ int data_holder<DATA>::return_data_count() const
     return data_count;
 }
 
-/* Insert a new data item. Returns 0 if we're full */
+/* Insert a new data item into this array. Returns 0 if we're full */
 template<class DATA>
-int data_holder<DATA>::insert(DATA const &new_data)
+int data_holder<DATA>::add(DATA const &new_data)
 {
     if(data_count >= MAX_DATA) return 0;
     data[data_count] = new_data;
@@ -117,7 +117,7 @@ int data_holder<DATA>::insert(DATA const &new_data)
 template<class DATA>
 std::ostream &data_holder<DATA>::display(std::ostream &out)
 {
-    int i = 0;
+    short i = 0;
 
     out << "(";
     for(; i < data_count; ++i) {
@@ -134,7 +134,7 @@ std::ostream &data_holder<DATA>::display(std::ostream &out)
 template<class DATA>
 int data_holder<DATA>::find(DATA const &to_compare)
 {
-    for(int i = 0; i < data_count; ++i)
+    for(short i = 0; i < data_count; ++i)
         if(to_compare == data[i])
             return 1;
     return 0;
@@ -145,19 +145,22 @@ int data_holder<DATA>::find(DATA const &to_compare)
 template<class DATA>
 int data_holder<DATA>::compare(DATA const &to_compare)
 {
-    int i = 0;
+    short i = 0;
     for(; i < data_count; ++i)
         if(to_compare < data[i])
             return i;
     return i;
 }
 
-/* Bubble sort. We don't really care much about sorting speed, there are few data items per node */
+/* Bubble sort. We don't really care much about sorting speed, 
+ * there are few data items per node.
+ * ALSO please note this uses short as index. 
+ * Long arrays obviously will not work */
 template<class DATA>
-int sort(DATA *array, int len)
+int sort(DATA *array, short len)
 {
     DATA temp;
-    int i = 0, j = 0;
+    short i = 0, j = 0;
 
     /* Nested for loops and ifs are gross but so is the bubble sort */
     for(; i < len; ++i) {
@@ -184,8 +187,4 @@ split_info<DATA>::split_info()
 template<class DATA>
 split_info<DATA>::~split_info()
 {
-    /*
-    if( new_right ) delete new_right;
-    new_right = nullptr;
-     */
 }

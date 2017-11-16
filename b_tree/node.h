@@ -18,8 +18,8 @@ class node : public data_holder<DATA>
         explicit node(data_holder<DATA> const &obj);
         ~node();
         static int insert(DATA const &new_data, node<DATA> *&root);
-        int insert(DATA const &new_data);
         std::ostream &display(std::ostream &out);
+        void clear();
     protected:
         node<DATA> *next_child(DATA const &new_data);
         std::ostream &display(std::ostream &out, size_t tabspace);
@@ -28,7 +28,6 @@ class node : public data_holder<DATA>
         int split_leaf(struct split_info<DATA> *new_struct);
         int split_internal(struct split_info<DATA> *&new_struct);
         void connect(node<DATA> *new_child, int child_index);
-        void clear();
         bool is_leaf() const;
     private:
         node<DATA> **children;
