@@ -136,7 +136,7 @@ void stack<T>::remove_nodes(void)
 }
 
 
-//Deconstructor
+//Destructor
 template <class T>
 stack<T>::~stack()
 {
@@ -184,7 +184,7 @@ bool node_stack<T>::pop(void)
     return true;
 }
 
-//View the first data in the array witout popping it off the array.
+//View the first data in the array without popping it off the array.
 template <class T>
 bool node_stack<T>::peek(T & data)
 {

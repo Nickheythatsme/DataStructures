@@ -79,7 +79,7 @@ int node<KEY, DATA>::split_leaf(struct split_info<KEY, DATA> *new_struct)
 template<class KEY, class DATA>
 int node<KEY, DATA>::split_internal(struct split_info<KEY, DATA> *&new_struct)
 {
-    int child_index;
+    short child_index;
     struct split_info<KEY, DATA> *our_struct = new split_info<KEY, DATA>;
     our_struct->new_data = new_struct->push_up_data;
 
@@ -88,12 +88,12 @@ int node<KEY, DATA>::split_internal(struct split_info<KEY, DATA> *&new_struct)
     this->split_leaf(our_struct);
     /* We need to see where the children
      * will go after we split :( */
-    child_index = data_holder<KEY, DATA>::compare(new_struct->push_up_data);
+    child_index = (short) data_holder<KEY, DATA>::compare(new_struct->push_up_data);
 
     // move the new unconnected node to the new right's leftmost child
     our_struct->new_right->connect(new_struct->new_right, 0);
     // move our children to the new node
-    for(int i = child_index + 1, j = 1; i < MAX_DEGREE; ++i, ++j) {
+    for(short i = child_index + (short)1, j = 1; i < MAX_DEGREE; ++i, ++j) {
         our_struct->new_right->connect(this->children[i], j);
         this->connect(nullptr, i);
     }
@@ -111,19 +111,19 @@ int node<KEY, DATA>::split_internal(struct split_info<KEY, DATA> *&new_struct)
 template<class KEY, class DATA>
 int node<KEY, DATA>::resolve_split(struct split_info<KEY, DATA> *&in_split)
 {
-    int child_index;
+    short child_index;
     /* Case 1: We have an incoming data and we're NOT full */
     if(!this->is_full()) {
 
         //Where will the new child go?
-        child_index = data_holder<KEY, DATA>::compare(in_split->push_up_data);
+        child_index = (short) data_holder<KEY, DATA>::compare(in_split->push_up_data);
 
         /* Shift our children to make room for new child */
         for(int i = MAX_DEGREE - 2; i > child_index; --i)
             children[i + 1] = children[i];
 
         //Connect new child
-        this->connect(in_split->new_right, child_index + 1);
+        this->connect(in_split->new_right, child_index + (short)1);
 
         //Set new_right to null again
         in_split->new_right = nullptr;
@@ -143,7 +143,7 @@ node<KEY, DATA> *node<KEY, DATA>::next_child(datum<KEY,DATA> const &new_data)
 
 /* Connect a pointer to a node to our children index */
 template<class KEY, class DATA>
-void node<KEY, DATA>::connect(node<KEY, DATA> *new_child, size_t child_index)
+void node<KEY, DATA>::connect(node<KEY, DATA> *new_child, short child_index)
 {
     this->children[child_index] = new_child;
 }

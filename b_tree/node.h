@@ -28,7 +28,7 @@ class node : public data_holder<KEY, DATA>
     protected:
         /* Display the whole subtree recursively */
         std::ostream &display(std::ostream &out, size_t tabspace);
-        /* Recusive function for inserting new data */
+        /* Recursive function for inserting new data */
         int insert(struct split_info<KEY, DATA> *&new_struct);
         /* Resolve the split from our children */
         int resolve_split(struct split_info<KEY, DATA> *&in_split);
@@ -38,7 +38,7 @@ class node : public data_holder<KEY, DATA>
          * (split_leaf plus additional children handling */
         int split_internal(struct split_info<KEY, DATA> *&new_struct);
         /* Manually connect a new node */
-        void connect(node<KEY, DATA> *new_child, size_t child_index);
+        void connect(node<KEY, DATA> *new_child, short child_index);
         /* Return true if we have no children */
         bool is_leaf() const;
     private:

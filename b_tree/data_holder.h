@@ -19,7 +19,7 @@
 template<class KEY, class DATA>
 class node;
 
-/* Struct used for splitting and inserting data. */
+/* struct used for splitting and inserting data. */
 template<class KEY, class DATA>
 struct split_info
 {

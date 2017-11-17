@@ -3,7 +3,7 @@
 //
 /*
  * This class just handles a single data point. It's a lot easier to handle keys and data when they're one object
- * so thats why we need this class. It essentially just uses operators and not much else
+ * so that's why we need this class. It essentially just uses operators and not much else
  */
 
 #include <ostream>

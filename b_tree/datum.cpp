@@ -103,7 +103,7 @@ void datum<KEY,DATA>::set_data(const DATA &new_data)
     data = new_data;
 }
 
-/* Manually retrieve the data, since assignemnt operators for other data types are not allowed */
+/* Manually retrieve the data, since assignment operators for other data types are not allowed */
 template<class KEY,class DATA>
 void datum<KEY,DATA>::get_data(DATA& to_return) const
 {

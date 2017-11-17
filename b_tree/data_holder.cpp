@@ -61,7 +61,7 @@ int data_holder<KEY, DATA>::split(split_info<KEY, DATA> *temp_holder)
     temp_holder->push_up_data = new_array[middle_item];
 
     /* Get the right side of the array */
-    for(i = middle_item + 0x1; i < last_item; ++i)
+    for(i = middle_item + (short)1; i < last_item; ++i)
         temp_holder->new_right->add(new_array[i]);
 
 

@@ -19,7 +19,7 @@ queue<DATA>::queue(const queue<DATA>& to_copy)
 }
 
 /* Find the tail after copying the LLL of the other queue. It kills me to not
- * do this recursively but it seems like calling this function repeatidly will
+ * do this recursively but it seems like calling this function repeatedly will
  * be more work than doing it iteratively, when all we need to do is traversal
  *
  * Returns nothing. Finds the tail of the LLL */

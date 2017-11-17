@@ -75,7 +75,7 @@ void test_datum()
 {
     //datum<string, string> datum1;
     //datum<string, string> datum2;
-    int retreive = 0;
+    int to_return = 0;
     datum<int, int> datum1(1,1);
     datum<int, int> datum2(2,2);
     datum<int, int> datum3(3,3);
@@ -92,6 +92,6 @@ void test_datum()
     datum1 = datum3;
     cout << datum1 << endl; //3
 
-    datum1.get_data(retreive);
-    cout << retreive << endl; //3
+    datum1.get_data(to_return);
+    cout << to_return << endl; //3
 }

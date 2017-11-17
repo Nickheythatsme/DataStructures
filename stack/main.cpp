@@ -1,5 +1,5 @@
 #include "stack.h"
-#include <string.h>
+#include <cstring>
 #define TEMP 2000
 using namespace std;
 
@@ -10,16 +10,16 @@ using namespace std;
 #define MAX_ITER 1000 /*Stands for iterations*/
 
 //Test the stack
-bool lite_stack_test(void);
+bool lite_stack_test();
 //Deep test the stack
-bool deep_stack_test(void);
+bool deep_stack_test();
 //Make a random word
 char * random_word(int max = WORD_LEN);
 //Test push/pop
 bool test_pop(stack<char> & test_stack);
 bool test_push(stack<char> & test_stack);
 
-bool test_node(void);
+bool test_node();
 
 int main(int argc, char * argv[])
 {
@@ -34,7 +34,7 @@ int main(int argc, char * argv[])
 }
 
 //Test the stack
-bool lite_stack_test(void)
+bool lite_stack_test()
 {
     stack<char> test_stack(10);
     char temp;
@@ -60,7 +60,7 @@ bool lite_stack_test(void)
 
 
 //Deep test the stack.
-bool deep_stack_test(void)
+bool deep_stack_test()
 {
     srand( clock() );
     stack<char> test_stack(STACK_SIZE);
@@ -131,7 +131,7 @@ char * random_word(int max)
 }
 
 //Test the node used by the stack
-bool test_node(void)
+bool test_node()
 {
     node_stack<char> test_node(1000);
     node_stack<char> test_node2(10);
