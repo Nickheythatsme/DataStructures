@@ -6,7 +6,7 @@
 
 #include <iostream>
 //TODO incorporate datum class
-//#include "datum.h"
+#include "datum.h"
 
 #define MAX_DEGREE 4
 #define MAX_DATA (MAX_DEGREE - 1)
@@ -16,46 +16,46 @@
 
 
 /* Forward declaration */
-template<class DATA>
+template<class KEY, class DATA>
 class node;
 
 /* Struct used for splitting and inserting data. */
-template<class DATA>
+template<class KEY, class DATA>
 struct split_info
 {
     split_info();
     ~split_info(); /* We do NOT delete new_right if it exists. Other nodes will have taken it and will delete it on their own */
-    DATA new_data; /* Data incoming from the insert. Exists whether there is a split or not */
-    DATA push_up_data; /* Data that is pushed up after a split */
-    node<DATA> *new_right; /* The new right node */
+    datum<KEY,DATA> new_data; /* Data incoming from the insert. Exists whether there is a split or not */
+    datum<KEY,DATA> push_up_data; /* Data that is pushed up after a split */
+    node<KEY, DATA> *new_right; /* The new right node */
 };
 
-template<class DATA>
+template<class KEY, class DATA>
 int sort(DATA *array, short len);//Bubble sort the array.
 
-template<class DATA>
+template<class KEY, class DATA>
 class data_holder
 {
     protected:
         data_holder();
-        data_holder(data_holder<DATA> const &obj);
-        explicit data_holder(DATA const &new_data);
+        data_holder(data_holder<KEY, DATA> const &obj);
+        explicit data_holder(datum<KEY,DATA> const &new_data);
         virtual ~data_holder();
-        virtual int add(DATA const &new_data);
+        virtual int add(datum<KEY,DATA> const &new_data);
         /* Split ourselves and sort out left, middle, and right data */
-        virtual int split(split_info<DATA> *temp_holder);
+        virtual int split(split_info<KEY, DATA> *temp_holder);
         int is_full() const;
         int return_data_count() const;
         /* Test if the to_compare variable is in this array.
          * Returns 1 if the value is in this array, 0 if it is not */
-        int find(DATA const &to_compare);
+        int find(datum<KEY,DATA> const &to_compare);
         /* Test to see where this data would be if it was in the array.
          * Returns the index of the first array value which is lower than the test value */
-        int compare(DATA const &to_compare);
+        int compare(datum<KEY,DATA> const &to_compare);
         virtual std::ostream &display(std::ostream &out);
         void clear_data();//Sets data_count to 0
     private:
-        DATA *data;
+        datum<KEY,DATA> *data;
         short data_count;
 };
 

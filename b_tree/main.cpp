@@ -13,20 +13,14 @@ using std::cout;
 using std::endl;
 
 /* Node functions */
-void test_insert_planned();
 void test_insert_rand();
 void test_datum();
 
 int main(int argc, char *argv[])
 {
-    test_datum();
-    /*
-    if( argc > 1 && !strncmp(argv[1],"--rand",6) )
+    for(int i = 0; i < 5; ++i)
         test_insert_rand();
-    else
-        test_insert_planned();
-    cout << "sizeof a node: " << sizeof(node<int>) << endl;
-     */
+    cout << "sizeof a node: " << sizeof(node<int,int>) << endl;
 
     return 0;
 }
@@ -38,7 +32,10 @@ int main(int argc, char *argv[])
 
 void test_insert_rand()
 {
-    auto *root = new node<int>;
+    //TODO fix node declarations
+    auto *root = new node<int,int>;
+    int temp = 0;
+    datum<int,int> temp_datum(0,0);
     std::default_random_engine generator;
     std::uniform_int_distribution<int> distribution(0,1000);
 
@@ -50,8 +47,11 @@ void test_insert_rand()
     /* Start test */
     for(int j = 0; j < ITERATIONS; ++j)
     {
+        temp = distribution(generator);
+        temp_datum.set_data(temp);
+        temp_datum.set_key(temp);
         for(int i = 0; i < SIZE; ++i)
-            node<int>::insert(distribution(generator), root);
+            node<int,int>::insert(temp_datum, root);
         root -> clear();
     }
 
@@ -68,26 +68,6 @@ void test_insert_rand()
 
 #undef SIZE
 #undef ITERATIONS
-
-#define MAX 100
-#define LEN 11
-void test_insert_planned()
-{
-    auto *root = new node<int>;
-    int data[] = {100,90,110,80,120,70,130,60,140,50,150};
-
-    for(int i = 0; i < LEN; ++i) {
-        cout << i+1 << ") Inserting: " << data[i] << endl;
-        node<int>::insert(data[i], root);
-        root->display(cout);
-        cout << endl << endl;
-    }
-    root -> clear();
-    delete root;
-}
-
-#undef LEN
-#undef MAX
 
 
 using std::string;
