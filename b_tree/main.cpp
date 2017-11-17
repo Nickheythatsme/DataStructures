@@ -6,6 +6,8 @@
 #include <random>
 #include <cstring>
 #include <sys/time.h>
+#include <string>
+#include "datum.h"
 
 using std::cout;
 using std::endl;
@@ -13,14 +15,18 @@ using std::endl;
 /* Node functions */
 void test_insert_planned();
 void test_insert_rand();
+void test_datum();
 
 int main(int argc, char *argv[])
 {
+    test_datum();
+    /*
     if( argc > 1 && !strncmp(argv[1],"--rand",6) )
         test_insert_rand();
     else
         test_insert_planned();
     cout << "sizeof a node: " << sizeof(node<int>) << endl;
+     */
 
     return 0;
 }
@@ -37,12 +43,12 @@ void test_insert_rand()
     std::uniform_int_distribution<int> distribution(0,1000);
 
     /* Record the time of execution */
-    struct timeval tf, ti;
-    unsigned long timems=0;
-    gettimeofday(&ti,NULL);
+    struct timeval tf{}, ti{};
+    time_t timems=0;
+    gettimeofday(&ti,nullptr);
 
     /* Start test */
-    for(int i = 0; i < ITERATIONS; ++i)
+    for(int j = 0; j < ITERATIONS; ++j)
     {
         for(int i = 0; i < SIZE; ++i)
             node<int>::insert(distribution(generator), root);
@@ -50,7 +56,7 @@ void test_insert_rand()
     }
 
     /* Output results */
-    gettimeofday(&tf,NULL);
+    gettimeofday(&tf,nullptr);
     timems=(tf.tv_sec*1000+tf.tv_usec/1000) - (ti.tv_sec*1000+ti.tv_usec/1000);
     cout << "Amount of data: " << SIZE << endl
          << "Iterations: " << ITERATIONS << endl
@@ -83,3 +89,29 @@ void test_insert_planned()
 #undef LEN
 #undef MAX
 
+
+using std::string;
+void test_datum()
+{
+    //datum<string, string> datum1;
+    //datum<string, string> datum2;
+    int retreive = 0;
+    datum<int, int> datum1(1,1);
+    datum<int, int> datum2(2,2);
+    datum<int, int> datum3(3,3);
+    datum<int, int> datum3b(3,3);
+
+    cout << (datum1 < datum2) << endl    //1
+         << (datum1 <= datum2) << endl   //1
+         << (datum1 > datum2) << endl    //0
+         << (datum1 == datum2) << endl   //0
+         << (datum3 == datum3b) << endl  //1
+         << (datum3 >= datum2) << endl   //1
+         << (datum3 >= datum3b) << endl  //1
+         << (datum3 <= datum3b) << endl; //1
+    datum1 = datum3;
+    cout << datum1 << endl; //3
+
+    datum1.get_data(retreive);
+    cout << retreive << endl; //3
+}

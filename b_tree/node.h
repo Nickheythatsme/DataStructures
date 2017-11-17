@@ -3,7 +3,6 @@
 //
 #include "data_holder.h"
 
-
 #ifdef SENTIMENTANALYSIS_B_TREE_H
 #ifndef SENTIMENTANALYSIS_NODE_H
 #define SENTIMENTANALYSIS_NODE_H
@@ -17,16 +16,16 @@ class node : public data_holder<DATA>
         explicit node(DATA const &obj);
         explicit node(data_holder<DATA> const &obj);
         ~node();
-        /* Insert new data (wrapper), 
+        /* Insert new data (wrapper),
          * and move root if we get a new root (not wrapper) */
         static int insert(DATA const &new_data, node<DATA> *&root);
         /* Display the whole subtree (wrapper) */
         std::ostream &display(std::ostream &out);
+        /* Determine what the next child is based on the data. Returns -1 if something is wrong */
+        node<DATA> *next_child(DATA const &new_data);
+        /* Remove all nodes in this subtree */
         void clear();
     protected:
-        /* Determine what the next child is based on the data. Returns -1 if 
-         * something is wrong... */
-        node<DATA> *next_child(DATA const &new_data);
         /* Display the whole subtree recursively */
         std::ostream &display(std::ostream &out, size_t tabspace);
         /* Recusive function for inserting new data */
@@ -50,4 +49,4 @@ class node : public data_holder<DATA>
 #include "node.cpp"
 
 #endif //SENTIMENTANALYSIS_NODE_H
-#endif
+#endif //SENTIMENTANALYSIS_B_TREE_H
