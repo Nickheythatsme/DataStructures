@@ -7,6 +7,7 @@
 #include <cstring>
 #include <sys/time.h>
 #include <string>
+#include <fstream>
 #include "datum.h"
 
 using std::cout;
@@ -15,15 +16,76 @@ using std::endl;
 /* Node functions */
 void test_insert_rand();
 void test_datum();
+void O();
 
 int main(int argc, char *argv[])
 {
-    for(int i = 0; i < 5; ++i)
-        test_insert_rand();
-    cout << "sizeof a node: " << sizeof(node<int,int>) << endl;
+    //test_insert_rand();
+    O();
+    //cout << "sizeof a node: " << sizeof(node<int,int>) << endl;
 
     return 0;
 }
+
+/* BIG O for the following features:
+ *
+ * insertion
+ * finding
+ * deleting
+ * clearing
+ */
+
+time_t O_insertion(int data_size)
+{
+    auto *root = new node<int,int>;
+    int temp = 0;
+    datum<int,int> temp_datum(0,0);
+    std::default_random_engine generator;
+    std::uniform_int_distribution<int> distribution(0,1000);
+
+    /* Record the time of execution */
+    struct timeval tf{}, ti{};
+    time_t timems=0;
+    gettimeofday(&ti,nullptr);
+
+    /* Start test */
+
+    for(int i = 0; i < data_size; ++i)
+    {
+        temp = distribution(generator);
+        temp_datum.set_data(temp);
+        temp_datum.set_key(temp);
+        node<int,int>::insert(temp_datum, root);
+    }
+
+    /* Output results */
+    gettimeofday(&tf,nullptr);
+    timems=(tf.tv_sec*1000+tf.tv_usec/1000) - (ti.tv_sec*1000+ti.tv_usec/1000);
+    root -> clear();
+    delete root;
+    return timems;
+}
+
+#define ITERATIONS 10000
+#define INCREMENT 100
+void O()
+{
+    int data_size = INCREMENT;
+    std::ofstream fout("results.txt");
+    time_t result;
+
+    for(int i = 0; i < ITERATIONS; ++i)
+    {
+        result = O_insertion(data_size);
+        fout << i << "," << data_size << "," << result << endl;
+        cout << i << "," << data_size << "," << result << endl;
+        data_size += INCREMENT;
+    }
+    return;
+}
+
+#undef ITERATIONS
+#undef INCREMENT
 
 
 /* NODE TESTS */
@@ -47,11 +109,13 @@ void test_insert_rand()
     /* Start test */
     for(int j = 0; j < ITERATIONS; ++j)
     {
-        temp = distribution(generator);
-        temp_datum.set_data(temp);
-        temp_datum.set_key(temp);
         for(int i = 0; i < SIZE; ++i)
+        {
+            temp = distribution(generator);
+            temp_datum.set_data(temp);
+            temp_datum.set_key(temp);
             node<int,int>::insert(temp_datum, root);
+        }
         root -> clear();
     }
 
