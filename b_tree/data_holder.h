@@ -5,12 +5,15 @@
 // insertion, and compares to incoming data points 
 
 #include <iostream>
+//TODO incorporate datum class
+//#include "datum.h"
 
 #define MAX_DEGREE 4
 #define MAX_DATA (MAX_DEGREE - 1)
 
 #ifndef SENTIMENTANALYSIS_B_TREE_H
 #define SENTIMENTANALYSIS_B_TREE_H
+
 
 /* Forward declaration */
 template<class DATA>
@@ -28,7 +31,7 @@ struct split_info
 };
 
 template<class DATA>
-int sort(DATA *array, short len);//Bubble sort the array. 
+int sort(DATA *array, short len);//Bubble sort the array.
 
 template<class DATA>
 class data_holder

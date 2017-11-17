@@ -75,7 +75,7 @@ int data_holder<DATA>::split(split_info<DATA> *temp_holder)
     return 1;
 }
 
-/* Sets data_count to 0. It's the same as delete the array IF DATA has an 
+/* Sets data_count to 0. It's the same as delete the array IF DATA has an
  * assignment operator! */
 template<class DATA>
 void data_holder<DATA>::clear_data()
@@ -148,9 +148,9 @@ int data_holder<DATA>::compare(DATA const &to_compare)
     return i;
 }
 
-/* Bubble sort. We don't really care much about sorting speed, 
+/* Bubble sort. We don't really care much about sorting speed,
  * there are few data items per node.
- * ALSO please note this uses short as index. 
+ * ALSO please note this uses short as index.
  * Long arrays obviously will not work */
 template<class DATA>
 int sort(DATA *array, short len)
