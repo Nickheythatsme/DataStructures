@@ -72,6 +72,7 @@ void O(int iterations)
     std::ofstream fout(FILEOUT);
     time_t result;
 
+    cout << "Testing for BST" << endl;
     fout << "Testing for BST" << endl;
 
     for(int i = 0; i < iterations; ++i)
