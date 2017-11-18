@@ -19,15 +19,15 @@ class node : public data_holder<KEY, DATA>
         /* Insert new data (wrapper),
          * and move root if we get a new root (not wrapper) */
         static int insert(datum<KEY,DATA> const &new_data, node<KEY, DATA> *&root);
-        /* Display the whole subtree (wrapper) */
-        std::ostream &display(std::ostream &out);
-        /* Determine what the next child is based on the data. Returns -1 if something is wrong */
-        node<KEY, DATA> *next_child(datum<KEY,DATA> const &new_data);
         /* Remove all nodes in this subtree */
         void clear();
+        /* Return true if we have no children */
+        bool is_leaf() const;
+        /* Find data recursively */
+        datum<KEY,DATA>* find(KEY const &to_find, const node<KEY,DATA> *root);
     protected:
-        /* Display the whole subtree recursively */
-        std::ostream &display(std::ostream &out, size_t tabspace);
+        /* Determine what the next child is based on the data. Returns -1 if something is wrong */
+        node<KEY, DATA> *next_child(datum<KEY,DATA> const &new_data);
         /* Recursive function for inserting new data */
         int insert(struct split_info<KEY, DATA> *&new_struct);
         /* Resolve the split from our children */
@@ -39,8 +39,6 @@ class node : public data_holder<KEY, DATA>
         int split_internal(struct split_info<KEY, DATA> *&new_struct);
         /* Manually connect a new node */
         void connect(node<KEY, DATA> *new_child, short child_index);
-        /* Return true if we have no children */
-        bool is_leaf() const;
     private:
         node<KEY, DATA> **children; /* Array to hold our children */
 };

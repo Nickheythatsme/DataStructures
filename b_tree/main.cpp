@@ -7,23 +7,29 @@
 #include <cstring>
 #include <sys/time.h>
 #include <fstream>
-#include "datum.h"
+
+#include <mutex>
 
 using std::cout;
 using std::endl;
 
-
-#define ITERATIONS 10000
-#define INCREMENT 100
+#define INCREMENT 100 //Value by which the data size increases each iteration
 
 char FILEOUT[] = "b_tree_results.csv";
 
 /* Testing Tree functions */
-void O();
+void O(int i);
 
 int main(int argc, char *argv[])
 {
-    O();
+    int iterations;
+    if( argc != 2 )
+    {
+        cout << "Usage: ./b_tree [ITERATIONS]" << endl;
+        return 1;
+    }
+    sscanf(argv[1],"%d",&iterations);
+    O(iterations);
     return 0;
 }
 
@@ -70,13 +76,13 @@ time_t O_insertion(int data_size)
     return timems;
 }
 
-void O()
+void O(int iterations)
 {
     int data_size = INCREMENT;
     std::ofstream fout(FILEOUT);
     time_t result;
 
-    for(int i = 0; i < ITERATIONS; ++i)
+    for(int i = 0; i < iterations; ++i)
     {
         result = O_insertion(data_size);
         fout << i << "," << data_size << "," << result << endl;
@@ -84,8 +90,6 @@ void O()
         data_size += INCREMENT;
     }
     fout.close();
-    return;
 }
 
-#undef ITERATIONS
 #undef INCREMENT

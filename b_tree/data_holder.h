@@ -47,12 +47,11 @@ class data_holder
         int is_full() const;
         int return_data_count() const;
         /* Test if the to_compare variable is in this array.
-         * Returns 1 if the value is in this array, 0 if it is not */
-        int find(datum<KEY,DATA> const &to_compare);
+         * Returns a ptr to a copy of the value if it's in this array, nullptr if it is not */
+        datum<KEY,DATA>* find(KEY const &to_compare) const;
         /* Test to see where this data would be if it was in the array.
          * Returns the index of the first array value which is lower than the test value */
         int compare(datum<KEY,DATA> const &to_compare);
-        virtual std::ostream &display(std::ostream &out);
         void clear_data();//Sets data_count to 0
     private:
         datum<KEY,DATA> *data;

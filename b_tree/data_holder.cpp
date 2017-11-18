@@ -109,31 +109,14 @@ int data_holder<KEY, DATA>::add(datum<KEY,DATA> const &new_data)
     return data_count;
 }
 
-/* Used for debugging only */
-template<class KEY, class DATA>
-std::ostream &data_holder<KEY, DATA>::display(std::ostream &out)
-{
-    short i = 0;
-
-    out << "(";
-    for(; i < data_count; ++i) {
-        out << data[i];
-        if(i < data_count - 1)
-            out << ", ";
-    }
-    out << ")" << std::endl;
-
-    return out;
-}
-
 /* Test to see if data is in this node. Returns 1 if is is, 0 if it is not */
 template<class KEY, class DATA>
-int data_holder<KEY, DATA>::find(datum<KEY,DATA> const &to_compare)
+datum<KEY,DATA>* data_holder<KEY, DATA>::find(KEY const &to_compare) const
 {
     for(short i = 0; i < data_count; ++i)
-        if(to_compare == data[i])
-            return 1;
-    return 0;
+        if(data[i] == to_compare)
+            return new datum<KEY,DATA>(data[i]);
+    return nullptr;
 }
 
 /* COMPARES to another data point. Returns the index of the first data point in the array

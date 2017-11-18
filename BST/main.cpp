@@ -19,11 +19,11 @@ using std::endl;
 char FILEOUT[] = "BST_results.csv";
 
 /* Testing Tree functions */
-void O();
+void O(int i);
 
 int main()
 {
-    O();
+    O(0);
     return 0;
 }
 
@@ -61,7 +61,7 @@ time_t O_insertion(int data_size)
 }
 
 
-void O()
+void O(int i)
 {
     int data_size = INCREMENT;
     std::ofstream fout(FILEOUT);

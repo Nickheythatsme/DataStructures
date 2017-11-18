@@ -2,28 +2,10 @@
 // Created by Nick Grout on 10/29/17.
 //
 #include "node.h"
-
+/* Recursively find a node in the sub tree */
 template<class KEY, class DATA>
-std::ostream &node<KEY, DATA>::display(std::ostream &out)
+datum<KEY,DATA>* node<KEY,DATA>::find(KEY const &to_find,const node<KEY,DATA> *root)
 {
-    return display(out, 0);
-}
-
-template<class KEY, class DATA>
-std::ostream &node<KEY, DATA>::display(std::ostream &out, size_t tabspace)
-{
-    for(size_t i = 0; i < tabspace; ++i)
-        out << "  ";
-    data_holder<KEY, DATA>::display(out);
-
-    ++tabspace;
-    for(int i = 0; i < MAX_DEGREE; ++i) {
-        if(children[i]) {
-            out << i << ":" << tabspace;
-            children[i]->display(out, tabspace);
-        }
-    }
-    return out;
 }
 
 //Static
