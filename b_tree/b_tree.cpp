@@ -5,11 +5,30 @@
 #include "b_tree.h"
 
 template<class KEY,class DATA>
-b_tree<KEY,DATA>::b_tree()
+int b_tree<KEY,DATA>::insert(const KEY& key, const DATA& data)
 {
-    root = nullptr;
+    lock_guard<mutex> guard2(this -> t_lock);
+
+    datum<KEY,DATA> to_insert(key,data);
+    return node<KEY,DATA>::insert(to_insert,root);
 }
 
+template<class KEY,class DATA>
+int b_tree<KEY,DATA>::insert(const datum<KEY,DATA>& to_insert)
+{
+    lock_guard<mutex> guard2(this -> t_lock);
+
+    return node<KEY,DATA>::insert(to_insert,root);
+}
+
+/* CONSTRUCTOR */
+template<class KEY,class DATA>
+b_tree<KEY,DATA>::b_tree()
+{
+    root = new node<KEY,DATA>;
+}
+
+/* COPY CONSTRUCTOR */
 template<class KEY,class DATA>
 b_tree<KEY,DATA>::b_tree(const b_tree<KEY, DATA> &obj)
 {
@@ -17,26 +36,21 @@ b_tree<KEY,DATA>::b_tree(const b_tree<KEY, DATA> &obj)
     lock_guard<mutex> guard1(obj.t_lock);
     lock_guard<mutex> guard2(this -> t_lock);
 
-    if(obj.root)
-        root = new node<KEY,DATA>(*obj.root);
-    else
-        root = nullptr;
+    root = new node<KEY,DATA>(*obj.root);
 }
 
+/* DESTRUCTOR */
 template<class KEY,class DATA>
 b_tree<KEY,DATA>::~b_tree()
 {
     lock_guard<mutex> guard(this -> t_lock);
-    if(root)
-        root -> clear();
+    root -> clear();
     delete root;
 }
 
 template<class KEY,class DATA>
 DATA b_tree<KEY,DATA>::lowest()
 {
-    lock_guard<mutex> guard(this -> t_lock);
-
     return nullptr;
 }
 

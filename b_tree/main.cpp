@@ -2,20 +2,18 @@
 // Created by Nick Grout on 10/29/17.
 //
 
-#include "node.h"
+#include "b_tree.h"
 #include <random>
-#include <cstring>
 #include <sys/time.h>
 #include <fstream>
-
-#include <mutex>
+#include <iostream>
 
 using std::cout;
 using std::endl;
 
-#define INCREMENT 100 //Value by which the data size increases each iteration
+#define MAX_DATA_SIZE 100000 //Maximum data size to test
 
-char FILEOUT[] = "b_tree_results.csv";
+static char FILEOUT[] = "b_tree_results.csv";
 
 /* Testing Tree functions */
 void O(int i);
@@ -40,10 +38,9 @@ int main(int argc, char *argv[])
  * deleting
  * clearing
  */
-
 time_t O_insertion(int data_size)
 {
-    auto *root = new node<int,int>;
+    b_tree<int,int> b_test;
     datum<int,int> datum_array[data_size];
 
     int temp;
@@ -66,19 +63,18 @@ time_t O_insertion(int data_size)
 
     /* Start test */
     for(int i = 0; i < data_size; ++i)
-        node<int,int>::insert(datum_array[i], root);
+        b_test.insert(datum_array[i]);
 
     /* Output results */
     gettimeofday(&tf,nullptr);
     timems=(tf.tv_sec*1000+tf.tv_usec/1000) - (ti.tv_sec*1000+ti.tv_usec/1000);
-    root -> clear();
-    delete root;
     return timems;
 }
 
 void O(int iterations)
 {
-    int data_size = INCREMENT;
+    int increment = MAX_DATA_SIZE / iterations;
+    int data_size = increment;
     std::ofstream fout(FILEOUT);
     time_t result;
 
@@ -87,7 +83,7 @@ void O(int iterations)
         result = O_insertion(data_size);
         fout << i << "," << data_size << "," << result << endl;
         cout << i << "," << data_size << "," << result << endl;
-        data_size += INCREMENT;
+        data_size += increment;
     }
     fout.close();
 }

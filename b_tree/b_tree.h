@@ -23,10 +23,14 @@ class b_tree
         DATA* sort();
         bool exists(KEY &key);
         DATA operator[](KEY &key); //Used for retrieval
+        int insert(const KEY& key, const DATA& data);
+        int insert(const datum<KEY,DATA>& to_insert);
     private:
         node<KEY,DATA> *root;
         mutex t_lock;
 };
+
+#include "b_tree.cpp"
 
 #endif //PROJECT_B_TREE_H
 
