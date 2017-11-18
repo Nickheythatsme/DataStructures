@@ -72,6 +72,8 @@ void O(int iterations)
     std::ofstream fout(FILEOUT);
     time_t result;
 
+    fout.write("Testing for BST");
+
     for(int i = 0; i < iterations; ++i)
     {
         result = O_insertion(data_size);
