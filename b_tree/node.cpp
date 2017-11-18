@@ -1,7 +1,9 @@
 //
 // Created by Nick Grout on 10/29/17.
 //
+
 #include "node.h"
+
 /* Recursively find a node in the sub tree */
 template<class KEY, class DATA>
 datum<KEY,DATA>* node<KEY,DATA>::find(KEY const &to_find,const node<KEY,DATA> *root)

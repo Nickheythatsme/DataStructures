@@ -47,11 +47,14 @@ class data_holder
         int is_full() const;
         int return_data_count() const;
         /* Test if the to_compare variable is in this array.
-         * Returns a ptr to a copy of the value if it's in this array, nullptr if it is not */
-        datum<KEY,DATA>* find(KEY const &to_compare) const;
+         * returns false if DNE, and true if it does exist. Will copy data into to_return */
+        bool get(KEY const &to_compare, DATA &to_return) const;
+        /* Test if the to_compare variable is in this array.
+         * Returns true if it does, false if it doesn't */
+        bool exists(KEY const &to_compare) const;
         /* Test to see where this data would be if it was in the array.
          * Returns the index of the first array value which is lower than the test value */
-        int compare(datum<KEY,DATA> const &to_compare);
+        int compare(datum<KEY,DATA> const &to_compare) const;
         void clear_data();//Sets data_count to 0
     private:
         datum<KEY,DATA> *data;

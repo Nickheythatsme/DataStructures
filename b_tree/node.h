@@ -25,6 +25,10 @@ class node : public data_holder<KEY, DATA>
         bool is_leaf() const;
         /* Find data recursively */
         datum<KEY,DATA>* find(KEY const &to_find, const node<KEY,DATA> *root);
+        //TODO implement
+        bool exists(const KEY &key) const;
+        //TODO implement
+        bool get(const KEY &key, DATA &to_return) const;
     protected:
         /* Determine what the next child is based on the data. Returns -1 if something is wrong */
         node<KEY, DATA> *next_child(datum<KEY,DATA> const &new_data);

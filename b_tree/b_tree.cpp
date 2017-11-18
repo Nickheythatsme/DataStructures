@@ -49,31 +49,31 @@ b_tree<KEY,DATA>::~b_tree()
 }
 
 template<class KEY,class DATA>
-DATA b_tree<KEY,DATA>::lowest()
+DATA b_tree<KEY,DATA>::lowest() const
 {
     return nullptr;
 }
 
 template<class KEY,class DATA>
-DATA b_tree<KEY,DATA>::highest()
+DATA b_tree<KEY,DATA>::highest() const
 {
     return nullptr;
 }
 
 template<class KEY,class DATA>
-DATA *b_tree<KEY,DATA>::sort()
+DATA *b_tree<KEY,DATA>::sort() const
 {
     return nullptr;
 }
 
 template<class KEY,class DATA>
-bool b_tree<KEY,DATA>::exists(KEY &key)
+bool b_tree<KEY,DATA>::exists(KEY const &key) const
 {
     return false;
 }
 
 template<class KEY,class DATA>
-DATA b_tree<KEY,DATA>::operator[](KEY &key)
+DATA b_tree<KEY,DATA>::operator[](KEY const &key) const
 {
     return nullptr;
 }

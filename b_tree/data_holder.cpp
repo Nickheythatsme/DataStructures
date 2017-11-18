@@ -111,18 +111,31 @@ int data_holder<KEY, DATA>::add(datum<KEY,DATA> const &new_data)
 
 /* Test to see if data is in this node. Returns 1 if is is, 0 if it is not */
 template<class KEY, class DATA>
-datum<KEY,DATA>* data_holder<KEY, DATA>::find(KEY const &to_compare) const
+bool data_holder<KEY,DATA>::exists(KEY const &to_compare) const
 {
     for(short i = 0; i < data_count; ++i)
         if(data[i] == to_compare)
-            return new datum<KEY,DATA>(data[i]);
-    return nullptr;
+            return true;
+    return false;
+}
+
+/* Test to see if data is in this node. Returns 1 if is is, 0 if it is not */
+template<class KEY, class DATA>
+bool data_holder<KEY,DATA>::get(KEY const &to_compare, DATA &to_return) const
+{
+    for(short i = 0; i < data_count; ++i)
+        if(data[i] == to_compare)
+        {
+            data[i].get_data(to_return);
+            return true;
+        }
+    return false;
 }
 
 /* COMPARES to another data point. Returns the index of the first data point in the array
  * that is greater than the test data point */
 template<class KEY, class DATA>
-int data_holder<KEY, DATA>::compare(datum<KEY,DATA> const &to_compare)
+int data_holder<KEY, DATA>::compare(datum<KEY,DATA> const &to_compare) const
 {
     short i = 0;
     for(; i < data_count; ++i)
