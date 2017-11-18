@@ -11,7 +11,7 @@
 using std::cout;
 using std::endl;
 
-#define MAX_DATA_SIZE 100000 //Maximum data size to test
+#define MAX_DATA_SIZE 500000 //Maximum data size to test
 
 static char FILEOUT[] = "BST_results.csv";
 
