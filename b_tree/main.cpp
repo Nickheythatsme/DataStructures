@@ -78,7 +78,7 @@ void O(int iterations)
     std::ofstream fout(FILEOUT);
     time_t result;
 
-    fout.write("Testing for b_tree");
+    fout << "Testing for b_tree" << endl;
 
     for(int i = 0; i < iterations; ++i)
     {
