@@ -7,7 +7,7 @@
 template<class KEY,class DATA>
 int b_tree<KEY,DATA>::insert(const KEY& key, const DATA& data)
 {
-    lock_guard<mutex> guard2(this -> t_lock);
+    lock_guard<mutex> guard(this -> t_lock);
 
     datum<KEY,DATA> to_insert(key,data);
     return node<KEY,DATA>::insert(to_insert,root);
@@ -16,7 +16,7 @@ int b_tree<KEY,DATA>::insert(const KEY& key, const DATA& data)
 template<class KEY,class DATA>
 int b_tree<KEY,DATA>::insert(const datum<KEY,DATA>& to_insert)
 {
-    lock_guard<mutex> guard2(this -> t_lock);
+    lock_guard<mutex> guard(this -> t_lock);
 
     return node<KEY,DATA>::insert(to_insert,root);
 }
