@@ -4,10 +4,15 @@
 
 #include "node.h"
 
-/* Recursively find a node in the sub tree */
+/* Find data recursively and return it */
 template<class KEY, class DATA>
-datum<KEY,DATA>* node<KEY,DATA>::find(KEY const &to_find,const node<KEY,DATA> *root)
+bool node<KEY,DATA>::find(KEY const &to_find, const node<KEY,DATA> *root, DATA &to_return)
 {
+    if( root -> data_holder<KEY,DATA>::find(to_find, to_return) )
+        return true;
+    if( root -> is_leaf() )
+        return false;
+    return find(to_find, root -> next_child(to_find), to_return);
 }
 
 //Static
@@ -121,6 +126,12 @@ int node<KEY, DATA>::resolve_split(struct split_info<KEY, DATA> *&in_split)
 /* Returns the pointer to the next child, depending on the data */
 template<class KEY, class DATA>
 node<KEY, DATA> *node<KEY, DATA>::next_child(datum<KEY,DATA> const &new_data)
+{
+    return children[data_holder<KEY, DATA>::compare(new_data)];
+}
+
+template<class KEY, class DATA>
+node<KEY, DATA> *node<KEY, DATA>::next_child(KEY const &new_data) const
 {
     return children[data_holder<KEY, DATA>::compare(new_data)];
 }

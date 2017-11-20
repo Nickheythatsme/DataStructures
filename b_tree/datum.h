@@ -41,9 +41,10 @@ bool operator>(const datum<KEY,DATA> &obj1, const datum<KEY,DATA> &obj2);
 template<class KEY,class DATA>
 bool operator>(const datum<KEY,DATA> &obj1, const KEY &obj2);
 
-/* Shift operators */
 template<class KEY,class DATA>
 std::ostream& operator<<(std::ostream& out, const datum<KEY,DATA> obj);
+
+/* Assignment operators */
 
 template<class KEY,class DATA>
 class datum

@@ -9,6 +9,7 @@ int b_tree<KEY,DATA>::insert(const KEY& key, const DATA& data)
 {
     lock_guard<mutex> guard(this -> t_lock);
 
+    ++total;
     datum<KEY,DATA> to_insert(key,data);
     return node<KEY,DATA>::insert(to_insert,root);
 }
@@ -18,6 +19,7 @@ int b_tree<KEY,DATA>::insert(const datum<KEY,DATA>& to_insert)
 {
     lock_guard<mutex> guard(this -> t_lock);
 
+    ++total;
     return node<KEY,DATA>::insert(to_insert,root);
 }
 
@@ -25,7 +27,9 @@ int b_tree<KEY,DATA>::insert(const datum<KEY,DATA>& to_insert)
 template<class KEY,class DATA>
 b_tree<KEY,DATA>::b_tree()
 {
+    lock_guard<mutex> guard(this -> t_lock);
     root = new node<KEY,DATA>;
+    total = 0;
 }
 
 /* COPY CONSTRUCTOR */
@@ -37,6 +41,7 @@ b_tree<KEY,DATA>::b_tree(const b_tree<KEY, DATA> &obj)
     lock_guard<mutex> guard2(this -> t_lock);
 
     root = new node<KEY,DATA>(*obj.root);
+    total = 0;
 }
 
 /* DESTRUCTOR */
@@ -49,32 +54,14 @@ b_tree<KEY,DATA>::~b_tree()
 }
 
 template<class KEY,class DATA>
-DATA b_tree<KEY,DATA>::lowest() const
-{
-    return nullptr;
-}
-
-template<class KEY,class DATA>
-DATA b_tree<KEY,DATA>::highest() const
-{
-    return nullptr;
-}
-
-template<class KEY,class DATA>
 DATA *b_tree<KEY,DATA>::sort() const
 {
     return nullptr;
 }
 
 template<class KEY,class DATA>
-bool b_tree<KEY,DATA>::exists(KEY const &key) const
+bool b_tree<KEY,DATA>::find(KEY const &key, DATA &to_return)
 {
-    return false;
+    lock_guard<mutex> guard(this -> t_lock);
+    return node<KEY,DATA>::find(key, root, to_return);
 }
-
-template<class KEY,class DATA>
-DATA b_tree<KEY,DATA>::operator[](KEY const &key) const
-{
-    return nullptr;
-}
-

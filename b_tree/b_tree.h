@@ -18,16 +18,14 @@ class b_tree
         b_tree();
         b_tree(const b_tree<KEY,DATA> &obj);
         ~b_tree();
-        DATA lowest() const;
-        DATA highest() const;
         DATA* sort() const;
-        bool exists(KEY const &key) const;
-        DATA operator[](KEY const &key) const; //Used for retrieval
+        bool find(KEY const &key, DATA &to_return);
         int insert(const KEY& key, const DATA& data);
         int insert(const datum<KEY,DATA>& to_insert);
     private:
         node<KEY,DATA> *root;
         mutex t_lock;
+        long total;
 };
 
 #include "b_tree.cpp"

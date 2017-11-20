@@ -24,14 +24,11 @@ class node : public data_holder<KEY, DATA>
         /* Return true if we have no children */
         bool is_leaf() const;
         /* Find data recursively */
-        datum<KEY,DATA>* find(KEY const &to_find, const node<KEY,DATA> *root);
-        //TODO implement
-        bool exists(const KEY &key) const;
-        //TODO implement
-        bool get(const KEY &key, DATA &to_return) const;
+        bool static find(KEY const &to_find, const node<KEY,DATA> *root, DATA &to_return);
     protected:
         /* Determine what the next child is based on the data. Returns -1 if something is wrong */
         node<KEY, DATA> *next_child(datum<KEY,DATA> const &new_data);
+        node<KEY, DATA> *next_child(KEY const &to_compare) const;
         /* Recursive function for inserting new data */
         int insert(struct split_info<KEY, DATA> *&new_struct);
         /* Resolve the split from our children */

@@ -111,17 +111,7 @@ int data_holder<KEY, DATA>::add(datum<KEY,DATA> const &new_data)
 
 /* Test to see if data is in this node. Returns 1 if is is, 0 if it is not */
 template<class KEY, class DATA>
-bool data_holder<KEY,DATA>::exists(KEY const &to_compare) const
-{
-    for(short i = 0; i < data_count; ++i)
-        if(data[i] == to_compare)
-            return true;
-    return false;
-}
-
-/* Test to see if data is in this node. Returns 1 if is is, 0 if it is not */
-template<class KEY, class DATA>
-bool data_holder<KEY,DATA>::get(KEY const &to_compare, DATA &to_return) const
+bool data_holder<KEY,DATA>::find(KEY const &to_compare, DATA &to_return) const
 {
     for(short i = 0; i < data_count; ++i)
         if(data[i] == to_compare)
@@ -144,6 +134,16 @@ int data_holder<KEY, DATA>::compare(datum<KEY,DATA> const &to_compare) const
     return i;
 }
 
+template<class KEY, class DATA>
+int data_holder<KEY, DATA>::compare(KEY const &to_compare) const
+{
+    short i = 0;
+    for(; i < data_count; ++i)
+        if(data[i] > to_compare)
+            return i;
+    return i;
+}
+
 /* Bubble sort. We don't really care much about sorting speed,
  * there are few data items per node.
  * ALSO please note this uses short as index.
@@ -154,7 +154,7 @@ int sort(datum<KEY,DATA> *array, short len)
     datum<KEY,DATA> temp;
     short i = 0, j = 0;
 
-    /* Nested for loops and ifs are gross but so is the bubble sort */
+    /* Nested for loops are gross but so is the bubble sort */
     for(; i < len; ++i) {
         j = i;
         for(; j < len; ++j) {
