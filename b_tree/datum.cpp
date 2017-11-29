@@ -11,6 +11,11 @@ datum<KEY,DATA>::datum(const KEY &new_key, const DATA &new_data)
     key = new_key;
     data = new_data;
 }
+template<class KEY,class DATA>
+std::ostream &datum<KEY,DATA>::display(std::ostream &out)
+{
+    out << key;
+}
 
 /* ASSIGNMENT OPERATOR */
 template<class KEY,class DATA>

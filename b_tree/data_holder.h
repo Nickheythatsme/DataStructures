@@ -5,7 +5,6 @@
 // insertion, and compares to incoming data points 
 
 #include <iostream>
-//TODO incorporate datum class
 #include "datum.h"
 
 #define MAX_DEGREE 4
@@ -42,6 +41,7 @@ class data_holder
         explicit data_holder(datum<KEY,DATA> const &new_data);
         virtual ~data_holder();
         virtual int add(datum<KEY,DATA> const &new_data);
+        std::ostream &display(std::ostream &out);
         /* Split ourselves and sort out left, middle, and right data */
         virtual int split(split_info<KEY, DATA> *temp_holder);
         int is_full() const;

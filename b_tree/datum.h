@@ -54,6 +54,7 @@ class datum
         datum(const KEY &new_key, const DATA &new_data);
         datum(const datum &obj) = default;
         ~datum() = default;
+        std::ostream &display(std::ostream &out);
         /* Assignment operators */
         datum<KEY,DATA>& operator=(const datum<KEY,DATA> &obj2);
         /* Relational operators */

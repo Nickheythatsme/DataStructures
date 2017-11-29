@@ -4,6 +4,20 @@
 
 #include "node.h"
 
+template<class KEY,class DATA>
+std::ostream &node<KEY,DATA>::display(std::ostream &out, int tabs)
+{
+    for(int i = 0; i < tabs; ++i)
+        out << "  ";
+    data_holder<KEY,DATA>::display(out);
+    out << std::endl;
+
+    ++tabs;
+    for(int i = 0; i < MAX_DEGREE && children[i]; ++i)
+        children[i] -> display(out, tabs);
+    return out;
+}
+
 /* Find data recursively and return it */
 template<class KEY, class DATA>
 bool node<KEY,DATA>::find(KEY const &to_find, const node<KEY,DATA> *root, DATA &to_return)

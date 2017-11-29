@@ -6,6 +6,19 @@
 
 #include "data_holder.h"
 
+template<class KEY, class DATA>
+std::ostream &data_holder<KEY,DATA>::display(std::ostream &out)
+{
+    out << "(";
+    for(int i = 0; i < data_count-1; ++i)
+        out << data[i] << ", ";
+    for(int i = 0; i < data_count; ++i)
+        out << data[i];
+    out << ")";
+
+    return out;
+}
+
 /* CONSTRUCTOR */
 template<class KEY, class DATA>
 data_holder<KEY, DATA>::data_holder()

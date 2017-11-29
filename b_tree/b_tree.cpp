@@ -54,6 +54,14 @@ b_tree<KEY,DATA>::~b_tree()
 }
 
 template<class KEY,class DATA>
+std::ostream &b_tree<KEY,DATA>::display(std::ostream &out)
+{
+    return root -> display(out,0);
+}
+
+
+//TODO finish sorting
+template<class KEY,class DATA>
 DATA *b_tree<KEY,DATA>::sort() const
 {
     return nullptr;

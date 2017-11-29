@@ -22,6 +22,7 @@ class b_tree
         bool find(KEY const &key, DATA &to_return);
         int insert(const KEY& key, const DATA& data);
         int insert(const datum<KEY,DATA>& to_insert);
+        std::ostream &display(std::ostream &out);
     private:
         node<KEY,DATA> *root;
         mutex t_lock;
