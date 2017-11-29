@@ -41,6 +41,7 @@ class node : public data_holder<KEY, DATA>
         int split_internal(struct split_info<KEY, DATA> *&new_struct);
         /* Manually connect a new node */
         void connect(node<KEY, DATA> *new_child, short child_index);
+        void swap_max(node<KEY,DATA> *&obj1, node<KEY,DATA> *&obj2);
     private:
         node<KEY, DATA> **children; /* Array to hold our children */
 };

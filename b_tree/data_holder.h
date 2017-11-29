@@ -7,7 +7,7 @@
 #include <iostream>
 #include "datum.h"
 
-#define MAX_DEGREE 4
+#define MAX_DEGREE 3
 #define MAX_DATA (MAX_DEGREE - 1)
 
 #ifndef SENTIMENTANALYSIS_B_TREE_H
@@ -35,7 +35,9 @@ int sort(DATA *array, short len);//Bubble sort the array.
 template<class KEY, class DATA>
 class data_holder
 {
-    protected:
+    //TODO uncomment
+    //protected:
+    public:
         data_holder();
         data_holder(data_holder<KEY, DATA> const &obj);
         explicit data_holder(datum<KEY,DATA> const &new_data);
@@ -54,6 +56,7 @@ class data_holder
         int compare(datum<KEY,DATA> const &to_compare) const;
         int compare(KEY const &to_compare) const;
         void clear_data();//Sets data_count to 0
+        bool greater_than(const data_holder<KEY,DATA> &obj) const;
     private:
         datum<KEY,DATA> *data;
         short data_count;

@@ -5,15 +5,18 @@
 
 using std::cout;
 using std::endl;
+using std::cin;
 
 /* Testing Big O */
 void O(long iterations);
-void display();
+
+void test_split(int len);
+int* shuffle(int len);
 
 int main(int argc, char *argv[])
 {
-    int iterations;
     /*
+    int iterations;
     if( argc == 1 )
     {
         cout << "Usage: ./b_tree [ITERATIONS]" << endl;
@@ -22,17 +25,51 @@ int main(int argc, char *argv[])
     sscanf(argv[1],"%d",&iterations);
     O(iterations);
     */
-    display();
+
+    int len = 1;
+    sscanf(argv[1],"%d",&len);
+    test_split(len);
     return 0;
 }
 
-void display()
+int* shuffle(int len)
+{
+    auto *array = new int[len];
+    int temp_i;
+    int temp_v;
+    srand(1);
+
+    for(int i = 0; i < len; ++i)
+        array[i] = i;
+
+    for(int i = 0; i < len; ++i)
+    {
+        temp_i = rand() % len;
+
+        temp_v = array[i];
+        array[i] = array[temp_i];
+        array[temp_i] = temp_v;
+    }
+
+    return array;
+}
+
+void test_split(int len)
 {
     b_tree<int,int> tree;
-    srand(clock());
+    int *array = shuffle(len);
+    int i = 0;
 
-    for(int i = 0; i < 100;++i)
-        tree.insert(rand() % 100, i);
-    tree.display(cout);
-    return;
+
+    for(; i < len; ++i)
+        cout << i << ") " << array[i] << endl;
+    cout << endl;
+
+    cin.get();
+    for(i = 0; i < len; ++i)
+    {
+        cout << i << ") Inserting: " << array[i] << endl;
+        tree.insert(array[i], 1);
+        tree.display(cout);
+    }
 }

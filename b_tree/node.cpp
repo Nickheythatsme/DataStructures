@@ -86,21 +86,22 @@ int node<KEY, DATA>::split_internal(struct split_info<KEY, DATA> *&new_struct)
     struct split_info<KEY, DATA> *our_struct = new split_info<KEY, DATA>;
     our_struct->new_data = new_struct->push_up_data;
 
+    /* We need to see where the children
+     * will go after we split :( */
+    child_index = (short) data_holder<KEY, DATA>::compare(our_struct->new_data);
 
     /* First part is the same as split leaf */
     this->split_leaf(our_struct);
-    /* We need to see where the children
-     * will go after we split :( */
-    child_index = (short) data_holder<KEY, DATA>::compare(new_struct->push_up_data);
+    // Make sure our_struct->new_right is the maximum new right (between our_struct and new_struct)
+    swap_max(our_struct->new_right, new_struct->new_right);
 
-    // move the new unconnected node to the new right's leftmost child
-    our_struct->new_right->connect(new_struct->new_right, 0);
     // move our children to the new node
-    for(short i = child_index + (short)1, j = 1; i < MAX_DEGREE; ++i, ++j) {
+    for(short i = 1, j = 0; i < MAX_DEGREE; ++i, ++j) {
         our_struct->new_right->connect(this->children[i], j);
         this->connect(nullptr, i);
     }
 
+    this -> connect(new_struct->new_right,1);
 
     // Get rid of the old split_info
     delete new_struct;
@@ -108,6 +109,20 @@ int node<KEY, DATA>::split_internal(struct split_info<KEY, DATA> *&new_struct)
 
     return 1;
 }
+
+template<class KEY, class DATA>
+void node<KEY, DATA>::swap_max(node<KEY,DATA> *&obj1, node<KEY,DATA> *&obj2)
+{
+    auto *temp = obj1;
+    
+    if( !(obj1 -> greater_than(*obj2)) )
+    {
+        obj1 = obj2;
+        obj2 = temp;
+    }
+    return;
+}
+
 
 /* Resolve an incoming split. in_split is the incoming struct, our_split
  * is ourselves splitting (only if we need to!) */
