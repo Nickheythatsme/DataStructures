@@ -9,10 +9,11 @@
 template<class KEY, class DATA>
 std::ostream &data_holder<KEY,DATA>::display(std::ostream &out)
 {
+    int i = 0;
     out << "(";
-    for(int i = 0; i < data_count-1; ++i)
+    for(; i < data_count-1; ++i)
         out << data[i] << ", ";
-    for(int i = 0; i < data_count; ++i)
+    for(; i < data_count; ++i)
         out << data[i];
     out << ")";
 
