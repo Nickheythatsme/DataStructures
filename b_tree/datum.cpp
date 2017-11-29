@@ -15,6 +15,7 @@ template<class KEY,class DATA>
 std::ostream &datum<KEY,DATA>::display(std::ostream &out)
 {
     out << key;
+    return out;
 }
 
 /* ASSIGNMENT OPERATOR */
