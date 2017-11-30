@@ -11,7 +11,6 @@ using std::cin;
 void O(long iterations);
 
 void test_split(int len);
-int* shuffle(int len);
 
 int main(int argc, char *argv[])
 {
@@ -26,8 +25,8 @@ int main(int argc, char *argv[])
     O(iterations);
     */
 
-    int len = 1;
-    sscanf(argv[1],"%d",&len);
+    int len;
+    sscanf(argv[1],"%d", &len);
     test_split(len);
     return 0;
 }
@@ -71,5 +70,6 @@ void test_split(int len)
         cout << i << ") Inserting: " << array[i] << endl;
         tree.insert(array[i], 1);
         tree.display(cout);
+        cin.get();
     }
 }

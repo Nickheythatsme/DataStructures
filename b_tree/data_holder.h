@@ -7,7 +7,7 @@
 #include <iostream>
 #include "datum.h"
 
-#define MAX_DEGREE 3
+#define MAX_DEGREE 4
 #define MAX_DATA (MAX_DEGREE - 1)
 
 #ifndef SENTIMENTANALYSIS_B_TREE_H

@@ -75,33 +75,63 @@ int node<KEY, DATA>::split_leaf(struct split_info<KEY, DATA> *new_struct)
 {
     new_struct->new_right = new node<KEY, DATA>;
     data_holder<KEY, DATA>::split(new_struct);
-
     return 1;
 }
 
+//TODO this is the problem function
 template<class KEY, class DATA>
 int node<KEY, DATA>::split_internal(struct split_info<KEY, DATA> *&new_struct)
 {
-    short child_index;
+#ifdef NDEBUG
+    std::cout << "split_internal:" << std::endl
+              << "\tnew_struct->push_up_data: " << new_struct -> push_up_data << std::endl
+              << "\tself before split: " << std::endl;
+    this -> display(std::cout, 5);
+#endif
+    int child_index;
     struct split_info<KEY, DATA> *our_struct = new split_info<KEY, DATA>;
     our_struct->new_data = new_struct->push_up_data;
 
     /* We need to see where the children
      * will go after we split :( */
-    child_index = (short) data_holder<KEY, DATA>::compare(our_struct->new_data);
+    child_index = data_holder<KEY, DATA>::compare(our_struct->new_data);
 
     /* First part is the same as split leaf */
     this->split_leaf(our_struct);
-    // Make sure our_struct->new_right is the maximum new right (between our_struct and new_struct)
-    swap_max(our_struct->new_right, new_struct->new_right);
 
-    // move our children to the new node
-    for(short i = 1, j = 0; i < MAX_DEGREE; ++i, ++j) {
+#ifdef NDEBUG
+    std::cout << "\tself after split: " << std::endl;
+    this -> display(std::cout, 5);
+    std::cout << "\tchild index: " << child_index << std::endl;
+#endif
+
+    // Make sure our_struct->new_right is the maximum new right (between our_struct and new_struct)
+    //swap_max(our_struct->new_right, new_struct->new_right);
+
+#ifdef NDEBUG
+    std::cout << "\tour_struct->new_right: ";
+    our_struct -> new_right -> display(std::cout,0);
+    std::cout << "\tnew_struct->new_right: ";
+    new_struct -> new_right -> display(std::cout,0);
+    std::cout << "\tnew_strut->push_up_data: " << new_struct -> push_up_data << std::endl;
+#endif
+
+    our_struct->new_right->connect(this->children[1],0);
+    our_struct->new_right->connect(this->children[2],1);
+    our_struct->new_right->connect(this->children[3],2);
+    this->connect(new_struct->new_right,1);
+    this->connect(NULL,2);
+    this->connect(NULL,3);
+
+    /*
+    // Move our children to the new node
+    for(int i = 1, j = 0; i < MAX_DEGREE; ++i, ++j) {
         our_struct->new_right->connect(this->children[i], j);
-        this->connect(nullptr, i);
+        this->connect(NULL, i);
     }
 
-    this -> connect(new_struct->new_right,1);
+    this->connect(new_struct->new_right,1);
+    */
 
     // Get rid of the old split_info
     delete new_struct;
