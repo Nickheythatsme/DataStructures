@@ -25,6 +25,7 @@ class node : public data_holder<KEY, DATA>
         bool is_leaf() const;
         /* Find data recursively */
         bool static find(KEY const &to_find, const node<KEY,DATA> *root, DATA &to_return);
+        std::ostream &display(std::ostream &out, int tabs);
     protected:
         /* Determine what the next child is based on the data. Returns -1 if something is wrong */
         node<KEY, DATA> *next_child(datum<KEY,DATA> const &new_data);
@@ -40,6 +41,7 @@ class node : public data_holder<KEY, DATA>
         int split_internal(struct split_info<KEY, DATA> *&new_struct);
         /* Manually connect a new node */
         void connect(node<KEY, DATA> *new_child, short child_index);
+        void swap_max(node<KEY,DATA> *&obj1, node<KEY,DATA> *&obj2);
     private:
         node<KEY, DATA> **children; /* Array to hold our children */
 };

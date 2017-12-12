@@ -6,6 +6,20 @@
 
 #include "data_holder.h"
 
+template<class KEY, class DATA>
+std::ostream &data_holder<KEY,DATA>::display(std::ostream &out)
+{
+    int i = 0;
+    out << "(";
+    for(; i < data_count-1; ++i)
+        out << data[i] << ", ";
+    for(; i < data_count; ++i)
+        out << data[i];
+    out << ")";
+
+    return out;
+}
+
 /* CONSTRUCTOR */
 template<class KEY, class DATA>
 data_holder<KEY, DATA>::data_holder()
@@ -64,7 +78,6 @@ int data_holder<KEY, DATA>::split(split_info<KEY, DATA> *temp_holder)
     for(i = middle_item + (short)1; i < last_item; ++i)
         temp_holder->new_right->add(new_array[i]);
 
-
     /* Get the left side of the array */
     this->clear_data();
     for(i = 0; i < middle_item; ++i)
@@ -120,6 +133,12 @@ bool data_holder<KEY,DATA>::find(KEY const &to_compare, DATA &to_return) const
             return true;
         }
     return false;
+}
+
+template<class KEY, class DATA>
+bool data_holder<KEY,DATA>::greater_than(const data_holder<KEY,DATA> &obj) const
+{
+    return data[0] > obj.data[0];
 }
 
 /* COMPARES to another data point. Returns the index of the first data point in the array

@@ -5,7 +5,6 @@
 // insertion, and compares to incoming data points 
 
 #include <iostream>
-//TODO incorporate datum class
 #include "datum.h"
 
 #define MAX_DEGREE 4
@@ -36,12 +35,15 @@ int sort(DATA *array, short len);//Bubble sort the array.
 template<class KEY, class DATA>
 class data_holder
 {
-    protected:
+    //TODO uncomment
+    //protected:
+    public:
         data_holder();
         data_holder(data_holder<KEY, DATA> const &obj);
         explicit data_holder(datum<KEY,DATA> const &new_data);
         virtual ~data_holder();
         virtual int add(datum<KEY,DATA> const &new_data);
+        std::ostream &display(std::ostream &out);
         /* Split ourselves and sort out left, middle, and right data */
         virtual int split(split_info<KEY, DATA> *temp_holder);
         int is_full() const;
@@ -54,6 +56,7 @@ class data_holder
         int compare(datum<KEY,DATA> const &to_compare) const;
         int compare(KEY const &to_compare) const;
         void clear_data();//Sets data_count to 0
+        bool greater_than(const data_holder<KEY,DATA> &obj) const;
     private:
         datum<KEY,DATA> *data;
         short data_count;
