@@ -5,3 +5,7 @@ cmake-build-debug/
 stack.o
 stack.o.dSYM:
 Contents
+.vs/ProjectSettings.json
+.vs/slnx.sqlite
+.vs/DataStructures/v15/Browse.VC.opendb
+.vs/DataStructures/v15/Browse.VC.db
