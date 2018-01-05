@@ -72,7 +72,7 @@ class datum
 
         friend bool operator> <>(const datum<KEY,DATA> &obj1, const datum<KEY,DATA> &obj2);
         friend bool operator> <>(const datum<KEY,DATA> &obj1, const KEY &obj2);
-        /* Shifting operator for ostream output */
+        /* Extraction operator for ostream output */
         // TODO remove when we're finished with building tree
         friend std::ostream& operator<< <>(std::ostream& out, const datum<KEY,DATA> obj);
         /* Getter because we can't have assignment operators for other data types */

@@ -1,10 +1,11 @@
 #include "sort_test.h"
+#include <time.h>
 
 /* FDT for sorting functions and the number of functions in list */
 const struct sort_table sort_funcs[]  =
 {
     /* name      type     func */
-    {"bubble" , SORTING, bubble },
+    //{"bubble" , SORTING, bubble },
     {"quick"  , SORTING, quick  }
 };
 const size_t num_sort_funcs = sizeof(sort_funcs) / sizeof(struct sort_table);
@@ -89,7 +90,8 @@ run_test(struct a_test *to_run)
     }
 
     /* Calculate ms */
-    timems=(tf.tv_sec*1000+tf.tv_usec/1000) - (ti.tv_sec*1000+tf.tv_usec/1000);
+    timems=(tf.tv_sec * 1000 + tf.tv_usec / 1000) - 
+        (ti.tv_sec * 1000 + tf.tv_usec / 1000);
 
     /* Display the stats if indicated */
     if(to_run -> do_display_stats)

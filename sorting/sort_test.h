@@ -6,6 +6,7 @@
 /* Define FDT for sorting functions */
 #define SORTING 100
 #define SUPPORT 101
+
 typedef int sort_func(int *array, size_t len);
 
 struct sort_table

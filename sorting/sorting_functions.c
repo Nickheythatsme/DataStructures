@@ -3,7 +3,7 @@
 #include <sys/time.h>
 
 /* Implementation of bubble sort */
-    int
+int
 bubble(int *array, size_t len)
 {
     int temp;
@@ -34,32 +34,32 @@ _quick(int *array, int first, int last)
 {
     int i, j, pivot, temp;
 
-    if(first < last){
-        pivot = first;
-        i = first;
-        j = last;
+    if(last <= first) return 1;
 
-        while(i < j)
+    pivot = first;
+    i = first;
+    j = last;
+
+    while(i < j)
+    {
+        while(array[i] <= array[pivot] && i < last)
+            i++;
+        while(array[j] > array[pivot])
+            j--;
+        if(i < j)
         {
-            while(array[i] <= array[pivot] && i < last)
-                i++;
-            while(array[j] > array[pivot])
-                j--;
-            if(i < j)
-            {
-                temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
-            }
+            temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
         }
-
-        temp = array[pivot];
-        array[pivot] = array[j];
-        array[j] = temp;
-        _quick(array, first, j-1);
-        _quick(array, j+1, last);
-
     }
+
+    temp = array[pivot];
+    array[pivot] = array[j];
+    array[j] = temp;
+    _quick(array, first, j-1);
+    _quick(array, j+1, last);
+
     return 1;
 }
 

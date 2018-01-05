@@ -57,7 +57,7 @@ queue<DATA>& queue<DATA>::dequeue(DATA& to_return)
 {
     if(!head) return *this;
 
-    to_return = head -> return_data();
+    head -> return_data(to_return);
     node<DATA>* temp = head;
     head = head -> go_next();
     delete temp;

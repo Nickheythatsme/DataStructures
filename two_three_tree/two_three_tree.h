@@ -8,8 +8,8 @@
 #include <cctype>
 #include <iostream>
 
-#ifndef TREE_
-#define TREE_
+#ifndef TWO_TRHEE_TREE_
+#define TWO_TRHEE_TREE_
 
 //Sorting functions, we have Bubble sort and check if it's sorted functions 
 template <class DATA>
@@ -82,4 +82,4 @@ class tree
 #include "two_three_node.cpp"
 #include "two_three_tree.cpp"
 
-#endif
+#endif // TWO_TRHEE_TREE_

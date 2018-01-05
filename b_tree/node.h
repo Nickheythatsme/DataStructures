@@ -46,7 +46,6 @@ class node : public data_holder<KEY, DATA>
         node<KEY, DATA> **children; /* Array to hold our children */
 };
 
-
 #include "node.cpp"
 
 #endif //SENTIMENTANALYSIS_NODE_H

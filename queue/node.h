@@ -15,12 +15,12 @@ class node
         node<DATA>& connect(node<DATA>* next);
         void clear(void);
         node<DATA>*& go_next(void);
-        DATA& return_data(void);
+        node<DATA>& return_data(DATA &to_return);
     private:
         int head_index;
         int tail_index;
         node<DATA>* next;
-        DATA* data;
+        DATA data;
 };
 
 #include "node.cpp"

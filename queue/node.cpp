@@ -40,9 +40,10 @@ node<DATA>*& node<DATA>::go_next(void)
 }
 
 template<class DATA>
-DATA& node<DATA>::return_data(void)
+node<DATA>& node<DATA>::return_data(DATA &to_return)
 {
-    return data;
+    to_return = data;
+    return *this;
 }
 
 template<class DATA>
