@@ -27,6 +27,6 @@ struct a_test
 };
 
 /* Forward declaration of functions */
-extern       sort_func          bubble, quick;
+extern       sort_func          bubble, quick, insertion, merge;
 extern const size_t             num_sort_funcs;
 extern const struct sort_table  sort_funcs[];

@@ -5,8 +5,10 @@
 const struct sort_table sort_funcs[]  =
 {
     /* name      type     func */
-    //{"bubble" , SORTING, bubble },
-    {"quick"  , SORTING, quick  }
+    {"bubble", SORTING, bubble },
+    {"merge",  SORTING, merge},
+    {"insertion", SORTING, insertion},
+    {"quick", SORTING, quick}
 };
 const size_t num_sort_funcs = sizeof(sort_funcs) / sizeof(struct sort_table);
 
