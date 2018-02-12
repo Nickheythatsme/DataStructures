@@ -49,6 +49,7 @@ err_running::err_running(int _code)
     code = _code;
 }
 
+// Output the error to an ostream
 std::ostream& operator<<(std::ostream& out, const err_running &obj)
 {
     out << "ERROR: ";
