@@ -4,8 +4,8 @@ CC=g++
 CFLAGS= -g -std=c++14
  
 OBJS= main.o
-DEPS=node.cpp node.h queue.cpp queue.h
-TARGET= queue
+DEPS= node.cpp node.h
+TARGET= BST
 
 all: $(TARGET)
 

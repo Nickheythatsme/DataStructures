@@ -21,4 +21,6 @@ class Vertex
         Edge<T> *head;
 };
 
+#include "vertex.cpp"
+
 #endif //VERTEX_

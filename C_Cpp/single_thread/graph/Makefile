@@ -4,8 +4,8 @@ CC=g++
 CFLAGS= -g -std=c++14
  
 OBJS= main.o
-DEPS=node.cpp node.h queue.cpp queue.h
-TARGET= queue
+DEPS= edge.cpp edge.h vertex.cpp vertex.h
+TARGET= graph
 
 all: $(TARGET)
 

@@ -1,7 +1,7 @@
-
 #include "b_tree.h"
 #include <iostream>
 #include <random>
+#include <unistd.h>
 
 using std::cout;
 using std::endl;
@@ -14,7 +14,6 @@ void test_split(int len);
 
 int main(int argc, char *argv[])
 {
-    /*
     int iterations;
     if( argc == 1 )
     {
@@ -23,11 +22,10 @@ int main(int argc, char *argv[])
     }
     sscanf(argv[1],"%d",&iterations);
     O(iterations);
-    */
 
-    int len;
-    sscanf(argv[1],"%d", &len);
-    test_split(len);
+    cout << "Visualizing tree with 15 insertions" << endl;
+    test_split(15);
+
     return 0;
 }
 
@@ -64,12 +62,11 @@ void test_split(int len)
         cout << i << ") " << array[i] << endl;
     cout << endl;
 
-    cin.get();
     for(i = 0; i < len; ++i)
     {
         cout << i << ") Inserting: " << array[i] << endl;
         tree.insert(array[i], 1);
         tree.display(cout);
-        cin.get();
+        usleep(500000);
     }
 }

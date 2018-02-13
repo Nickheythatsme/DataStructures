@@ -33,7 +33,11 @@ time_t find(long data_size); //test find time
 
 void O(long iterations)
 {
-//    test_time("insertion.csv",iterations,(*insertion));
+    cout << "Testing insertion (" << iterations << " iterations)" << endl;
+    test_time("insertion.csv",iterations,(*insertion));
+
+    cout << endl;
+    cout << "Testing find (" << iterations << " iterations)" << endl;
     test_time("find.csv",iterations,(*find));
 }
 

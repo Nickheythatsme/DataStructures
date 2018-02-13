@@ -16,4 +16,6 @@ class Edge
         Edge<T> *next;
 };
 
+#include "edge.cpp"
+
 #endif //EDGE_
