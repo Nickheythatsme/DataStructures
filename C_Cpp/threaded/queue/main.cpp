@@ -1,44 +1,40 @@
-#include "worker.h"
+//#include "worker.h"
+#include "queue.h"
 #include <iostream>
+#include <unistd.h>
+#include <string>
 
 using namespace std;
 
 // Declare the type of arguments to be used
-struct array_args
+struct args
 {
-    int* array;
-    int len;
     const char *message;
 };
 
 // Declare the type of function to be called
-typedef int& func(array_args *a);
+typedef void func(int);
 
 
-int& test_func(array_args *a)
+void test_func(int a)
 {
-    cout << "Displaying: " << a->message << endl;
-    for(auto i = 0; i < a->len; ++i)
-        cout << a->array[i] << ", ";
-    cout << endl;
-    return a->len;
+    cout << a << endl;
+    sleep(2);
 }
 
 int main(int argc, char **argv)
 {
-    int array[] = {1,2,3,4};
-    array_args a = {
-        array,
-        4,
-        "this message"};
-
-    worker<func,array_args> w(test_func);
+    //std::vector<int> v {0,1,2,3,4,5};
+    //queue<func,int> q(test_func, v);
+    worker<func,int> w(test_func);
+    //auto *array = new worker<func,int>[2] {worker<func,int>(w)};
+    auto strings = new std::string[2] {"this","that"};
+    auto b = 
 
     try{
-        w.run(&a);
-        w.run(&a);
+        //q.start();
     }
-    catch(err_running e)
+    catch(queue_error e)
     {
         cout << e << endl;
     }

@@ -11,7 +11,7 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CC) $^ $(CFLAGS) -o $@
 
-main.o: main.cpp worker.h worker.cpp #queue.h queue.cpp
+main.o: main.cpp worker.h worker.cpp queue.h queue.cpp
 	$(CC) $< $(CFLAGS) -c -o $@
 
 
