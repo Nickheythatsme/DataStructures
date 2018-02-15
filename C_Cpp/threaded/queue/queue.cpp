@@ -33,9 +33,9 @@ queue<F,A>::queue(F *function, std::vector<A> args) :
     finished()
 {
     num_workers = max_num_workers;
-    worker<F,A> w(function);
-    //workers = new worker<F,A>[num_workers] {{w}};
-    //workers = new worker<F,A>[num_workers] {w};
+    workers = new worker<F,A>[num_workers];
+    for(auto i = 0; i < num_workers; ++i)
+        workers[i] = worker<F,A>(function);
 }
 
 // CONSTRUCTOR with arguments
@@ -45,14 +45,17 @@ queue<F,A>::queue(F *function, std::vector<A> args, uint _num_workers) :
     finished()
 {
     num_workers = _num_workers;
-    workers = new worker<F,A>[num_workers] {function};
+    workers = new worker<F,A>[num_workers];
+    for(auto i = 0; i < num_workers; ++i)
+        workers[i] = worker<F,A>(function);
 }
 
 // DESTRUCTOR
 template <typename F, typename A>
 queue<F,A>::~queue()
 {
-    delete [] workers;
+    if (workers)
+        delete [] workers;
 }
 
 // Return TRUE if all the workers are NOT running
@@ -61,7 +64,7 @@ bool queue<F,A>::done()
 {
     int done = 0;
     for(uint i = 0; i < num_workers; ++i)
-        done += workers[i].running();
+        done += workers[i].running() == false;
     return done == num_workers;
 }
 
@@ -71,16 +74,34 @@ const std::vector<A>& queue<F,A>::start()
 {
     std::lock_guard<std::mutex> g(qlock);
 
-    while( std::vector<A>::size() != 0 )
+    // Used for indexing the workers
+    uint i = 0;
+    uint current = 0;
+
+    // While there's still arguments to use, call the workers
+    while(std::vector<A>::size() != 0)
     {
-        for(uint i = 0; i < num_workers; ++i)
-            if( !workers[i].running() )
-            {
-                auto element = std::vector<A>::back();
-                finished.emplace_back(element);
-                std::vector<A>::pop_back();
-                workers[i].run(&element);
-            }
+        i = current % num_workers;
+        if( !workers[i].running() )
+        {
+            printf("calling worker: %d (%d items left)\n",i,std::vector<A>::size());
+            auto element = std::vector<A>::back();
+            finished.emplace_back(element);
+            std::vector<A>::pop_back();
+            workers[i].run(&element);
+        }
+        ++current;
     }
+
+    // Wait until all threads are done
+    while(!done())
+        continue;
+    printf("Returning\n");
+    return finished;
 }
 
+template <typename F, typename A>
+uint queue<F,A>::worker_count() const
+{
+    return num_workers;
+}

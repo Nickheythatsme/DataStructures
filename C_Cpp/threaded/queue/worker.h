@@ -26,12 +26,14 @@ template <typename F, typename A>
 class worker
 {
     public:
-        worker() = delete;
+        worker();
         explicit worker(F *function);
         worker(const worker &obj);
         ~worker();
+        void set_func(F *_function);
         void run(A *args);
         bool running();
+        worker<F,A>& operator=(const worker<F,A>& obj);
     protected:
     private:
         void _run(A *args);

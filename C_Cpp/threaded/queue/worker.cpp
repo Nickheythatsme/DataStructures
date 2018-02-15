@@ -1,4 +1,10 @@
 #include "worker.h"
+template <typename F, typename A>
+worker<F,A>::worker()
+{
+    func = nullptr;
+    _running = false;
+}
 
 // CONSTRUCTOR
 template <typename F, typename A>
@@ -22,6 +28,13 @@ worker<F,A>::~worker()
 {
     if(t.joinable())
         t.join();
+}
+
+template <typename F, typename A>
+worker<F,A>& worker<F,A>::operator=(const worker<F,A>& obj)
+{
+    func = obj.func;
+    _running = false;
 }
 
 // Launch a thread for the target function and the given arguments
@@ -53,7 +66,14 @@ bool worker<F,A>::running()
     return _running;
 }
 
-/* ERROR STRUCT FUNCTIONS */
+// Set the function that is to be called by this worker 
+template <typename F, typename A>
+void worker<F,A>::set_func(F *_function)
+{
+    func = _function;
+}
+
+/* QUEUE ERROR FUNCTIONS */
 queue_error::queue_error(int _code)
 {
     code = _code;
@@ -80,3 +100,4 @@ std::ostream& operator<<(std::ostream& out, const queue_error &obj)
     }
     return out;
 }
+

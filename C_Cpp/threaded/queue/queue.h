@@ -16,6 +16,7 @@ class queue : public std::vector<A>
         ~queue();
         bool done();
         const std::vector<A>& start();
+        uint worker_count() const;
     protected:
     private:
         std::vector<A> finished;

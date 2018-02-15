@@ -1,32 +1,37 @@
-#include <thread>
 #include <iostream>
-#include <unistd.h>
-#include <vector>
+#include "X.h"
 
 using std::cout;
 using std::endl;
 
-void func()
+void reference_overload(X& x)
 {
-    sleep(1);
-    cout << "\tFinished sleeping" << endl;
+    cout << "LVALUE OVERLOAD CALLED" << endl;
 }
+
+#if __cplusplus >= 201103
+void reference_overload(X&& x)
+{
+    cout << "RVALUE OVERLOAD CALLED" << endl;
+    auto x1(x);
+}
+#endif
+
+X return_X()
+{
+    X x;
+    x.perform_operation();
+    return x;
+}
+
+
 
 int main(int argc, char **argv)
 {
-    std::vector<int> v {1,2,3,4};
-    for( auto const & a : v)
-        cout << a << endl;
+    // Here the constructor is only called once.
+    X x1 = return_X();
 
-    auto a = v.back();
-    cout << endl << a << endl << endl;
+    cout << __cplusplus << endl;
 
-    v.pop_back();
-    for( auto const & a : v)
-        cout << a << endl;
-
-    v.clear();
-    a = v.back();
-    cout << endl << a << endl << endl;
-
+    cout << endl << endl;
 }
