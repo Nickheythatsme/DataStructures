@@ -2,15 +2,6 @@
 template <typename F, typename A>
 worker<F,A>::worker()
 {
-    func = nullptr;
-    _running = false;
-}
-
-// CONSTRUCTOR
-template <typename F, typename A>
-worker<F,A>::worker(F *function)
-{
-    func = function;
     _running = false;
 }
 
@@ -18,7 +9,6 @@ worker<F,A>::worker(F *function)
 template <typename F, typename A>
 worker<F,A>::worker(const worker &obj)
 {
-    func = obj.func;
     _running = false;
 }
 
@@ -33,29 +23,31 @@ worker<F,A>::~worker()
 template <typename F, typename A>
 worker<F,A>& worker<F,A>::operator=(const worker<F,A>& obj)
 {
-    func = obj.func;
     _running = false;
 }
 
 // Launch a thread for the target function and the given arguments
 template <typename F, typename A>
-void worker<F,A>::run(A *args)
+void worker<F,A>::run(F* function, std::vector<A>& args, uint start, uint end)
 {
     if(t.joinable())
         t.join();
 
     if( _running )
         throw queue_error(ERROR_RUNNING);
-
     _running = true;
-    t = std::thread(&worker::_run, this, args);
+
+    t = std::thread(&worker::_run, this, function, std::ref(args), start, end);
 }
 
 // Private run function. It is run on it's own thread
 template <typename F, typename A>
-void worker<F,A>::_run(A *args)
+void worker<F,A>::_run(F* function, std::vector<A>& args, uint start, uint end)
 {
-    func(*args);
+    for (uint i = start; i < end; ++i)
+    {
+        function(args[i]);
+    }
     _running = false;
 }
 
@@ -66,12 +58,6 @@ bool worker<F,A>::running()
     return _running;
 }
 
-// Set the function that is to be called by this worker 
-template <typename F, typename A>
-void worker<F,A>::set_func(F *_function)
-{
-    func = _function;
-}
 
 /* QUEUE ERROR FUNCTIONS */
 queue_error::queue_error(int _code)

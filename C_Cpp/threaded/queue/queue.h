@@ -1,28 +1,26 @@
 #include "worker.h"
-#include <vector>
 #include <mutex>
 
 #ifndef QUEUE_
 #define QUEUE_
 
 template <typename F, typename A>
-class queue : public std::vector<A>
+class queue 
 {
     public:
         queue();
-        explicit queue(F *function, std::vector<A> args);
-        explicit queue(F *function, std::vector<A> args, uint workers);
+        explicit queue(F *_function, std::vector<A> _args);
+        explicit queue(F *_function, std::vector<A> _args, uint workers);
         queue(const queue<F,A> &obj);
         ~queue();
-        bool done();
         const std::vector<A>& start();
         uint worker_count() const;
     protected:
     private:
-        std::vector<A> finished;
-        uint num_workers;
+        F *function;
+        std::vector<A> args;
         std::mutex qlock;
-        worker<F,A> *workers;
+        uint num_workers;
 
         static uint max_num_workers;
 };

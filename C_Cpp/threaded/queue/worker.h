@@ -1,6 +1,7 @@
 #include <iostream>
 #include <thread>
 #include <cstring>
+#include <vector>
 
 #ifndef WORKER_
 #define WORKER_
@@ -27,18 +28,15 @@ class worker
 {
     public:
         worker();
-        explicit worker(F *function);
         worker(const worker &obj);
         ~worker();
-        void set_func(F *_function);
-        void run(A *args);
+        void run(F* function, std::vector<A>& args, uint start, uint end);
         bool running();
         worker<F,A>& operator=(const worker<F,A>& obj);
     protected:
     private:
-        void _run(A *args);
+        void _run(F* function, std::vector<A>& args, uint start, uint end);
         bool _running;
-        F *func;
         std::thread t;
 };
 

@@ -1,8 +1,8 @@
-//#include "worker.h"
 #include "queue.h"
 #include <iostream>
 #include <unistd.h>
 #include <string>
+#include <sys/time.h>
 
 using namespace std;
 
@@ -38,11 +38,10 @@ void test_func(f_array *s)
 }
 
 
-f_array* make_array()
+f_array* make_array(uint len)
 {
     srand(clock());
-    //auto n = new f_array(rand() % 10000);
-    auto n = new f_array(10000);
+    auto n = new f_array(len);
 
     for(uint i = 0; i < n->len; ++i)
     {
@@ -51,26 +50,25 @@ f_array* make_array()
     return n;
 }
 
-std::vector<f_array*> make_arrays(uint count)
+std::vector<f_array*> make_arrays(uint len, uint count)
 {
     std::vector<f_array*> ret;
     for(uint i = 0; i < count; ++i)
     {
-        ret.emplace_back(make_array());
+        ret.emplace_back(make_array(len));
     }
     return ret;
 }
 
-int main(int argc, char **argv)
+void run_test(uint cores, uint len, uint iterations)
 {
-    auto v = make_arrays(4);
-    test_func(v.back());
-    printf("done\n");
-    getchar();
-    queue<func,f_array*> q(test_func, v, 4);
+    auto v = make_arrays(len, iterations);
+    queue<func,f_array*> q(test_func, v, cores);
 
-    auto start = time(NULL);
+    struct timeval ts,tf;
+    uint timems;
 
+    gettimeofday(&ts, NULL);
     try{
         auto ret = q.start();
         for(auto &a : ret)
@@ -80,9 +78,22 @@ int main(int argc, char **argv)
     {
         cout << e << endl;
     }
+    gettimeofday(&tf, NULL);
 
-    auto end = time(NULL);
-    printf("Running time: %d\n", end-start);
+    timems=(tf.tv_sec * 1000 + tf.tv_usec / 1000) - 
+            (ts.tv_sec * 1000 + tf.tv_usec / 1000);
+    printf("Cores: %u\nIterations: %u\nLength: %u\nTime (ms): %u\n",
+            cores,
+            iterations,
+            len,
+            timems);
+}
 
+int main(int argc, char **argv)
+{
+    uint len = 10000;
+    uint iterations = 1000;
+    for(uint i = 1; i < 10; ++i)
+        run_test(i, len, iterations);
     return 0;
 }

@@ -6,66 +6,44 @@ uint queue<F,A>::max_num_workers = std::thread::hardware_concurrency();
 // CONSTRUCTOR
 template <typename F, typename A>
 queue<F,A>::queue() : 
-    std::vector<A>(),
-    finished()
-
+    args()
 {
-    workers = nullptr;
     num_workers = 0;
+    function = nullptr;
 }
 
 // COPY CONSTRUCTOR
 template <typename F, typename A>
 queue<F,A>::queue(const queue &obj) : 
-    std::vector<A>(obj),
-    finished(obj.finished)
+    args(obj.args),
+    function(obj.function)
 {
     num_workers = obj.num_workers;
-    workers = new worker<F,A>[obj.num_workers];
-    for(auto i = 0; i < num_workers; ++i)
-        workers[i] = obj.workers[i];
 }
 
 // CONSTRUCTOR with arguments
 template <typename F, typename A>
-queue<F,A>::queue(F *function, std::vector<A> args) : 
-    std::vector<A>(args),
-    finished()
+queue<F,A>::queue(F *_function, std::vector<A> _args) : 
+    args(_args),
+    function(_function),
+    num_workers(max_num_workers)
 {
     num_workers = max_num_workers;
-    workers = new worker<F,A>[num_workers];
-    for(auto i = 0; i < num_workers; ++i)
-        workers[i] = worker<F,A>(function);
 }
 
 // CONSTRUCTOR with arguments
 template <typename F, typename A>
-queue<F,A>::queue(F *function, std::vector<A> args, uint _num_workers) :
-    std::vector<A>(args),
-    finished()
+queue<F,A>::queue(F *_function, std::vector<A> _args, uint _num_workers) :
+    args(_args),
+    function(_function),
+    num_workers(_num_workers)
 {
-    num_workers = _num_workers;
-    workers = new worker<F,A>[num_workers];
-    for(auto i = 0; i < num_workers; ++i)
-        workers[i] = worker<F,A>(function);
 }
 
 // DESTRUCTOR
 template <typename F, typename A>
 queue<F,A>::~queue()
 {
-    if (workers)
-        delete [] workers;
-}
-
-// Return TRUE if all the workers are NOT running
-template <typename F, typename A>
-bool queue<F,A>::done()
-{
-    int done = 0;
-    for(uint i = 0; i < num_workers; ++i)
-        done += workers[i].running() == false;
-    return done == num_workers;
 }
 
 // Start processing every argument in the vector
@@ -74,30 +52,23 @@ const std::vector<A>& queue<F,A>::start()
 {
     std::lock_guard<std::mutex> g(qlock);
 
-    // Used for indexing the workers
-    uint i = 0;
-    uint current = 0;
+    auto workers = new worker<F,A>[num_workers];
+    uint increment = args.size() / num_workers;
+    uint mod       = args.size() % num_workers;
+    uint i_arg     = 0;
+    uint i_worker  = 0;
 
-    // While there's still arguments to use, call the workers
-    while(std::vector<A>::size() != 0)
+    workers[i_worker].run(function, args, i_arg, i_arg + increment + mod - 1);
+    ++i_worker;
+    i_arg += increment;
+
+    for(;i_worker < num_workers; ++i_worker, i_arg += increment)
     {
-        i = current % num_workers;
-        if( !workers[i].running() )
-        {
-            printf("calling worker: %d (%d items left)\n",i,std::vector<A>::size());
-            auto element = std::vector<A>::back();
-            finished.emplace_back(element);
-            std::vector<A>::pop_back();
-            workers[i].run(&element);
-        }
-        ++current;
+        workers[i_worker].run(function, args, i_arg, i_arg + increment - 1);
     }
 
-    // Wait until all threads are done
-    while(!done())
-        continue;
-    printf("Returning\n");
-    return finished;
+    delete [] workers;
+    return args;
 }
 
 template <typename F, typename A>
