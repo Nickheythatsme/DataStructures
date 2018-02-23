@@ -62,6 +62,10 @@ std::vector<f_array*> make_arrays(uint len, uint count)
 
 void run_test(uint cores, uint len, uint iterations)
 {
+    printf("Running test with %u cores, %u length, %u iterations\n",
+            cores,
+            len,
+            iterations);
     auto v = make_arrays(len, iterations);
     queue<func,f_array*> q(test_func, v, cores);
 
@@ -82,17 +86,20 @@ void run_test(uint cores, uint len, uint iterations)
 
     timems=(tf.tv_sec * 1000 + tf.tv_usec / 1000) - 
             (ts.tv_sec * 1000 + tf.tv_usec / 1000);
+    /*
     printf("Cores: %u\nIterations: %u\nLength: %u\nTime (ms): %u\n",
             cores,
             iterations,
             len,
             timems);
+    */
+    printf("\n");
 }
 
 int main(int argc, char **argv)
 {
-    uint len = 10000;
-    uint iterations = 1000;
+    uint len = 503;
+    uint iterations = 1003;
     for(uint i = 1; i < 10; ++i)
         run_test(i, len, iterations);
     return 0;

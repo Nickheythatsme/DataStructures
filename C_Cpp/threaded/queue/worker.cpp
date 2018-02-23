@@ -30,21 +30,34 @@ worker<F,A>& worker<F,A>::operator=(const worker<F,A>& obj)
 template <typename F, typename A>
 void worker<F,A>::run(F* function, std::vector<A>& args, uint start, uint end)
 {
-    if(t.joinable())
+    if (t.joinable())
         t.join();
 
-    if( _running )
+    if (_running)
         throw queue_error(ERROR_RUNNING);
     _running = true;
 
     t = std::thread(&worker::_run, this, function, std::ref(args), start, end);
 }
 
+template <typename F, typename A>
+void worker<F,A>::run_block(F* function, std::vector<A>& args, uint start, uint end)
+{
+    if (t.joinable())
+        t.join();
+
+    if (_running)
+        throw queue_error(ERROR_RUNNING);
+    _running = true;
+
+    this->_run(function, std::ref(args), start, end);
+}
+
 // Private run function. It is run on it's own thread
 template <typename F, typename A>
 void worker<F,A>::_run(F* function, std::vector<A>& args, uint start, uint end)
 {
-    for (uint i = start; i < end; ++i)
+    for (auto i = start; i < end; ++i)
     {
         function(args[i]);
     }

@@ -58,14 +58,22 @@ const std::vector<A>& queue<F,A>::start()
     uint i_arg     = 0;
     uint i_worker  = 0;
 
+    /*
     workers[i_worker].run(function, args, i_arg, i_arg + increment + mod - 1);
     ++i_worker;
     i_arg += increment;
+    */
 
-    for(;i_worker < num_workers; ++i_worker, i_arg += increment)
+    for(;i_worker < num_workers - 1; ++i_worker, i_arg += increment)
     {
         workers[i_worker].run(function, args, i_arg, i_arg + increment - 1);
     }
+
+    workers[i_worker].run_block(function, args, i_arg, i_arg + increment + mod - 1);
+    /*
+    ++i_worker;
+    i_arg += increment + mod - 1;
+    */
 
     delete [] workers;
     return args;

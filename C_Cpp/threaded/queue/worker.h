@@ -31,6 +31,7 @@ class worker
         worker(const worker &obj);
         ~worker();
         void run(F* function, std::vector<A>& args, uint start, uint end);
+        void run_block(F* function, std::vector<A>& args, uint start, uint end);
         bool running();
         worker<F,A>& operator=(const worker<F,A>& obj);
     protected:
