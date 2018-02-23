@@ -1,7 +1,7 @@
 #Nicholas Grout
 .PHONY: clean
 CC=g++
-CFLAGS= -pthread -g -std=c++14
+CFLAGS= -pthread -std=c++14
  
 OBJS= main.o
 TARGET= queue
