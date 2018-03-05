@@ -1,0 +1,9 @@
+Name|Location (name)|Abbrev|Connections
+Portland International Airport|Portland, OR|PDX|HNL,PHX,SFO,LAX
+Honolulu International Airport|Honolulu, HI|HNL|PDX,LAX,SFO
+Phoenix|Phoenix Sky Harbor International Airport |Phoenix, AZ|PHX|PDX,LAX,SFO,DFW
+Los Angeles International Airport|Los Angeles, CA|LAX|PDX,SFO,HNL,DFW
+San Francisco International Airport|Sanfrancisco, CA|SFO|LAX,PDX,HNL,PHX
+Newark International Airport|Newark,NJ|EWR|DFW,JFK
+Dallas/Fort Worth International Airport|Dallas,TX|DFW,LAX,PHX,EWR,JFK
+New York|John F Kennedy International Airport|New York, NY|JFK|DFW,EWR
