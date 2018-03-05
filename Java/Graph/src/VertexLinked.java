@@ -1,6 +1,6 @@
 public class VertexLinked <T,W> extends Vertex<T,W>{
-    VertexLinked<T,W> next;
-    VertexLinked<T,W> prev;
+    VertexLinked<T,W> next = null;
+    VertexLinked<T,W> prev = null;
 
     public VertexLinked(final T _t){
         super(_t);
