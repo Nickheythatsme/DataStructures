@@ -110,12 +110,18 @@ public class Vertex<T,W>{
     /*
     Standard Java methods
      */
+    @Override
     public String toString(){
         return t.toString();
     }
 
     public boolean equals(final Vertex<T,W> obj){
         return obj.t.equals(this.t);
+    }
+
+    @Override
+    public int hashCode(){
+        return t.hashCode();
     }
 
     /*
