@@ -1,8 +1,9 @@
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
-public class Graph <T,W> implements Map<T,W> {
+public class Graph <T,W> {
+    private List<Vertex<T,W>> vertices = new LinkedList<>();
+
 
     public Graph(){
     }
@@ -11,63 +12,64 @@ public class Graph <T,W> implements Map<T,W> {
         Graph<String, Integer> graph = new Graph<>();
     }
 
-    @Override
     public int size() {
         return 0;
     }
 
-    @Override
     public boolean isEmpty() {
-        return false;
+        return vertices.isEmpty();
     }
 
-    @Override
-    public boolean containsKey(Object key) {
-        return false;
-    }
-
-    @Override
-    public boolean containsValue(Object value) {
-        return false;
-    }
-
-    @Override
-    public Object get(Object key) {
+    public Vertex<T,W> get(T key) {
+        for (Vertex<T, W> vertex : vertices)
+            if (vertex.equals(key))
+                return vertex;
         return null;
     }
 
-    @Override
-    public Object put(Object key, Object value) {
+    public Vertex<T,W> get(Vertex<T,W> key){
+        for (Vertex<T, W> vertex : vertices)
+            if (vertex.equals(key))
+                return vertex;
         return null;
     }
 
-    @Override
-    public Object remove(Object key) {
-        return null;
+    public boolean contains(T key){
+        for (Vertex<T, W> vertex : vertices)
+            if (vertex.equals(key))
+                return true;
+        return false;
     }
 
-    @Override
-    public void putAll(Map m) {
-
+    public boolean addVertex(final Vertex<T,W> vertex) {
+        return vertices.add(vertex);
     }
 
-    @Override
+    public boolean addEdge(final T source, final T dest, W weight){
+        Vertex<T,W> source_original = get(source);
+        Vertex<T,W> dest_original = get(dest);
+
+        if (source_original == null) {
+            source_original = new Vertex<>(source);
+            vertices.add(source_original);
+        }
+
+        if (dest_original == null) {
+            dest_original = new Vertex<>(dest);
+            vertices.add(dest_original);
+        }
+
+        source_original.addEdge(dest_original,weight);
+        dest_original.addEdge(source_original,weight);
+        return true;
+    }
+
+    public boolean remove(final Vertex<T,W> vertex) {
+        return vertices.remove(vertex);
+    }
+
     public void clear() {
-
+        vertices.clear();
     }
 
-    @Override
-    public Set keySet() {
-        return null;
-    }
-
-    @Override
-    public Collection values() {
-        return null;
-    }
-
-    @Override
-    public Set<Entry> entrySet() {
-        return null;
-    }
 }

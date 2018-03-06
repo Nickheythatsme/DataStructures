@@ -6,7 +6,7 @@ W is for the weight, which can represent different weights or classes of weights
 public class Vertex<T,W>{
     private T t;
     private Edge<T,W> edges = null;
-    private int count;
+    private int count = 0;
 
     public Vertex(final T _t) {
         t = _t;
@@ -114,6 +114,11 @@ public class Vertex<T,W>{
     public String toString(){
         return t.toString();
     }
+
+    public boolean equalsData(final T obj){
+        return obj.equals(t);
+    }
+
 
     public boolean equals(final Vertex<T,W> obj){
         return obj.t.equals(this.t);
